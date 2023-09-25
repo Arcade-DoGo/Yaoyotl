@@ -272,7 +272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &56722478
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4578,6 +4578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadingText: {fileID: 1748977576}
+  playerList: {fileID: 1103396626}
   backButton: {fileID: 17658824}
   onlineModesButtons:
   - {fileID: 1430813317}
@@ -4586,7 +4587,6 @@ MonoBehaviour:
   connectionType: 3
   maxPlayers: 2
   automaticallySyncScene: 1
-  playerList: {fileID: 1103396626}
   OnStartConnection:
     m_PersistentCalls:
       m_Calls: []
@@ -5993,7 +5993,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2119175714
 RectTransform:
   m_ObjectHideFlags: 0
