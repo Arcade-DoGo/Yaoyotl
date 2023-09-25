@@ -7,10 +7,10 @@ using Photon.Realtime;
 using ExitGames.Client.Photon;
 using UnityEngine.UI;
 
-[Serializable]
-public enum ConnectionType { SingleRoom, RandomMatch, PrivateMatch, PublicMatch }
 namespace Online
 {
+    [Serializable]
+    public enum ConnectionType { SingleRoom, RandomMatch, PrivateMatch, PublicMatch }
     public class ConnectToServer : MonoBehaviourPunCallbacks
     {
         public static ConnectToServer instance;
