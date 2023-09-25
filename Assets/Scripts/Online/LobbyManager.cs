@@ -41,18 +41,12 @@ namespace Online
         {
             instance = this;
             roomItemList = new();
-            roomListPanel.SetActive(false);
-            matchRoomPanel.SetActive(false);
+            roomListPanel.SetActive(ConnectToServer.instance.connectionType == ConnectionType.PublicMatch);
+            matchRoomPanel.SetActive(ConnectToServer.instance.connectionType == ConnectionType.PrivateMatch);
             PhotonNetwork.JoinLobby();
         }
 
-        public override void OnJoinedLobby()
-        {
-            ConnectToServer.instance.SetLoadingText("");
-            if(matchRoomName) matchRoomPanel.SetActive(true);
-            else roomListPanel.SetActive(true);
-        }
-
+        public override void OnJoinedLobby() => ConnectToServer.instance.SetLoadingText("Connected to lobby!");
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
             if(Time.time >= nextUpdateTime)
@@ -74,14 +68,14 @@ namespace Online
                 roomItemList.Add(newRoom);
             }
         }
-
-        public void CreateRroom()
+        public void SetRoomName(TMP_InputField textField) => roomName = textField.text;
+        public void CreateRoom()
         {
             if(!string.IsNullOrWhiteSpace(roomName))
             {
                 ConnectToServer.instance.SetLoadingText("Connecting to room...");
-                if(matchRoomName) PhotonNetwork.JoinOrCreateRoom(roomName, new RoomOptions(){MaxPlayers = ConnectToServer.instance.maxPlayers, IsVisible = matchRoomName}, TypedLobby.Default);
-                else PhotonNetwork.CreateRoom(roomName, new RoomOptions(){MaxPlayers = ConnectToServer.instance.maxPlayers, IsVisible = matchRoomName}, TypedLobby.Default);
+                if(ConnectToServer.instance.connectionType == ConnectionType.PrivateMatch) PhotonNetwork.JoinOrCreateRoom(roomName, new RoomOptions(){MaxPlayers = ConnectToServer.instance.maxPlayers, IsVisible = false}, TypedLobby.Default);
+                else PhotonNetwork.CreateRoom(roomName, new RoomOptions(){MaxPlayers = ConnectToServer.instance.maxPlayers, IsVisible = true}, TypedLobby.Default);
             }
             else ConnectToServer.instance.SetLoadingText("Please enter a room rame");
         }
@@ -91,6 +85,5 @@ namespace Online
             ConnectToServer.instance.SetLoadingText("Connecting to room...");
             PhotonNetwork.JoinRoom(_roomName);
         }
-        public void SetRoomName(TMP_InputField textField) => roomName = textField.text;
     }
 }

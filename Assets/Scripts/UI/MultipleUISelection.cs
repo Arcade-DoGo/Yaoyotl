@@ -23,4 +23,5 @@ public class MultipleUISelection : MonoBehaviour
     }
 
     public void SelectElement(int elementIndex) => selectedGameObject = selectableObjects[elementIndex];
+    public bool IsElementActive(int elementIndex) => selectableObjects[elementIndex].activeSelf;
 }
