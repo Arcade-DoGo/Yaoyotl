@@ -5,11 +5,15 @@ using UnityEngine;
 public class isGrounded : MonoBehaviour
 {
 
+    private GameObject character;
     private CharacterMovement characterMovement;
+    private CharacterStats stats;
 
     void Start()
     {
-        characterMovement = transform.parent.gameObject.GetComponent<CharacterMovement>();
+        character = transform.parent.gameObject;
+        characterMovement = character.GetComponent<CharacterMovement>();
+        stats = character.GetComponent<CharacterStats>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -20,6 +24,8 @@ public class isGrounded : MonoBehaviour
         if (tag == "Stage" || tag == "Platform")
         {
             characterMovement.isGrounded = true;
+            stats.jumpsUsed = 0;
+
         }
 
     }
