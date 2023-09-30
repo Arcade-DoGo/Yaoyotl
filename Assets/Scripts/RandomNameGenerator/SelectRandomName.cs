@@ -13,7 +13,9 @@ public class SelectRandomName : MonoBehaviourPunCallbacks
 
     public void SetRandomName()
     {
-        PhotonNetwork.NickName = AINamesGenerator.Utils.GetRandomName();
-        usernameInput.text = PhotonNetwork.NickName;
+        usernameInput.text = AINamesGenerator.Utils.GetRandomName();
+        UpdateNickName();
     }
+
+    public void UpdateNickName() => PhotonNetwork.NickName = usernameInput.text;
 }
