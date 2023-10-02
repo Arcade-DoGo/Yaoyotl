@@ -1,20 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-
+    [NonSerialized] public bool onLedge, isGrounded;
+    
     private Rigidbody rb;
     private CharacterStats stats;
-    public bool isGrounded;
-    public bool onLedge;
-
-    private bool canFastFall;
-
-    private bool isJumpPressed;
     private int jumpFramesCounter;
-
+    private bool canFastFall, isJumpPressed;
 
     void Start()
     {
@@ -25,36 +19,21 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
-        bool jumpInput = Input.GetButtonDown("Jump"); // Press Jump (Up)
-        bool jumpRelease = Input.GetButtonUp("Jump"); // Release Jump (Up)
-        bool crouchInput = Input.GetButtonDown("Crouch"); // Press Crouch (Down)
-
         move();
 
-        if (jumpInput) // Start Jump
+        if (InputManagement.jumpInput) isJumpPressed = true; // Start Jump
+        else if (InputManagement.jumpRelease) // Perform Jump
         {
-            isJumpPressed = true;
-        }
-        else if (jumpRelease) // Perform Jump
-        {
-            Debug.Log("Jump button was pressed for " + jumpFramesCounter + " frames");
-            isJumpPressed = false;
             jump();
+            isJumpPressed = false;
+            InputManagement.jumpRelease = false;
         }
 
-        if (isJumpPressed) // Count Jump Frames
+        if (isJumpPressed) jumpFramesCounter++; // Count Jump Frames
+        if (InputManagement.crouchInput) // Down input
         {
-            jumpFramesCounter++;
-        }
-
-        if (crouchInput) // Drop From Platforms
-        {
-            dropFromPlatform();
-        }
-
-        if (crouchInput && canFastFall) // Fast Fall
-        {
-            fastFall();
+            if (canFastFall) fastFall(); // Drop From Platforms
+            else dropFromPlatform(); // Fast Fall
         }
     }
 
@@ -62,9 +41,7 @@ public class CharacterMovement : MonoBehaviour
     {
         // Set movement speed grounded or air
         float moveSpeed = isGrounded ? stats.groundSpeed : stats.airSpeed;
-
-        float horizontalInput = Input.GetAxis("Horizontal");
-        Vector3 movement = new Vector3(horizontalInput, 0.0f, 0.0f);
+        Vector3 movement = new(InputManagement.horizontal, 0.0f, 0.0f);
         rb.velocity = new Vector3(movement.x * moveSpeed, rb.velocity.y, 0.0f);
     }
 
@@ -91,20 +68,13 @@ public class CharacterMovement : MonoBehaviour
 
     void dropFromPlatform()
     {
-        float fallForce = stats.fallForce;
-
         gameObject.layer = gameObject.layer = LayerMask.NameToLayer("PlatformLayer"); // Prevents collision with platforms
-        Vector3 fallDirection = Vector3.down;
-        rb.velocity = (fallDirection * fallForce);
+        rb.velocity = Vector3.down * stats.fallForce;
     }
 
     void fastFall()
     {
-        float fallForce = stats.fallForce;
-
-        Vector3 fallDirection = Vector3.down;
-        rb.velocity = (fallDirection * fallForce);
+        rb.velocity = Vector3.down * stats.fallForce;
         canFastFall = false;
     }
-
 }
