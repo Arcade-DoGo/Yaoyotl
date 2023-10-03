@@ -8,8 +8,8 @@ public class CharacterStats : MonoBehaviour
     public float weight = 1.0f;
     public float groundSpeed = 10.0f;
     public float airSpeed = 7.5f; 
-    public float jumpForce = 10.0f;
-    public float shortJumpForce = 5.0f;
+    public float jumpForce = 13.0f;
+    public float shortJumpForce = 10.0f;
     public float fallForce = 10f;
     public int maxJumps = 2; 
     public int jumpsUsed = 0;

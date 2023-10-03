@@ -14,10 +14,10 @@ public class Blastzone : MonoBehaviour
 
     void Start()
     {
-        leftWall.transform.localPosition = new Vector3(-width, 0f, 0f);
-        rightWall.transform.localPosition = new Vector3(width, 0f, 0f);
-        ceiling.transform.localPosition = new Vector3(0f, height, 0f);
-        floor.transform.localPosition = new Vector3(0f, -height, 0f);
+        leftWall.transform.position = new Vector3(-width, 0f, 0f);
+        rightWall.transform.position = new Vector3(width, 0f, 0f);
+        ceiling.transform.position = new Vector3(0f, height, 0f);
+        floor.transform.position = new Vector3(0f, -height, 0f);
     }
 
     public void respawnCharacter(GameObject character)
