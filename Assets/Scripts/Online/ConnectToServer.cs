@@ -1,11 +1,9 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
-using ExitGames.Client.Photon;
-using UnityEngine.UI;
 
 namespace Online
 {
@@ -18,12 +16,14 @@ namespace Online
         [Header ("UI References")]
         [Tooltip ("TextField to indicate Online Connection status. Optional")]
         public TextMeshProUGUI loadingText;
-        [Tooltip ("Text to display the player list inside a room")]
-        public TextMeshProUGUI playerList;
         [Tooltip ("Button to go back")]
         public GameObject backButton;
+        [Tooltip ("Input field for the username")]
+        public GameObject usernamePanel;
         [Tooltip ("Button list that contains the different online modes")]
         public Button[] onlineModesButtons;
+        [Tooltip ("Selection script for the different UI panels")]
+        public MultipleUISelection multipleUISelection;
 
         [Header ("Online Setup")]
         [Tooltip ("Connection type used for matchmaking")]
@@ -33,15 +33,6 @@ namespace Online
         [Tooltip ("Automatically sync all players Scene?")]
         public bool automaticallySyncScene;
 
-
-        [Header ("Online Connection Events")]
-        [Tooltip ("Actions to do when starting to connect to Online Server")]
-        public UnityEvent OnStartConnection;
-        [Tooltip ("Actions to do when connection is stablished to Server")]
-        public UnityEvent OnConnectedEvent;
-
-        [Tooltip ("Room custom properties")]
-        private Hashtable roomCustomProperties;        
         [Tooltip ("Game Version for Photon \nDO NOT CHANGE UNLESS NECCESARY")]
         private readonly string gameVersion = "0.1";
 
@@ -50,13 +41,13 @@ namespace Online
             instance = this;
             SetLoadingText("");
             backButton.SetActive(false);
+            multipleUISelection.OnlyShowElement(0);
             foreach (Button button in onlineModesButtons) button.interactable = false;
-            roomCustomProperties = new() { { "Stage", 0 } };
+            usernamePanel.SetActive(false);
         }
 
         public void Connect()
         {
-            OnStartConnection?.Invoke();
             SetLoadingText("Connecting to server...");
             if(!PhotonNetwork.IsConnected)
             {
@@ -76,6 +67,7 @@ namespace Online
         {
             SetLoadingText("Connected to server!");
             foreach (Button button in onlineModesButtons) button.interactable = true;
+            usernamePanel.SetActive(true);
         }
 
         public void OnClickOnlineMode()
@@ -90,13 +82,9 @@ namespace Online
                     SetLoadingText("Connecting to room...");
                     PhotonNetwork.JoinRandomOrCreateRoom(roomOptions: new RoomOptions(){MaxPlayers = maxPlayers});
                     break;
-                case ConnectionType.PrivateMatch:
+                case ConnectionType.PrivateMatch: case ConnectionType.PublicMatch:
                     SetLoadingText("Connecting to lobby...");
-                    MultipleUISelection.instance.OnlyShowElement(2);
-                    break;
-                case ConnectionType.PublicMatch:
-                    SetLoadingText("Connecting to lobby...");
-                    MultipleUISelection.instance.OnlyShowElement(2);
+                    multipleUISelection.OnlyShowElement(2);
                     break;
                 default:
                     break;
@@ -106,50 +94,26 @@ namespace Online
         public override void OnJoinedRoom()
         {
             SetLoadingText("Connected to room " + PhotonNetwork.CurrentRoom.Name + "!");
-            MultipleUISelection.instance.OnlyShowElement(3);
-            OnConnectedEvent?.Invoke();
-            UpdatePlayerList();
-
-            // Set custom properties
-            if(PhotonNetwork.IsMasterClient) PhotonNetwork.CurrentRoom.SetCustomProperties(roomCustomProperties);
-        }
-
-        public override void OnPlayerEnteredRoom(Player newPlayer) => UpdatePlayerList();
-        public override void OnPlayerLeftRoom(Player newPlayer) => UpdatePlayerList();
-        public void UpdatePlayerList()
-        {
-            if(playerList)
-            {
-                playerList.text = "-------------\n";
-                foreach (Player player in PhotonNetwork.PlayerList)
-                {
-                    playerList.text += player.ActorNumber + ": <color=" + (player.IsMasterClient ? "green" : "white") + ">" + player.NickName + "</color>";
-                    playerList.text += player.CustomProperties["playerHealth"] + "\n";
-                }
-                playerList.text += "-------------";
-            }
+            multipleUISelection.OnlyShowElement(3);
         }
 
         public void OnClickLeave()
         {
-            if(MultipleUISelection.instance.IsElementActive(3))
+            if(multipleUISelection.IsElementActive(3))
             {
                 if(PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom();
-                if(connectionType == ConnectionType.SingleRoom || connectionType == ConnectionType.RandomMatch)
-                    MultipleUISelection.instance.OnlyShowElement(1);
-                else
-                    MultipleUISelection.instance.OnlyShowElement(2);
+                multipleUISelection.OnlyShowElement(connectionType == ConnectionType.SingleRoom || connectionType == ConnectionType.RandomMatch ? 1 : 2);
             }
-            else if(MultipleUISelection.instance.IsElementActive(2))
+            else if(multipleUISelection.IsElementActive(2))
             {
                 if(PhotonNetwork.InLobby) PhotonNetwork.LeaveLobby();
-                MultipleUISelection.instance.OnlyShowElement(1);
+                multipleUISelection.OnlyShowElement(1);
             }
-            else if(MultipleUISelection.instance.IsElementActive(1))
+            else if(multipleUISelection.IsElementActive(1))
             {
                 if(PhotonNetwork.IsConnected) PhotonNetwork.Disconnect();
+                multipleUISelection.OnlyShowElement(0);
                 backButton.SetActive(false);
-                MultipleUISelection.instance.OnlyShowElement(0);
             }
         }
 
