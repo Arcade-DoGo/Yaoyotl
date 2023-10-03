@@ -41,7 +41,6 @@ public class grabLedge : MonoBehaviour
             rb.velocity = Vector3.zero;
             stats.jumpsUsed = 0;
             movement.onLedge = true;
-            Debug.Log("LEDGE!");
         }
     }
 
@@ -54,7 +53,6 @@ public class grabLedge : MonoBehaviour
         {
             rb.useGravity = true;
             movement.onLedge = false;
-            Debug.Log("NO LEDGE!");
         }
     }
 
@@ -69,7 +67,6 @@ public class grabLedge : MonoBehaviour
         {
             GameObject ledge = other.gameObject;
             Vector3 targetPosition = ledge.transform.GetChild(0).gameObject.transform.position;
-            Debug.Log(positionX + " / " + targetPosition.x);
 
             if (((positionX < targetPosition.x && horizontalInput > 0) // Normal Get Up to the Right 
             || (positionX > targetPosition.x && horizontalInput < 0)) // Normal Get Up to the Left
