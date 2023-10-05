@@ -6,7 +6,7 @@ public class InputManagement : MonoBehaviour
     public GameObject mobileInputCanvas;
 
     public static float horizontal;
-    public static bool jumpInput, jumpRelease, crouchInput;
+    public static bool jumpInput, jumpRelease, crouchInput, attackInput, attackRelease;
 
     private bool _jumpUI, _crouchUI, _jumpReleaseUI;
     private bool mobileDevice, usingEditor;
@@ -31,6 +31,8 @@ public class InputManagement : MonoBehaviour
         jumpInput = Input.GetButtonDown("Jump") || _jumpUI; // Press Jump (Up)
         jumpRelease = Input.GetButtonUp("Jump") || _jumpReleaseUI; // Release Jump (Up)
         crouchInput = Input.GetButtonDown("Crouch") || _crouchUI; // Press Crouch (Down)
+        attackInput = Input.GetButtonDown("Attack"); // Press Attack (Click)
+        attackRelease = Input.GetButtonUp("Attack"); // Release Attack (Click)
 
         _jumpUI = _crouchUI = _jumpReleaseUI = false;
     }

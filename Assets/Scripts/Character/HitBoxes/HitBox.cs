@@ -11,7 +11,7 @@ public class HitBox : MonoBehaviour
         GameObject player = other.gameObject;
         string tag = player.tag;
 
-        if (tag == "Player")
+        if (tag == "Player" && player != transform.parent) // Collides with other player (Not the player that owns it)
         {
 
             Vector3 knockbackDirection = player.transform.position - transform.position;

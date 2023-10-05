@@ -33,7 +33,7 @@ public class grabLedge : MonoBehaviour
     {
         GameObject otherObject = other.gameObject;
         string tag = other.gameObject.tag;
-        bool crouchInput = Input.GetButtonDown("Crouch"); // Press Crouch (Down)
+        bool crouchInput = InputManagement.crouchInput; // Press Crouch (Down)
 
         if (tag == "Ledge" && !crouchInput) // Grab the Ledge
         {
@@ -59,7 +59,7 @@ public class grabLedge : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         string tag = other.gameObject.tag;
-        float horizontalInput = Input.GetAxis("Horizontal");
+        float horizontalInput = InputManagement.horizontal;
         Vector3 position = character.transform.position;
         float positionX = position.x;
 

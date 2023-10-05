@@ -43,6 +43,7 @@ public class CharacterMovement : MonoBehaviour
         float moveSpeed = isGrounded ? stats.groundSpeed : stats.airSpeed;
         Vector3 movement = new(InputManagement.horizontal, 0.0f, 0.0f);
         rb.velocity = new Vector3(movement.x * moveSpeed, rb.velocity.y, 0.0f);
+
     }
 
     void jump()
