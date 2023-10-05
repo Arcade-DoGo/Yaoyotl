@@ -2248,6 +2248,7 @@ GameObject:
   - component: {fileID: 1315930626}
   - component: {fileID: 1315930627}
   - component: {fileID: 1315930628}
+  - component: {fileID: 1315930629}
   m_Layer: 6
   m_Name: Character
   m_TagString: Player
@@ -2399,6 +2400,19 @@ MonoBehaviour:
   maxJumps: 2
   jumpsUsed: 0
   stocks: 3
+--- !u!114 &1315930629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315930620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb59130a1325947ab4bbaadffc0cfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normalAttack: {fileID: 1709084116}
 --- !u!1 &1341287323
 GameObject:
   m_ObjectHideFlags: 0
@@ -3039,7 +3053,7 @@ GameObject:
   - component: {fileID: 1709084118}
   - component: {fileID: 1709084117}
   m_Layer: 0
-  m_Name: HitBox
+  m_Name: NormalAttackHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
