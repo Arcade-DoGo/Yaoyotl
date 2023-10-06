@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    [NonSerialized] public bool isAttacking;
-
     public GameObject normalAttack;
     private GameObject otherPlayer;
+    private CharacterStats stats;
     private CharacterStats otherStats;
     private int frameCounter;
     private int FRAMES_STRONG = 30;
@@ -16,9 +15,6 @@ public class Attack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        normalAttack.SetActive(false);
-        isAttacking = false;
-
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
         {
@@ -26,18 +22,22 @@ public class Attack : MonoBehaviour
                 otherPlayer = player;
         }
 
+        stats = GetComponent<CharacterStats>();
         otherStats = otherPlayer.GetComponent<CharacterStats>();
+
+        normalAttack.SetActive(false);
+        stats.isAttacking = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (InputManagement.attackInput && !isAttacking)
+        if (InputManagement.attackInput && !stats.isAttacking)
         {
-            isAttacking = true;
+            stats.isAttacking = true;
         }
 
-        if (InputManagement.attackRelease && isAttacking)
+        if (InputManagement.attackRelease && stats.isAttacking)
         {
             if (frameCounter < FRAMES_STRONG)
             {
@@ -47,15 +47,13 @@ public class Attack : MonoBehaviour
             {
                 StartCoroutine(strongAttack());
             }
-            isAttacking = false;
-            frameCounter = 0;
         }
-        else if (InputManagement.finalAttackInput)
+        else if (InputManagement.finalAttackInput && stats.canFAM)
         {
             StartCoroutine(finalAttack());
         }
 
-        if (isAttacking)
+        if (stats.isAttacking)
             frameCounter++;
 
     }
@@ -64,8 +62,10 @@ public class Attack : MonoBehaviour
     {
         print("Regular Attack!");
         normalAttack.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.5f); // Active Hitbox Duration
         normalAttack.SetActive(false);
+        stats.isAttacking = false;
+        frameCounter = 0;
     }
 
     IEnumerator strongAttack()
@@ -73,6 +73,8 @@ public class Attack : MonoBehaviour
         // Strong Attack
         print("Strong Attack!");
         yield return null;
+        stats.isAttacking = false;
+        frameCounter = 0;
     }
 
     IEnumerator finalAttack()
@@ -80,5 +82,9 @@ public class Attack : MonoBehaviour
         // Final Smash
         print("Final Attack!");
         yield return null;
+        stats.isAttacking = false;
+        frameCounter = 0;
+
+        stats.resetFAM();
     }
 }
