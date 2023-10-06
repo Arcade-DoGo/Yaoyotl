@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    [NonSerialized] public bool onLedge, isGrounded;
-    
     private Rigidbody rb;
     private CharacterStats stats;
     private int jumpFramesCounter;
@@ -19,6 +17,10 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
+        if (stats.inHitStun)
+            return;
+
+
         move();
 
         if (InputManagement.jumpInput) isJumpPressed = true; // Start Jump
@@ -40,7 +42,7 @@ public class CharacterMovement : MonoBehaviour
     void move()
     {
         // Set movement speed grounded or air
-        float moveSpeed = isGrounded ? stats.groundSpeed : stats.airSpeed;
+        float moveSpeed = stats.isGrounded ? stats.groundSpeed : stats.airSpeed;
         Vector3 movement = new(InputManagement.horizontal, 0.0f, 0.0f);
         rb.velocity = new Vector3(movement.x * moveSpeed, rb.velocity.y, 0.0f);
 
@@ -54,7 +56,7 @@ public class CharacterMovement : MonoBehaviour
 
         if (stats.jumpsUsed < stats.maxJumps)
         {
-            if (!isGrounded && !onLedge) // Airborne
+            if (!stats.isGrounded && !stats.onLedge) // Airborne
             {
                 // Remove ground jump if in the air (Jumps count as double jumps)
                 stats.jumpsUsed = stats.jumpsUsed <= 0 ? 1 : stats.jumpsUsed;

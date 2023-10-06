@@ -10,7 +10,6 @@ public class Attack : MonoBehaviour
     public GameObject normalAttack;
     private GameObject otherPlayer;
     private CharacterStats otherStats;
-    private CharacterMovement otherMovement;
     private int frameCounter;
     private int FRAMES_STRONG = 30;
 
@@ -28,7 +27,6 @@ public class Attack : MonoBehaviour
         }
 
         otherStats = otherPlayer.GetComponent<CharacterStats>();
-        otherMovement = otherPlayer.GetComponent<CharacterMovement>();
     }
 
     // Update is called once per frame

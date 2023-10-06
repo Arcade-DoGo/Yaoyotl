@@ -23,7 +23,8 @@ public class BlastzoneWalls : MonoBehaviour
         {
             CharacterStats stats = otherObject.GetComponent<CharacterStats>();
             Instantiate(deathEffect, other.transform.position, Quaternion.identity);
-            if (stats.stocks > 1)
+            stats.loseStock();
+            if (stats.stocks > 0)
             {
                 blastzone.respawnCharacter(otherObject);
             }

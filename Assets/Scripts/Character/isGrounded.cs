@@ -6,13 +6,11 @@ public class isGrounded : MonoBehaviour
 {
 
     private GameObject character;
-    private CharacterMovement characterMovement;
     private CharacterStats stats;
 
     void Start()
     {
         character = transform.parent.gameObject;
-        characterMovement = character.GetComponent<CharacterMovement>();
         stats = character.GetComponent<CharacterStats>();
     }
 
@@ -23,7 +21,7 @@ public class isGrounded : MonoBehaviour
 
         if (tag == "Stage" || tag == "Platform")
         {
-            characterMovement.isGrounded = true;
+            stats.isGrounded = true;
             stats.jumpsUsed = 0;
 
         }
@@ -36,7 +34,7 @@ public class isGrounded : MonoBehaviour
 
         if (tag == "Stage" || tag == "Platform")
         {
-            characterMovement.isGrounded = false;
+            stats.isGrounded = false;
         }
 
     }

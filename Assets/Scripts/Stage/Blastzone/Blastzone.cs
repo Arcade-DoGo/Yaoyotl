@@ -25,8 +25,7 @@ public class Blastzone : MonoBehaviour
         CharacterStats stats = character.GetComponent<CharacterStats>();
         Rigidbody rb = character.GetComponent<Rigidbody>();
 
-        stats.damage = 0;
-        stats.stocks--;
+        stats.inHitStun = false;
         character.transform.position = new Vector3(0.0f, 5.0f, 0.0f);
         rb.velocity = Vector3.zero;
     }
