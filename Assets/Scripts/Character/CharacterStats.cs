@@ -38,6 +38,7 @@ public class CharacterStats : MonoBehaviour
     {
         this.damage += damage;
         increaseFAM(damage / 5f);
+        print("FAM Damage Increase--------------------");
         matchData.updatePlayersData(this);
     }
 

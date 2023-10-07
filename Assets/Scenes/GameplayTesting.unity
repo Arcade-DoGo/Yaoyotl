@@ -1920,7 +1920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 882761941}
-  zoomSpeed: 5
+  zoomSpeed: 1
   smoothSpeed: 5
   blastzone: {fileID: 2041459068}
   minSize: 3
