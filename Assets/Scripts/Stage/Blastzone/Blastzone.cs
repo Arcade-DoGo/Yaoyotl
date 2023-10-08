@@ -22,16 +22,11 @@ public class Blastzone : MonoBehaviour
 
     public void respawnCharacter(GameObject character)
     {
-        CharacterStats stats = character.GetComponent<CharacterStats>();
-        Rigidbody rb = character.GetComponent<Rigidbody>();
+        CharacterStats stats = character.GetComponent<ComponentsManager>().characterStats;
+        Rigidbody rb = character.GetComponent<ComponentsManager>().rigidbody;
 
         stats.inHitStun = false;
         character.transform.position = new Vector3(0.0f, 5.0f, 0.0f);
         rb.velocity = Vector3.zero;
-    }
-
-    public void gameover()
-    {
-        Debug.Log("GAME!");
     }
 }

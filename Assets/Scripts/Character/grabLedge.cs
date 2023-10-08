@@ -1,36 +1,25 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class grabLedge : MonoBehaviour
 {
-
-    GameObject character;
-    Rigidbody rb;
-    CharacterStats stats;
-    CharacterMovement movement;
-
-    private float getUpProgress = 0.0f;
-
     public float GET_UP_SPEED;
+
+    private GameObject character;
+    private Rigidbody rb;
+    private CharacterStats stats;
+    private float getUpProgress = 0.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         character = transform.parent.gameObject;
-        rb = character.GetComponent<Rigidbody>();
-        stats = character.GetComponent<CharacterStats>();
-        movement = character.GetComponent<CharacterMovement>();
-    }
-
-    void Update()
-    {
-
+        rb = character.GetComponent<ComponentsManager>().rigidbody;
+        stats = character.GetComponent<ComponentsManager>().characterStats;
     }
 
     void OnTriggerEnter(Collider other)
     {
-        GameObject otherObject = other.gameObject;
         string tag = other.gameObject.tag;
         bool crouchInput = InputManagement.crouchInput; // Press Crouch (Down)
 
@@ -45,7 +34,6 @@ public class grabLedge : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        GameObject otherObject = other.gameObject;
         string tag = other.gameObject.tag;
 
         if (tag == "Ledge")

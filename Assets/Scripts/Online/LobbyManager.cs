@@ -69,7 +69,7 @@ namespace Online
             }
         }
         public void SetRoomName(TMP_InputField textField) => roomName = textField.text;
-        public void CreateRoom()
+        public void JoinOrCreateRoom()
         {
             if(!string.IsNullOrWhiteSpace(roomName))
             {

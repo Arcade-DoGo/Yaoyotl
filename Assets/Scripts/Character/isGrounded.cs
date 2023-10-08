@@ -11,7 +11,7 @@ public class isGrounded : MonoBehaviour
     void Start()
     {
         character = transform.parent.gameObject;
-        stats = character.GetComponent<CharacterStats>();
+        stats = character.GetComponent<ComponentsManager>().characterStats;
     }
 
     private void OnTriggerEnter(Collider other)

@@ -3,19 +3,25 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 namespace Online
 {
     public class RoomManager : MonoBehaviourPunCallbacks
     {
         [Header ("UI References")]
-        [Tooltip ("Panel for player 2 character")] public GameObject player2Selection;
+        [Tooltip ("Player 1 ready Text")] public TextMeshProUGUI player1ReadyText;
+        [Tooltip ("Player 2 ready Text")] public TextMeshProUGUI player2ReadyText;
         [Tooltip ("Text to display the player list inside a room")] public TextMeshProUGUI playerList;
+        [Tooltip ("Panel for player 2 character")] public GameObject player2Selection;
 
         [Tooltip ("Room custom properties")] private Hashtable roomCustomProperties;
 
         private void Start() 
         {
+            player1ReadyText.text = "";
+            player2ReadyText.text = "";
             player2Selection.SetActive(false);
             CharacterSelection.instance.SetCharacter(0);
             UpdatePlayerList();
@@ -60,7 +66,39 @@ namespace Online
                 playerList.text += "-------------";
             }
         }
-        public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps) { if(changedProps.ContainsKey("playerCharacter") && targetPlayer != PhotonNetwork.LocalPlayer) { player2Selection.GetComponent<MultipleUISelection>().OnlyShowElement(GetOtherCustomProperty(targetPlayer)); }}
-        public int GetOtherCustomProperty(Player _player) => (int) _player.CustomProperties["playerCharacter"];
+
+        public void Ready() 
+        {
+            player1ReadyText.text = "READY!";
+            if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(ConnectToServer.READY)) PhotonNetwork.LocalPlayer.CustomProperties.Add(ConnectToServer.READY, true);
+            PhotonNetwork.LocalPlayer.CustomProperties[ConnectToServer.READY] = true;
+            PhotonNetwork.SetPlayerCustomProperties(new Hashtable() { { ConnectToServer.READY, true } });
+        }
+
+        public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps) 
+        { 
+            if(targetPlayer != PhotonNetwork.LocalPlayer)
+            {
+                if(changedProps.ContainsKey(ConnectToServer.PLAYERCHARACTER)) 
+                    player2Selection.GetComponent<MultipleUISelection>().OnlyShowElement(GetOtherCustomProperty(targetPlayer)); 
+                else if(changedProps.ContainsKey(ConnectToServer.READY))
+                    player2ReadyText.text = "READY!";
+            }
+            bool startGame = true;
+            foreach (Player player in PhotonNetwork.PlayerList) if(!player.CustomProperties.ContainsKey(ConnectToServer.READY)) startGame = false;
+            if(startGame)
+            {
+                ConnectToServer.instance.SetLoadingText("Starting match...");
+                if(PhotonNetwork.IsMasterClient) StartCoroutine(StartRoutine());
+            }
+        }
+
+        private int GetOtherCustomProperty(Player _player) => (int) _player.CustomProperties[ConnectToServer.PLAYERCHARACTER];
+
+        private IEnumerator StartRoutine()
+        {
+            yield return new WaitForSeconds(1f);
+            PhotonNetwork.LoadLevel("GameplayTesting");
+        }
     }
 }

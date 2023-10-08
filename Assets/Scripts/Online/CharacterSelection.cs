@@ -7,11 +7,11 @@ namespace Online
     {
         public static CharacterSelection instance;
         private void Awake() => instance = this;
-        [PunRPC] public void SetCharacter(int _index) 
+        public void SetCharacter(int _index) 
         {
-            if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("playerCharacter")) PhotonNetwork.LocalPlayer.CustomProperties.Add("playerCharacter", _index);
-            PhotonNetwork.LocalPlayer.CustomProperties["playerCharacter"] = _index;
-            PhotonNetwork.SetPlayerCustomProperties(new Hashtable() { { "playerCharacter", _index } });
+            if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(ConnectToServer.PLAYERCHARACTER)) PhotonNetwork.LocalPlayer.CustomProperties.Add(ConnectToServer.PLAYERCHARACTER, _index);
+            PhotonNetwork.LocalPlayer.CustomProperties[ConnectToServer.PLAYERCHARACTER] = _index;
+            PhotonNetwork.SetPlayerCustomProperties(new Hashtable() { { ConnectToServer.PLAYERCHARACTER, _index } });
         }
     }
 }

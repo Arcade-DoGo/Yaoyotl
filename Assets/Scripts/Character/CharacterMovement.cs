@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
@@ -10,8 +9,8 @@ public class CharacterMovement : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>(); // Reference to rigidbody
-        stats = GetComponent<CharacterStats>(); // Reference to stats
+        rb = GetComponent<ComponentsManager>().rigidbody; // Reference to rigidbody
+        stats = GetComponent<ComponentsManager>().characterStats; // Reference to stats
         rb.mass = stats.weight; // Sets character weight
     }
 
@@ -19,7 +18,6 @@ public class CharacterMovement : MonoBehaviour
     {
         if (stats.inHitStun)
             return;
-
 
         move();
 

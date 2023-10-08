@@ -1,29 +1,17 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
     public GameObject normalAttack;
-    private GameObject otherPlayer;
     private CharacterStats stats;
-    private CharacterStats otherStats;
     private int frameCounter;
     private int FRAMES_STRONG = 30;
 
     // Start is called before the first frame update
     void Start()
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject player in players)
-        {
-            if (player != gameObject)
-                otherPlayer = player;
-        }
-
-        stats = GetComponent<CharacterStats>();
-        otherStats = otherPlayer.GetComponent<CharacterStats>();
+        stats = GetComponent<ComponentsManager>().characterStats;
 
         normalAttack.SetActive(false);
         stats.isAttacking = false;

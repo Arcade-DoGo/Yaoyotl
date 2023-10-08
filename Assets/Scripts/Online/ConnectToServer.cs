@@ -36,6 +36,10 @@ namespace Online
         [Tooltip ("Game Version for Photon \nDO NOT CHANGE UNLESS NECCESARY")]
         private readonly string gameVersion = "0.1";
 
+        [Header ("RPC Names")]
+        public static string PLAYERCHARACTER = "PlayerCharacter";
+        public static string READY = "Ready";
+
         private void Start()
         {
             instance = this;
