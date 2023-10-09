@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
 {
     [NonSerialized] public bool onLedge, isGrounded, isAttacking, isGettingUp, inHitStun, canFAM;
 
+    public string playerName;
     public int playerNumber = 1;
     public float damage = 0.0f;
     public float weight = 1.0f;
@@ -25,6 +26,13 @@ public class CharacterStats : MonoBehaviour
 
     private MatchData matchData;
 
+    private void Awake()
+    {
+        playerName = GetComponent<ComponentsManager>().photonView.Owner.NickName;
+        playerNumber = GetComponent<ComponentsManager>().photonView.Owner.ActorNumber;
+        GameManager.players.Add(this);
+        if(GameManager.usingEditor) Debug.Log("Added " + playerName + " in " + GameManager.players.Count);
+    }
     void Start()
     {
         GameObject hud = GameObject.Find("HUD");
@@ -73,7 +81,7 @@ public class CharacterStats : MonoBehaviour
 
             canFAM = FAM >= fullFAM; // is meter full?
 
-            print(FAM + "/" + fullFAM);
+            // print(FAM + "/" + fullFAM);
         }
     }
 }
