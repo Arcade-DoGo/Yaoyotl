@@ -4,7 +4,8 @@ using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.Collections;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using System.Linq;
 
 namespace Online
 {
@@ -13,6 +14,7 @@ namespace Online
         [Header ("UI References")]
         [Tooltip ("Player 1 ready Text")] public TextMeshProUGUI player1ReadyText;
         [Tooltip ("Player 2 ready Text")] public TextMeshProUGUI player2ReadyText;
+        [Tooltip ("Player 1 ready Button")] public Button player1ReadyButton;
         [Tooltip ("Text to display the player list inside a room")] public TextMeshProUGUI playerList;
         [Tooltip ("Panel for player 2 character")] public GameObject player2Selection;
 
@@ -22,6 +24,7 @@ namespace Online
         {
             player1ReadyText.text = "";
             player2ReadyText.text = "";
+            player1ReadyButton.enabled = false;
             player2Selection.SetActive(false);
             CharacterSelection.instance.SetCharacter(0);
             UpdatePlayerList();
@@ -58,6 +61,7 @@ namespace Online
         {
             if(playerList)
             {
+                if(PhotonNetwork.PlayerList.Count() == 2) player1ReadyButton.enabled = true;
                 playerList.text = "-------------\n";
                 foreach (Player player in PhotonNetwork.PlayerList) 
                     playerList.text += player.ActorNumber + ": <color=" 
@@ -89,13 +93,13 @@ namespace Online
             if(startGame)
             {
                 ConnectToServer.instance.SetLoadingText("Starting match...");
-                if(PhotonNetwork.IsMasterClient) StartCoroutine(StartRoutine());
+                if(PhotonNetwork.IsMasterClient) StartCoroutine(LoadGameScene());
             }
         }
 
         private int GetOtherCustomProperty(Player _player) => (int) _player.CustomProperties[ConnectToServer.PLAYERCHARACTER];
 
-        private IEnumerator StartRoutine()
+        private IEnumerator LoadGameScene()
         {
             yield return new WaitForSeconds(1f);
             PhotonNetwork.LoadLevel("GameplayTesting");

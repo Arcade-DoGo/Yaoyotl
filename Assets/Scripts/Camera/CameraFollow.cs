@@ -8,7 +8,7 @@ public class CameraFollow : MonoBehaviour
     public float smoothSpeed = 5f; 
     public Transform blastzone;
     private Camera cam;
-    private List<GameObject> players;
+    // private List<GameObject> players;
     private float limitX;
     private float limitY;
     public float minSize;
@@ -17,7 +17,7 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         cam = GetComponent<Camera>();
-        players = GameManager.FindPlayers();
+        // players = GameManager.FindPlayers();
         float minX = 0;
         float maxX = 0;
         float minY = 0;
@@ -56,8 +56,8 @@ public class CameraFollow : MonoBehaviour
         transform.position = smoothedPosition;
 
         // Ajust Camera's Field of View
-        Transform player1 = players[0].transform;
-        Transform player2 = players[1].transform;
+        Transform player1 = GameManager.players[0].transform;
+        Transform player2 = GameManager.players[1].transform;
         float distance = Vector3.Distance(player1.position, player2.position);
         float targetSize = Mathf.Clamp(distance, minSize, maxSize);
         cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetSize, zoomSpeed * Time.deltaTime);
