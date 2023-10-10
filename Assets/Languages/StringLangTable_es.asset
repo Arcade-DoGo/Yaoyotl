@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: StringLangTable_es
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: es
+  m_SharedData: {fileID: 11400000, guid: f999dca5ec12b4085bc9016eb74646d1, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 229700001792
+    m_Localized: Jugar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4440231763968
+    m_Localized: Opciones
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6108721700864
+    m_Localized: Acerca
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6304230793216
+    m_Localized: "Cr\xE9ditos"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6488947941376
+    m_Localized: Regresar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6770889056256
+    m_Localized: Partida Aleatoria
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7160313405440
+    m_Localized: Partida Privada
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7326185545728
+    m_Localized: "Partida P\xFAblica"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7780013432832
+    m_Localized: Nombre de Sala
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8045605150720
+    m_Localized: ingresa nombre de sala
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8222495727616
+    m_Localized: Unirse a sala
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8426573783040
+    m_Localized: Seleccione un personaje
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8642685296640
+    m_Localized: Listo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9766330949632
+    m_Localized: 'Nombre de Usuario:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10092035432448
+    m_Localized: ingrese nombre de usuario...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10940933201920
+    m_Localized: Crear Partida
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
