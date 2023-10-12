@@ -29,10 +29,13 @@ public class CharacterStats : MonoBehaviour
 
     private void Awake()
     {
-        playerName = GetComponent<ComponentsManager>().photonView.Owner.NickName;
-        playerNumber = GetComponent<ComponentsManager>().photonView.Owner.ActorNumber;
-        GameManager.players.Add(this);
-        if (GameManager.usingEditor) Debug.Log("Added " + playerName + " in " + GameManager.players.Count);
+        if(PhotonNetwork.IsConnected)
+        {
+            playerName = GetComponent<ComponentsManager>().photonView.Owner.NickName;
+            playerNumber = GetComponent<ComponentsManager>().photonView.Owner.ActorNumber;
+            GameManager.players.Add(this);
+            if(GameManager.usingEditor) Debug.Log("Added " + playerName + " in " + GameManager.players.Count);
+        }
     }
     void Start()
     {
@@ -132,4 +135,6 @@ public class CharacterStats : MonoBehaviour
     {
         animator.SetFloat("movement", value);
     }
+    
+    private void OnDestroy() => GameManager.players.Remove(this);
 }

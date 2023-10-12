@@ -8,8 +8,8 @@ public class InputManagement : MonoBehaviour
     public FixedJoystick joystick;
     public GameObject mobileInputCanvas, jumpTapButtons;
     #region InputVariables
-    public static float horizontal;
-    public static bool mobileDevice, jumpTap,
+    public float horizontal;
+    public bool mobileDevice, jumpTap,
         jumpInput, jumpRelease, jumpHold, crouchInput, crouchHold, 
         attackInput, attackRelease, finalAttackInput;
     private float joystickDownInput, joystickUpInput;
@@ -22,12 +22,12 @@ public class InputManagement : MonoBehaviour
         _jumpPressUI = _jumpReleaseUI = _jumpHoldUI = _crouchPressUI = _crouchHoldUI = 
         _attackInputUI = _attackReleaseUI = _finalAttackInputUI = false;
         mobileDevice = Application.platform != RuntimePlatform.WindowsPlayer && Application.platform != RuntimePlatform.OSXPlayer;
-        mobileInputCanvas.SetActive((mobileDevice || GameManager.usingEditor) && componentsManager.photonView.IsMine);
+        mobileInputCanvas.SetActive((mobileDevice || GameManager.usingEditor) && !PhotonNetwork.IsConnected || (PhotonNetwork.IsConnected && componentsManager.photonView.IsMine));
         jumpTapButtons.SetActive(jumpTap || GameManager.usingEditor);
     }
     private void Update()
     {
-        if(componentsManager.photonView.IsMine)
+        if(!PhotonNetwork.IsConnected || (PhotonNetwork.IsConnected && componentsManager.photonView.IsMine))
         {
             #region JoystickInputs
             horizontal = Input.GetAxis("Horizontal") + joystick.Horizontal;

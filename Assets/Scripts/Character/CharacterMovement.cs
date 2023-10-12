@@ -4,13 +4,15 @@ public class CharacterMovement : MonoBehaviour
 {
     private Rigidbody rb;
     private CharacterStats stats;
+    private InputManagement inputManagement;
     private int jumpFramesCounter;
-    private bool isJumpPressed, isFacingRight;
+    private bool isJumpPressed, isFacingRight = true;
 
     void Start()
     {
         rb = GetComponent<ComponentsManager>().rigidbody; // Reference to rigidbody
         stats = GetComponent<ComponentsManager>().characterStats; // Reference to stats
+        inputManagement = GetComponent<ComponentsManager>().inputManagement; // Reference to inputs
         rb.mass = stats.weight; // Sets character weight
     }
 
@@ -21,16 +23,16 @@ public class CharacterMovement : MonoBehaviour
 
         move();
 
-        if (InputManagement.jumpInput) isJumpPressed = true; // Start Jump
-        else if (InputManagement.jumpRelease) // Perform Jump
+        if (inputManagement.jumpInput) isJumpPressed = true; // Start Jump
+        else if (inputManagement.jumpRelease) // Perform Jump
         {
             jump();
             isJumpPressed = false;
-            InputManagement.jumpRelease = false;
+            inputManagement.jumpRelease = false;
         }
 
         if (isJumpPressed) jumpFramesCounter++; // Count Jump Frames
-        if (InputManagement.crouchInput) // Down input
+        if (inputManagement.crouchInput) // Down input
         {
             if (stats.canFastFall) fastFall(); // Drop From Platforms
             else dropFromPlatform(); // Fast Fall
@@ -41,16 +43,16 @@ public class CharacterMovement : MonoBehaviour
     {
         // Set movement speed grounded or air
         float moveSpeed = stats.isGrounded ? stats.groundSpeed : stats.airSpeed;
-        Vector3 movement = new(InputManagement.horizontal, 0.0f, 0.0f);
+        Vector3 movement = new(inputManagement.horizontal, 0.0f, 0.0f);
         rb.velocity = new Vector3(movement.x * moveSpeed, rb.velocity.y, 0.0f);
 
-        if (InputManagement.horizontal < 0f && isFacingRight || // Turn Left
-            InputManagement.horizontal > 0f && !isFacingRight) // Turn Right
+        if (inputManagement.horizontal < 0f && isFacingRight || // Turn Left
+            inputManagement.horizontal > 0f && !isFacingRight) // Turn Right
         {
             flipCharacter();
         }
 
-        stats.setMovement(InputManagement.horizontal);
+        stats.setMovement(inputManagement.horizontal);
     }
 
     void flipCharacter()

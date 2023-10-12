@@ -8,6 +8,7 @@ public class grabLedge : MonoBehaviour
     private GameObject character;
     private Rigidbody rb;
     private CharacterStats stats;
+    private InputManagement inputManagement;
     private float getUpProgress = 0.0f;
 
     // Start is called before the first frame update
@@ -16,12 +17,13 @@ public class grabLedge : MonoBehaviour
         character = transform.parent.gameObject;
         rb = character.GetComponent<ComponentsManager>().rigidbody;
         stats = character.GetComponent<ComponentsManager>().characterStats;
+        inputManagement = character.GetComponent<ComponentsManager>().inputManagement;
     }
 
     void OnTriggerEnter(Collider other)
     {
         string tag = other.gameObject.tag;
-        bool crouchInput = InputManagement.crouchInput; // Press Crouch (Down)
+        bool crouchInput = inputManagement.crouchInput; // Press Crouch (Down)
 
         if (tag == "Ledge" && !crouchInput) // Grab the Ledge
         {
@@ -46,7 +48,7 @@ public class grabLedge : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         string tag = other.gameObject.tag;
-        float horizontalInput = InputManagement.horizontal;
+        float horizontalInput = inputManagement.horizontal;
         Vector3 position = character.transform.position;
         float positionX = position.x;
 

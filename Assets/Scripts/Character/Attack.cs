@@ -5,6 +5,7 @@ public class Attack : MonoBehaviour
 {
     public GameObject normalAttack;
     private CharacterStats stats;
+    private InputManagement inputManagement;
     private int frameCounter;
     private int FRAMES_STRONG = 30;
 
@@ -12,7 +13,7 @@ public class Attack : MonoBehaviour
     void Start()
     {
         stats = GetComponent<ComponentsManager>().characterStats;
-
+        inputManagement = GetComponent<ComponentsManager>().inputManagement;
         normalAttack.SetActive(false);
         stats.setIsAttacking(false);
     }
@@ -20,12 +21,12 @@ public class Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (InputManagement.attackInput && !stats.isAttacking)
+        if (inputManagement.attackInput && !stats.isAttacking)
         {
             stats.setIsAttacking(true);
         }
 
-        if (InputManagement.attackRelease && stats.isAttacking)
+        if (inputManagement.attackRelease && stats.isAttacking)
         {
             if (frameCounter < FRAMES_STRONG)
             {
@@ -36,7 +37,7 @@ public class Attack : MonoBehaviour
                 StartCoroutine(strongAttack());
             }
         }
-        else if (InputManagement.finalAttackInput && stats.canFAM)
+        else if (inputManagement.finalAttackInput && stats.canFAM)
         {
             StartCoroutine(finalAttack());
         }
