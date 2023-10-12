@@ -21,7 +21,7 @@ public class isGrounded : MonoBehaviour
 
         if (tag == "Stage" || tag == "Platform")
         {
-            stats.isGrounded = true;
+            stats.setIsGrounded(true);
             stats.jumpsUsed = 0;
 
         }
@@ -34,7 +34,7 @@ public class isGrounded : MonoBehaviour
 
         if (tag == "Stage" || tag == "Platform")
         {
-            stats.isGrounded = false;
+            stats.setIsGrounded(false);
         }
 
     }

@@ -14,7 +14,7 @@ public class Attack : MonoBehaviour
         stats = GetComponent<ComponentsManager>().characterStats;
 
         normalAttack.SetActive(false);
-        stats.isAttacking = false;
+        stats.setIsAttacking(false);
     }
 
     // Update is called once per frame
@@ -22,7 +22,7 @@ public class Attack : MonoBehaviour
     {
         if (InputManagement.attackInput && !stats.isAttacking)
         {
-            stats.isAttacking = true;
+            stats.setIsAttacking(true);
         }
 
         if (InputManagement.attackRelease && stats.isAttacking)
@@ -52,7 +52,7 @@ public class Attack : MonoBehaviour
         normalAttack.SetActive(true);
         yield return new WaitForSeconds(0.5f); // Active Hitbox Duration
         normalAttack.SetActive(false);
-        stats.isAttacking = false;
+        stats.setIsAttacking(false);
         frameCounter = 0;
     }
 
@@ -61,7 +61,7 @@ public class Attack : MonoBehaviour
         // Strong Attack
         print("Strong Attack!");
         yield return null;
-        stats.isAttacking = false;
+        stats.setIsAttacking(false);
         frameCounter = 0;
     }
 
@@ -70,7 +70,7 @@ public class Attack : MonoBehaviour
         // Final Smash
         print("Final Attack!");
         yield return null;
-        stats.isAttacking = false;
+        stats.setIsAttacking(false);
         frameCounter = 0;
 
         stats.resetFAM();

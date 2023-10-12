@@ -28,7 +28,7 @@ public class grabLedge : MonoBehaviour
             rb.useGravity = false;
             rb.velocity = Vector3.zero;
             stats.jumpsUsed = 0;
-            stats.onLedge = true;
+            stats.setOnLedge(true);
         }
     }
 
@@ -39,7 +39,7 @@ public class grabLedge : MonoBehaviour
         if (tag == "Ledge")
         {
             rb.useGravity = true;
-            stats.onLedge = false;
+            stats.setOnLedge(false);
         }
     }
 
@@ -66,7 +66,7 @@ public class grabLedge : MonoBehaviour
 
     IEnumerator LedgeGetUpAnimation(GameObject ledge)
     {
-        stats.isGettingUp = true;
+        stats.setIsGettingUp(true);
         Vector3 initialPosition = character.transform.position;
         Vector3 targetPosition = ledge.transform.GetChild(0).gameObject.transform.position;
 
@@ -84,6 +84,6 @@ public class grabLedge : MonoBehaviour
         // Make sure the character reaches the destination
         character.transform.position = targetPosition;
         getUpProgress = 0f;
-        stats.isGettingUp = false;
+        stats.setIsGettingUp(false);
     }
 }

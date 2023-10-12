@@ -5,7 +5,7 @@ public class CharacterMovement : MonoBehaviour
     private Rigidbody rb;
     private CharacterStats stats;
     private int jumpFramesCounter;
-    private bool canFastFall, isJumpPressed;
+    private bool isJumpPressed, isFacingRight;
 
     void Start()
     {
@@ -32,7 +32,7 @@ public class CharacterMovement : MonoBehaviour
         if (isJumpPressed) jumpFramesCounter++; // Count Jump Frames
         if (InputManagement.crouchInput) // Down input
         {
-            if (canFastFall) fastFall(); // Drop From Platforms
+            if (stats.canFastFall) fastFall(); // Drop From Platforms
             else dropFromPlatform(); // Fast Fall
         }
     }
@@ -44,6 +44,19 @@ public class CharacterMovement : MonoBehaviour
         Vector3 movement = new(InputManagement.horizontal, 0.0f, 0.0f);
         rb.velocity = new Vector3(movement.x * moveSpeed, rb.velocity.y, 0.0f);
 
+        if (InputManagement.horizontal < 0f && isFacingRight || // Turn Left
+            InputManagement.horizontal > 0f && !isFacingRight) // Turn Right
+        {
+            flipCharacter();
+        }
+
+        stats.setMovement(InputManagement.horizontal);
+    }
+
+    void flipCharacter()
+    {
+        transform.Rotate(new Vector3(0, 180, 0));
+        isFacingRight = !isFacingRight;
     }
 
     void jump()
@@ -62,7 +75,7 @@ public class CharacterMovement : MonoBehaviour
             }
             rb.velocity = Vector3.up * jumpForce;
             gameObject.layer = LayerMask.NameToLayer("PlatformLayer"); // Prevents collision with platforms
-            canFastFall = true;
+            stats.setCanFastFall(true);
             stats.jumpsUsed++;
         }
     }
@@ -76,6 +89,6 @@ public class CharacterMovement : MonoBehaviour
     void fastFall()
     {
         rb.velocity = Vector3.down * stats.fallForce;
-        canFastFall = false;
+        stats.setCanFastFall(false);
     }
 }

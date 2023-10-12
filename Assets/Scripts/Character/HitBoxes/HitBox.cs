@@ -42,8 +42,8 @@ public class HitBox : MonoBehaviour
 
     IEnumerator applyHitStun(CharacterStats stats)
     {
-        stats.inHitStun = true;
+        stats.setInHitStun(true);
         yield return new WaitForSeconds(hitStunTime);
-        stats.inHitStun = false;
+        stats.setInHitStun(false);
     }
 }
