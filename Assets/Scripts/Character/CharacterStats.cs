@@ -54,6 +54,7 @@ public class CharacterStats : MonoBehaviour
     {
         stocks--;
         damage = 0;
+        FAM /= 2f;
         matchData.updatePlayersData(this);
     }
 
