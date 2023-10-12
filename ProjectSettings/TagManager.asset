@@ -8,6 +8,7 @@ TagManager:
   - Platform
   - Stage
   - Ledge
+  - PunchBag
   layers:
   - Default
   - TransparentFX

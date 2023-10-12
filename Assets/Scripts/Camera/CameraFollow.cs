@@ -37,10 +37,7 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        if (target == null)
-        {
-            return;
-        }
+        if (target == null) return;
 
         Vector3 desiredPosition = target.position + Vector3.back * 10; // Follow Players' Position
 
@@ -56,10 +53,18 @@ public class CameraFollow : MonoBehaviour
         transform.position = smoothedPosition;
 
         // Ajust Camera's Field of View
-        Transform player1 = GameManager.players[0].transform;
-        Transform player2 = GameManager.players[1].transform;
-        float distance = Vector3.Distance(player1.position, player2.position);
-        float targetSize = Mathf.Clamp(distance, minSize, maxSize);
+        float minDistance = maxSize;
+        for (int i = 0; i < GameManager.players.Count; i++)
+        {
+            for (int j = i + 1; j < GameManager.players.Count; j++)
+            {
+                Transform player1 = GameManager.players[i].transform;
+                Transform player2 = GameManager.players[j].transform;
+                float _distance = Vector3.Distance(player1.position, player2.position);
+                if(_distance < minDistance) minDistance = _distance;
+            }
+        }
+        float targetSize = Mathf.Clamp(minDistance, minSize, maxSize);
         cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetSize, zoomSpeed * Time.deltaTime);
     }
 }

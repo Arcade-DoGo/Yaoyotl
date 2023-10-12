@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HitBox : MonoBehaviour
@@ -10,16 +9,12 @@ public class HitBox : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        GameObject player = other.gameObject;
-        CharacterStats stats = player.GetComponent<ComponentsManager>().characterStats;
-        string tag = player.tag;
-
-        if (tag == "Player" && player != transform.parent) // Collides with other player (Not the player that owns it)
+        if(other.GetComponent<ComponentsManager>() && other.gameObject != transform.parent) // Checks if the collided gameObject is another player or punchBag
         {
+            GameObject player = other.gameObject;
+            CharacterStats stats = player.GetComponent<ComponentsManager>().characterStats;
             stats.addDamage(attackDamage);
-
             applyKnockback(player);
-
             StartCoroutine(applyHitStun(stats));
         }
     }
