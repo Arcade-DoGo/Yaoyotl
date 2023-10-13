@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    public GameObject normalAttack;
+    //public GameObject normalAttack;
     private CharacterStats stats;
     private InputManagement inputManagement;
     private int frameCounter;
@@ -14,7 +14,7 @@ public class Attack : MonoBehaviour
     {
         stats = GetComponent<ComponentsManager>().characterStats;
         inputManagement = GetComponent<ComponentsManager>().inputManagement;
-        normalAttack.SetActive(false);
+        //normalAttack.SetActive(false);
         stats.setIsAttacking(false);
     }
 
@@ -28,6 +28,7 @@ public class Attack : MonoBehaviour
 
         if (inputManagement.attackRelease && stats.isAttacking)
         {
+            stats.setAttackDirection(getAttackDirection());
             if (frameCounter < FRAMES_STRONG)
             {
                 StartCoroutine(regularAttack());
@@ -50,9 +51,11 @@ public class Attack : MonoBehaviour
     IEnumerator regularAttack()
     {
         print("Regular Attack!");
-        normalAttack.SetActive(true);
+        stats.setAttackStrength(true);
+        //normalAttack.SetActive(true);
+
         yield return new WaitForSeconds(0.5f); // Active Hitbox Duration
-        normalAttack.SetActive(false);
+        //normalAttack.SetActive(false);
         stats.setIsAttacking(false);
         frameCounter = 0;
     }
@@ -61,6 +64,7 @@ public class Attack : MonoBehaviour
     {
         // Strong Attack
         print("Strong Attack!");
+        stats.setAttackStrength(false);
         yield return null;
         stats.setIsAttacking(false);
         frameCounter = 0;
@@ -70,10 +74,27 @@ public class Attack : MonoBehaviour
     {
         // Final Smash
         print("Final Attack!");
+        stats.animateFinalAttack(true);
         yield return null;
         stats.setIsAttacking(false);
         frameCounter = 0;
-
+        stats.animateFinalAttack(false);
         stats.resetFAM();
+    }
+
+    private string getAttackDirection()
+    {
+        string direction = "forward";
+
+        if (inputManagement.jumpInput || inputManagement.jumpHold)
+        {
+            direction = "up";
+        }
+        else if (inputManagement.crouchInput || inputManagement.crouchHold)
+        {
+            direction = "down";
+        }
+
+        return direction;
     }
 }

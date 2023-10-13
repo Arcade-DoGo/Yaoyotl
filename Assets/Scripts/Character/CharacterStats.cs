@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
 {
-    [NonSerialized] public bool onLedge, isGrounded, canFastFall, isAttacking, isGettingUp, inHitStun, canFAM;
-
+    [NonSerialized] public bool onLedge, isGrounded, isDoubleJumping, canFastFall, isAttacking, isGettingUp, inHitStun, canFAM;
+    [NonSerialized] public bool isFacingRight = true;
     public string playerName;
     public int playerNumber = 1;
     public float damage = 0.0f;
@@ -29,12 +29,12 @@ public class CharacterStats : MonoBehaviour
 
     private void Awake()
     {
-        if(PhotonNetwork.IsConnected)
+        if (PhotonNetwork.IsConnected)
         {
             playerName = GetComponent<ComponentsManager>().photonView.Owner.NickName;
             playerNumber = GetComponent<ComponentsManager>().photonView.Owner.ActorNumber;
             GameManager.players.Add(this);
-            if(GameManager.usingEditor) Debug.Log("Added " + playerName + " in " + GameManager.players.Count);
+            if (GameManager.usingEditor) Debug.Log("Added " + playerName + " in " + GameManager.players.Count);
         }
     }
     void Start()
@@ -136,18 +136,34 @@ public class CharacterStats : MonoBehaviour
         animator.SetFloat("movement", value);
     }
 
-    public void setDirectionalInput(string direction)
+    public void setIsDoubleJumping(bool value)
     {
-        resetDirectionalInputs();
+        isDoubleJumping = value;
+        animator.SetBool("isDoubleJumping", value);
+    }
+
+    public void setAttackDirection(string direction)
+    {
+        resetAttackDirections();
         animator.SetBool(direction, true);
     }
 
-    void resetDirectionalInputs()
+    void resetAttackDirections()
     {
         animator.SetBool("forward", false);
         animator.SetBool("up", false);
         animator.SetBool("down", false);
     }
-    
+
+    public void setAttackStrength(bool strengthLevel)
+    {
+        animator.SetBool("isLightAttack", strengthLevel);
+    }
+
+    public void animateFinalAttack(bool value)
+    {
+        animator.SetBool("FinalAttacking", value);
+    }
+
     private void OnDestroy() => GameManager.players.Remove(this);
 }

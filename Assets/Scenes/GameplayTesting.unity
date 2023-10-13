@@ -3050,10 +3050,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 65380223981366245, guid: a610cf3ab02b49549945e3eab9f1cbdf, type: 3}
-  startText: {fileID: 1988098983}
+  playerPrefabOffline: {fileID: 0}
+  playersToSpawn: 2
   spawnPosition:
   - {fileID: 1177555334}
   - {fileID: 673084288}
+  startText: {fileID: 1988098983}
 --- !u!1 &1917567050
 GameObject:
   m_ObjectHideFlags: 0

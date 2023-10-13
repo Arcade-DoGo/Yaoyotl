@@ -418,6 +418,18 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 0
     Name: movement
+  - Type: 4
+    SynchronizeType: 0
+    Name: forward
+  - Type: 4
+    SynchronizeType: 0
+    Name: up
+  - Type: 4
+    SynchronizeType: 0
+    Name: down
+  - Type: 4
+    SynchronizeType: 0
+    Name: isDoubleJumping
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

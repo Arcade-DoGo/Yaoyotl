@@ -57,9 +57,20 @@ public class grabLedge : MonoBehaviour
             GameObject ledge = other.gameObject;
             Vector3 targetPosition = ledge.transform.GetChild(0).gameObject.transform.position;
 
-            if (((positionX < targetPosition.x && horizontalInput > 0) // Normal Get Up to the Right 
-            || (positionX > targetPosition.x && horizontalInput < 0)) // Normal Get Up to the Left
-            && (!stats.isGettingUp)) 
+            bool leftLedge = positionX < targetPosition.x;
+            bool rightLedge = positionX > targetPosition.x;
+
+            // Flip Character Towards the ledge when grabbing it
+            if ((leftLedge && !stats.isFacingRight) || (rightLedge && stats.isFacingRight)) 
+            {
+                int direction = stats.isFacingRight ? 1 : -1;
+                character.transform.Rotate(new Vector3(0, direction * 90, 0));
+                stats.isFacingRight = !stats.isFacingRight;
+            }
+
+            if (((leftLedge && horizontalInput > 0) // Normal Get Up to the Right 
+            || (rightLedge && horizontalInput < 0)) // Normal Get Up to the Left
+            && (!stats.isGettingUp))
             {
                 StartCoroutine(LedgeGetUpAnimation(ledge));
             }

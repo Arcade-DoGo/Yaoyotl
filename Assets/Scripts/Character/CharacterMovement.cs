@@ -6,7 +6,7 @@ public class CharacterMovement : MonoBehaviour
     private CharacterStats stats;
     private InputManagement inputManagement;
     private int jumpFramesCounter;
-    private bool isJumpPressed, isFacingRight = true;
+    private bool isJumpPressed;
 
     void Start()
     {
@@ -20,6 +20,9 @@ public class CharacterMovement : MonoBehaviour
     {
         if (stats.inHitStun)
             return;
+
+        if (stats.isDoubleJumping)
+            stats.setIsDoubleJumping(false);
 
         move();
 
@@ -36,11 +39,9 @@ public class CharacterMovement : MonoBehaviour
         {
             if (stats.canFastFall) fastFall(); // Fast Fall 
             else dropFromPlatform(); // Drop From Platforms
-
-            stats.setDirectionalInput("down"); // Set Last Input for attack direction
         }
 
-        
+
     }
 
     void move()
@@ -50,23 +51,20 @@ public class CharacterMovement : MonoBehaviour
         Vector3 movement = new(inputManagement.horizontal, 0.0f, 0.0f);
         rb.velocity = new Vector3(movement.x * moveSpeed, rb.velocity.y, 0.0f);
 
-        if (inputManagement.horizontal < 0f && isFacingRight || // Turn Left
-            inputManagement.horizontal > 0f && !isFacingRight) // Turn Right
+        if (inputManagement.horizontal < 0f && stats.isFacingRight || // Turn Left
+            inputManagement.horizontal > 0f && !stats.isFacingRight) // Turn Right
         {
             flipCharacter();
         }
 
         stats.setMovement(Mathf.Abs(inputManagement.horizontal));
-
-        if (movement != Vector3.zero) // Set Last Input for attack direction
-            stats.setDirectionalInput("forward");
     }
 
     void flipCharacter()
     {
-        int direction = isFacingRight ? 1 : -1;
+        int direction = stats.isFacingRight ? 1 : -1;
         transform.Rotate(new Vector3(0, direction * 90, 0));
-        isFacingRight = !isFacingRight;
+        stats.isFacingRight = !stats.isFacingRight;
     }
 
     void jump()
@@ -82,13 +80,13 @@ public class CharacterMovement : MonoBehaviour
                 // Remove ground jump if in the air (Jumps count as double jumps)
                 stats.jumpsUsed = stats.jumpsUsed <= 0 ? 1 : stats.jumpsUsed;
                 rb.velocity = Vector3.zero; // Reset speed before double jump (Not grounded jump)
+
+                stats.setIsDoubleJumping(true);
             }
             rb.velocity = Vector3.up * jumpForce;
             gameObject.layer = LayerMask.NameToLayer("PlatformLayer"); // Prevents collision with platforms
             stats.setCanFastFall(true);
             stats.jumpsUsed++;
-
-            stats.setDirectionalInput("up"); // Set Last Input for attack direction
         }
     }
 
