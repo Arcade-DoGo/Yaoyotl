@@ -65,7 +65,7 @@ public class CharacterMovement : MonoBehaviour
     void flipCharacter()
     {
         int direction = isFacingRight ? 1 : -1;
-        transform.Rotate(new Vector3(0, direction * 90, 0));
+        transform.Rotate(new Vector3(0, direction * 180, 0));
         isFacingRight = !isFacingRight;
     }
 
