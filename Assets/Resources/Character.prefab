@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 3244954667535175970}
   - component: {fileID: 2710319126510107706}
   - component: {fileID: 6498911478881493645}
+  - component: {fileID: 6349028590029429302}
   - component: {fileID: 1191630759745678420}
   m_Layer: 6
   m_Name: Character
@@ -343,6 +344,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 2710319126510107706}
   - {fileID: 6498911478881493645}
+  - {fileID: 6349028590029429302}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -395,28 +397,28 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isGrounded
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: onLedge
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isAttacking
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isGettingUp
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: inHitStun
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: canFAM
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: canFastFall
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: movement
   - Type: 4
     SynchronizeType: 0
@@ -431,8 +433,24 @@ MonoBehaviour:
     SynchronizeType: 0
     Name: isDoubleJumping
   m_SynchronizeLayers:
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 0
+--- !u!114 &6349028590029429302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65380223981366245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 1
+  m_TeleportEnabled: 1
+  m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &1191630759745678420
 MonoBehaviour:
   m_ObjectHideFlags: 0
