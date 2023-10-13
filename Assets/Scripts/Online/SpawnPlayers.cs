@@ -33,7 +33,7 @@ namespace Online
 
         public void SpawnPlayerOffline(int index)
         {
-            GameObject player = Instantiate(playerPrefabOffline, spawnPosition[index].position, Quaternion.identity);
+            GameObject player = Instantiate(playerPrefabOffline, spawnPosition[index].position, Quaternion.Euler(new Vector3(0, 135, 0)));
             CharacterStats stats = player.GetComponent<ComponentsManager>().characterStats;
             stats.playerNumber = index;
             stats.playerName = "Player " + (index + 1);

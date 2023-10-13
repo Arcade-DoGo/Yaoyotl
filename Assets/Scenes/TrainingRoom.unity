@@ -811,7 +811,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 65380223981366245, guid: a610cf3ab02b49549945e3eab9f1cbdf, type: 3}
-  playerPrefabOffline: {fileID: 5555193175087133243, guid: 0d87b414db429d34987222fce9dcc8e5, type: 3}
+  playerPrefabOffline: {fileID: 113046182129976626, guid: 63b5b1764a98e7241969d0b39d322bb7, type: 3}
   playersToSpawn: 1
   spawnPosition:
   - {fileID: 891227200}

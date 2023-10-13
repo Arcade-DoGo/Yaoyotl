@@ -34,9 +34,13 @@ public class CharacterMovement : MonoBehaviour
         if (isJumpPressed) jumpFramesCounter++; // Count Jump Frames
         if (inputManagement.crouchInput) // Down input
         {
-            if (stats.canFastFall) fastFall(); // Drop From Platforms
-            else dropFromPlatform(); // Fast Fall
+            if (stats.canFastFall) fastFall(); // Fast Fall 
+            else dropFromPlatform(); // Drop From Platforms
+
+            stats.setDirectionalInput("down"); // Set Last Input for attack direction
         }
+
+        
     }
 
     void move()
@@ -52,12 +56,16 @@ public class CharacterMovement : MonoBehaviour
             flipCharacter();
         }
 
-        stats.setMovement(inputManagement.horizontal);
+        stats.setMovement(Mathf.Abs(inputManagement.horizontal));
+
+        if (movement != Vector3.zero) // Set Last Input for attack direction
+            stats.setDirectionalInput("forward");
     }
 
     void flipCharacter()
     {
-        transform.Rotate(new Vector3(0, 180, 0));
+        int direction = isFacingRight ? 1 : -1;
+        transform.Rotate(new Vector3(0, direction * 90, 0));
         isFacingRight = !isFacingRight;
     }
 
@@ -79,6 +87,8 @@ public class CharacterMovement : MonoBehaviour
             gameObject.layer = LayerMask.NameToLayer("PlatformLayer"); // Prevents collision with platforms
             stats.setCanFastFall(true);
             stats.jumpsUsed++;
+
+            stats.setDirectionalInput("up"); // Set Last Input for attack direction
         }
     }
 

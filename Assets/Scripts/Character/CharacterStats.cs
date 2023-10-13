@@ -135,6 +135,19 @@ public class CharacterStats : MonoBehaviour
     {
         animator.SetFloat("movement", value);
     }
+
+    public void setDirectionalInput(string direction)
+    {
+        resetDirectionalInputs();
+        animator.SetBool(direction, true);
+    }
+
+    void resetDirectionalInputs()
+    {
+        animator.SetBool("forward", false);
+        animator.SetBool("up", false);
+        animator.SetBool("down", false);
+    }
     
     private void OnDestroy() => GameManager.players.Remove(this);
 }
