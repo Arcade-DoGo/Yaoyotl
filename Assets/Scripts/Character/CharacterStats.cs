@@ -33,7 +33,7 @@ public class CharacterStats : MonoBehaviour
         {
             playerName = GetComponent<ComponentsManager>().photonView.Owner.NickName;
             playerNumber = GetComponent<ComponentsManager>().photonView.Owner.ActorNumber;
-            GameManager.players.Add(this);
+            GameManager.RegisterPlayer(this);
             if (GameManager.usingEditor) Debug.Log("Added " + playerName + " in " + GameManager.players.Count);
         }
     }

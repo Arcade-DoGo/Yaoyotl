@@ -7,6 +7,7 @@ namespace Online
 {
     public class SpawnPlayers : MonoBehaviourPunCallbacks
     {
+        public static SpawnPlayers instance;
         [Header ("Player prefabs")]
         public GameObject playerPrefab;
         public GameObject playerPrefabOffline;
@@ -17,12 +18,15 @@ namespace Online
 
         private void Awake()
         {
+            instance = this;
             if(PhotonNetwork.IsConnected) SpawnPlayerOnline();
-            else for (int i = 0; i < playersToSpawn; i++) SpawnPlayerOffline(i);
+            else 
+            {
+                for (int i = 0; i < playersToSpawn; i++) SpawnPlayerOffline(i);
+                StartGame();
+            }
             CheckForPunchBags();
         }
-
-        private void Start() => StartCoroutine(StartGame());
 
         public void SpawnPlayerOnline()
         {
@@ -52,7 +56,8 @@ namespace Online
             }
         }
 
-        private IEnumerator StartGame()
+        public void StartGame() => StartCoroutine(StartGameRoutine());
+        private IEnumerator StartGameRoutine()
         {
             if(PhotonNetwork.IsConnected)
             {

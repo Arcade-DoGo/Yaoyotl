@@ -6,7 +6,11 @@ namespace Online
     public class CharacterSelection : MonoBehaviourPunCallbacks
     {
         public static CharacterSelection instance;
-        private void Awake() => instance = this;
+        private void Awake()
+        {
+            instance = this;
+            SetCharacter(0);
+        }
         public void SetCharacter(int _index) 
         {
             if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(ConnectToServer.PLAYERCHARACTER)) PhotonNetwork.LocalPlayer.CustomProperties.Add(ConnectToServer.PLAYERCHARACTER, _index);

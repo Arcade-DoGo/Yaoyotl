@@ -1,6 +1,10 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
+using Online;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Photon.Realtime;
 
 public class MatchData : MonoBehaviour
 {
@@ -26,6 +30,21 @@ public class MatchData : MonoBehaviour
         int playerIndex = GameManager.players.IndexOf(stats);
         stocks[playerIndex].SetText(stats.stocks + "");
         playerDamages[playerIndex].SetText(stats.damage + "%");
+        // if(PhotonNetwork.IsConnected)
+        // {
+        //     PhotonView photonView = stats.GetComponent<ComponentsManager>().photonView;
+        //     photonView.RPC("UpdatePlayersDataRPC", RpcTarget.Others, photonView.Owner, ConnectToServer.STOCKS, stats.stocks);
+        //     photonView.RPC("UpdatePlayersDataRPC", RpcTarget.Others, photonView.Owner, ConnectToServer.DAMAGE, stats.damage);
+        //     int playerIndex = GameManager.players.IndexOf(stats);
+        //     stocks[playerIndex].SetText(stats.stocks + "");
+        //     playerDamages[playerIndex].SetText(stats.damage + "%");
+        // }
+        // else
+        // {
+        //     int playerIndex = GameManager.players.IndexOf(stats);
+        //     stocks[playerIndex].SetText(stats.stocks + "");
+        //     playerDamages[playerIndex].SetText(stats.damage + "%");
+        // }
     }
 
     public void updatePlayersData(int playerNumber, int playerStocks, float playerDamage)
@@ -33,6 +52,29 @@ public class MatchData : MonoBehaviour
         int playerIndex = GameManager.players.IndexOf(GameManager.players[playerNumber]);
         stocks[playerIndex].SetText(playerStocks + "");
         playerDamages[playerIndex].SetText(playerDamage + "%");
+        // if(PhotonNetwork.IsConnected)
+        // {
+        //     PhotonView photonView = GameManager.players[playerNumber].GetComponent<ComponentsManager>().photonView;
+        //     photonView.RPC("UpdatePlayersDataRPC", RpcTarget.Others, photonView.Owner, ConnectToServer.STOCKS, playerStocks);
+        //     photonView.RPC("UpdatePlayersDataRPC", RpcTarget.Others, photonView.Owner, ConnectToServer.DAMAGE, playerDamage);
+        //     int playerIndex = photonView.OwnerActorNr;
+        //     stocks[playerIndex].SetText(playerStocks + "");
+        //     playerDamages[playerIndex].SetText(playerDamage + "%");
+        // }
+        // else
+        // {
+        //     int playerIndex = GameManager.players.IndexOf(GameManager.players[playerNumber]);
+        //     stocks[playerIndex].SetText(playerStocks + "");
+        //     playerDamages[playerIndex].SetText(playerDamage + "%");
+        // }
+    }
+
+    [PunRPC]
+    private void UpdatePlayersDataRPC(Player player, string property, int value)
+    {
+        if (!player.CustomProperties.ContainsKey(property)) player.CustomProperties.Add(property, value);
+        player.CustomProperties[property] = value;
+        PhotonNetwork.SetPlayerCustomProperties(new Hashtable() { { property, value } });
     }
 
     public void StartTimer() => StartCoroutine(updateTimer());

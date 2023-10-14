@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Online;
+using Photon.Pun;
 using TMPro;
 using UnityEngine;
 
@@ -7,7 +9,7 @@ public class GameManager : MonoBehaviour
 {
     [Header ("UI References")]
     public GameObject gameOverPanel;
-    public TextMeshProUGUI winnerText;
+    public TextMeshProUGUI winnerText, player1Text, player2Text;
     [Header ("Static Constants")]
     public static bool usingEditor;
     public static GameManager instance;
@@ -19,12 +21,22 @@ public class GameManager : MonoBehaviour
         #if UNITY_EDITOR
         usingEditor = true;
         #endif
+        if(gameOverPanel != null) gameOverPanel.SetActive(false);
+    }
+
+    public static void RegisterPlayer(CharacterStats player)
+    {
+        players.Add(player);
+        if(PhotonNetwork.IsConnected && players.Count == PhotonNetwork.PlayerList.Length)
+            SpawnPlayers.instance.StartGame();
     }
     public static void EnablePlayers() { foreach (CharacterStats player in players) player.GetComponent<ComponentsManager>().inputManagement.enabled = true; }
     public void GameOver(CharacterStats winner = null)
     {
         if (usingEditor) Debug.Log("Game over! " + (winner != null ? winner : ""));
         if(gameOverPanel != null) gameOverPanel.SetActive(true);
+        if(player1Text != null) player1Text.text = players[0].playerName;
+        if(player2Text != null) player2Text.text = players[1].playerName;
         if(winner != null && winnerText != null) winnerText.text = (string.IsNullOrEmpty(winner.playerName) ? "Player" + winner.playerNumber : winner.playerName) + " won!";
     }
     
