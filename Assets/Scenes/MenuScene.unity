@@ -4108,7 +4108,7 @@ Skybox:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765932778}
   m_Enabled: 1
-  m_CustomSkybox: {fileID: 2100000, guid: 52fcefd712182d743a781fde12426775, type: 2}
+  m_CustomSkybox: {fileID: 2100000, guid: 528363c5c1cf6a7458140c6851c77b68, type: 2}
 --- !u!1 &820713029
 GameObject:
   m_ObjectHideFlags: 0
@@ -9126,6 +9126,10 @@ PrefabInstance:
     - target: {fileID: 5680094347743173514, guid: 2be0e75557443443997d4338ab1f4f1e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: Online.ConnectToServer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5680094347743173514, guid: 2be0e75557443443997d4338ab1f4f1e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5680094347743173514, guid: 2be0e75557443443997d4338ab1f4f1e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
