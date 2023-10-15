@@ -41,7 +41,7 @@ public class CharacterStats : MonoBehaviour
     {
         GameObject hud = GameObject.Find("HUD");
         matchData = hud.GetComponent<MatchData>();
-        animator = GetComponent<Animator>();
+        animator = GetComponent<ComponentsManager>().animator;
         matchData.updatePlayersData(this);
 
         StartCoroutine(chargeFAM());

@@ -1,41 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class isGrounded : MonoBehaviour
 {
-
-    private GameObject character;
+    public ComponentsManager componentsManager;
     private CharacterStats stats;
 
-    void Start()
-    {
-        character = transform.parent.gameObject;
-        stats = character.GetComponent<ComponentsManager>().characterStats;
-    }
-
+    void Start() => stats = componentsManager.characterStats;
     private void OnTriggerEnter(Collider other)
     {
-        string tag = other.gameObject.tag;
-
-
-        if (tag == "Stage" || tag == "Platform")
+        if (other.CompareTag("Stage") || other.CompareTag("Platform"))
         {
             stats.setIsGrounded(true);
             stats.jumpsUsed = 0;
-
         }
-
     }
 
     private void OnTriggerExit(Collider other)
     {
-        string tag = other.gameObject.tag;
-
-        if (tag == "Stage" || tag == "Platform")
-        {
+        if (other.CompareTag("Stage") || other.CompareTag("Platform"))
             stats.setIsGrounded(false);
-        }
-
     }
 }

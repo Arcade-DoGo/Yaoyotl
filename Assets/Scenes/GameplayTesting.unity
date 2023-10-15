@@ -4562,8 +4562,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f63979cd361bea045a8dab823db65a74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 65380223981366245, guid: a610cf3ab02b49549945e3eab9f1cbdf, type: 3}
-  playerPrefabOffline: {fileID: 5555193175087133243, guid: 0d87b414db429d34987222fce9dcc8e5, type: 3}
+  playerPrefabs:
+  - {fileID: 3708038572948501839, guid: 2c31ba1d41e48714d88b52671c948b6f, type: 3}
+  playerPrefabOffline: {fileID: 3097131919947435088, guid: b20b747682440984fbc26425ef313f0c, type: 3}
   playersToSpawn: 2
   spawnPosition:
   - {fileID: 1177555334}

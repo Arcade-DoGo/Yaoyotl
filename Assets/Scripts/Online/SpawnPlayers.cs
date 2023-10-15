@@ -8,17 +8,17 @@ namespace Online
     public class SpawnPlayers : MonoBehaviourPunCallbacks
     {
         public static SpawnPlayers instance;
-        [Header ("Player prefabs")]
-        public GameObject playerPrefab;
+        [Header ("Prefabs")]
+        public GameObject[] playerPrefabs;
         public GameObject playerPrefabOffline;
         [Min(1)] public int playersToSpawn = 2;
         public Transform[] spawnPosition;
         [Header ("UI References")]
         public TextMeshProUGUI startText;
 
-        private void Awake()
+        private void Awake() => instance = this;
+        private void Start() 
         {
-            instance = this;
             if(PhotonNetwork.IsConnected) SpawnPlayerOnline();
             else 
             {
@@ -30,7 +30,8 @@ namespace Online
 
         public void SpawnPlayerOnline()
         {
-            GameObject player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPosition[PhotonNetwork.IsMasterClient ? 0 : 1].position, Quaternion.identity);
+            string prefabName = playerPrefabs[(int) PhotonNetwork.LocalPlayer.CustomProperties[ConnectToServer.PLAYERCHARACTER]].name;
+            GameObject player = PhotonNetwork.Instantiate(prefabName, spawnPosition[PhotonNetwork.IsMasterClient ? 0 : 1].position, Quaternion.identity);
             if(GameManager.usingEditor) Debug.Log("Spawned " + player.GetComponent<ComponentsManager>().characterStats.playerName + " in " + spawnPosition[GameManager.players.Count].position);
             player.GetComponent<ComponentsManager>().inputManagement.enabled = false;
         }
