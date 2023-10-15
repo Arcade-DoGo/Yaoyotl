@@ -44,7 +44,7 @@ public class CharacterStats : MonoBehaviour
     void Start()
     {
         animator = GetComponent<ComponentsManager>().animator;
-        MatchData.instance.updatePlayersData(this);
+        MatchData.instance.UpdatePlayersData(this);
 
         StartCoroutine(chargeFAM());
     }
@@ -55,12 +55,9 @@ public class CharacterStats : MonoBehaviour
         increaseFAM(damage / 5f);
         print("FAM Damage Increase--------------------");
         if(PhotonNetwork.IsConnected)
-        {
-            if(photonView.IsMine)
-                photonView.RPC("SyncPlayerData", RpcTarget.All, ConnectToServer.DAMAGE, damage);
-        }
+            if(photonView.IsMine) SyncPlayerData(ConnectToServer.DAMAGE, damage);
         else
-            MatchData.instance.updatePlayersData(this);
+            MatchData.instance.UpdatePlayersData(this);
     }
 
     public void loseStock()
@@ -69,17 +66,14 @@ public class CharacterStats : MonoBehaviour
         damage = 0;
         FAM /= 2f;
         if(PhotonNetwork.IsConnected)
-        {
-            if(photonView.IsMine)
-                photonView.RPC("SyncPlayerData", RpcTarget.All, ConnectToServer.STOCKS, stocks);
-        }
+            if(photonView.IsMine) SyncPlayerData(ConnectToServer.STOCKS, stocks);
         else
-            MatchData.instance.updatePlayersData(this);
+            MatchData.instance.UpdatePlayersData(this);
     }
     
-    [PunRPC]
-    private void SyncPlayerData(string property, int value)
+    private void SyncPlayerData(string property, float value)
     {
+        print(playerName + " set " + property + " to " + value);
         if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(property)) PhotonNetwork.LocalPlayer.CustomProperties.Add(property, value);
         PhotonNetwork.LocalPlayer.CustomProperties[property] = value;
         PhotonNetwork.SetPlayerCustomProperties(new Hashtable() { { property, value } });
