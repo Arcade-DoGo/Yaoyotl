@@ -82,6 +82,58 @@ MonoBehaviour:
     m_Localized: Create Room
     m_Metadata:
       m_Items: []
+  - m_Id: 2115054609620992
+    m_Localized: Something has corrupted the gods. What was once peace is now a war
+      between different cultures and deities. Yaoyotl is a game where pre-Hispanic
+      deities fight among themselves. To win you must remove your opponent from the
+      stage.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2115770954801152
+    m_Localized: "God of the sun, war and war tactics, patron of the Aztec capital
+      Tenochtitl\xE1n and symbol of warriors and rulers."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2115904769875968
+    m_Localized: "The feathered serpent is the creator god in the Mayan culture.
+      The god is especially associated with Chichen Itz\xE1, where a large temple
+      was built in his honor."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2116097871437824
+    m_Localized: "\u201CCreator of the Earth.\u201D He was a god capable of predicting
+      the future and controlling the movements of the earth, venerated by the Inca
+      Empire in the Andes."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2133485107011584
+    m_Localized: Move
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2133618414575616
+    m_Localized: "Attach\xBFk"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2133737507643392
+    m_Localized: Summon God
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2136512601776128
+    m_Localized: created by arcade dogo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2136642084134912
+    m_Localized: programming
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2136779791523840
+    m_Localized: Art
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2136849924481024
+    m_Localized: Music and sound
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

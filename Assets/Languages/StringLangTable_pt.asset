@@ -82,6 +82,57 @@ MonoBehaviour:
     m_Localized: Criar jogo
     m_Metadata:
       m_Items: []
+  - m_Id: 2115054609620992
+    m_Localized: "Algo corrompeu os deuses. O que antes era paz \xE9 agora uma guerra
+      entre diferentes culturas e divindades. Yaoyotl \xE9 um jogo onde divindades
+      pr\xE9-hisp\xE2nicas lutam entre si. Para vencer voc\xEA deve remover seu oponente
+      do palco."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2115770954801152
+    m_Localized: "Deus do sol, da guerra e das t\xE1ticas de guerra, patrono da capital
+      asteca Tenochtitl\xE1n e s\xEDmbolo de guerreiros e governantes."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2115904769875968
+    m_Localized: "A serpente emplumada \xE9 o deus criador da cultura maia. O deus
+      est\xE1 especialmente associado a Chichen Itz\xE1, onde um grande templo foi
+      constru\xEDdo em sua homenagem."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2116097871437824
+    m_Localized: "\u201CCriador da Terra.\u201D Era um deus capaz de prever o futuro
+      e controlar os movimentos da terra, venerado pelo Imp\xE9rio Inca nos Andes"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2133485107011584
+    m_Localized: Mover
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2133618414575616
+    m_Localized: Ataque
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2133737507643392
+    m_Localized: invocar deus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2136512601776128
+    m_Localized: criado por arcade dogo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2136642084134912
+    m_Localized: "programa\xE7\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2136779791523840
+    m_Localized: arte
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2136849924481024
+    m_Localized: "m\xFAsica e som"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
