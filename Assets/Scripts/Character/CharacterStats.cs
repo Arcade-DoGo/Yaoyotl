@@ -110,11 +110,7 @@ public class CharacterStats : MonoBehaviour
             setCanFAM(FAM >= fullFAM); // is meter full?
         }
 
-<<<<<<< HEAD
         // print(FAM + "/100");
-=======
-        print(FAM + "/100");
->>>>>>> 195bfe565c74840422b7e734c161d00eb68844e2
     }
 
     public void setIsGrounded(bool value)
