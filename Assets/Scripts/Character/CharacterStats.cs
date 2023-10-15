@@ -189,5 +189,10 @@ public class CharacterStats : MonoBehaviour
         animator.SetBool("FinalAttacking", value);
     }
 
+    public void setIsFalling(bool value)
+    {
+        animator.SetBool("isFalling", value);
+    }
+
     private void OnDestroy() => GameManager.players.Remove(this);
 }

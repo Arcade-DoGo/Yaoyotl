@@ -18,6 +18,8 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
+        stats.setIsFalling(rb.velocity.y < 0);
+
         if (stats.inHitStun)
             return;
 
