@@ -40,6 +40,11 @@ namespace Online
         {
             GameObject player = Instantiate(playerPrefabOffline, spawnPosition[index].position, Quaternion.Euler(new Vector3(0, 135, 0)));
             CharacterStats stats = player.GetComponent<ComponentsManager>().characterStats;
+            if(index != 0)
+            {
+                player.GetComponent<CharacterMovement>().enabled = false;
+                player.GetComponent<Attack>().enabled = false;
+            }
             stats.playerNumber = index;
             stats.playerName = "Player " + (index + 1);
             GameManager.players.Add(stats);

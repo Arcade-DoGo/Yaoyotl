@@ -29,18 +29,21 @@ namespace Online
             UpdatePlayerList();
             SetReady(false);
             
-            // Set room custom properties
-            if(PhotonNetwork.IsMasterClient)
+            if(PhotonNetwork.IsConnected)
             {
-                roomCustomProperties = new() { { "Stage", 0 } };
-                PhotonNetwork.CurrentRoom.SetCustomProperties(roomCustomProperties);
-            }
+                // Set room custom properties
+                if(PhotonNetwork.IsMasterClient)
+                {
+                    roomCustomProperties = new() { { "Stage", 0 } };
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(roomCustomProperties);
+                }
 
-            if(PhotonNetwork.CurrentRoom.PlayerCount > 1 && player2Selection)
-            {
-                player2Selection.SetActive(true);
-                player2Selection.GetComponent<MultipleUISelection>().
-                    OnlyShowElement(GetOtherCustomProperty(PhotonNetwork.PlayerListOthers[0]));
+                if(PhotonNetwork.CurrentRoom.PlayerCount > 1 && player2Selection)
+                {
+                    player2Selection.SetActive(true);
+                    player2Selection.GetComponent<MultipleUISelection>().
+                        OnlyShowElement(GetOtherCustomProperty(PhotonNetwork.PlayerListOthers[0]));
+                }
             }
         }
 

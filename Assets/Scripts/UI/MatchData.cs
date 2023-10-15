@@ -16,15 +16,6 @@ public class MatchData : MonoBehaviour
     private int seconds;
 
     private void Awake() => instance = this;
-    void Start()
-    {
-        minutes = 3;
-        seconds = 0;
-        string timerText = minutes + ":" + (seconds <= 9 ? "0" + seconds : seconds);
-        timer.SetText(timerText);
-
-    }
-
     public void updatePlayersData(CharacterStats stats)
     {
         int playerIndex = GameManager.players.IndexOf(stats);
@@ -80,10 +71,11 @@ public class MatchData : MonoBehaviour
     public void StartTimer() => StartCoroutine(updateTimer());
     private IEnumerator updateTimer()
     {
+        minutes = 3;
+        seconds = 0;
+        string timerText;
         while (minutes > 0 || seconds > 0)
         {
-            yield return new WaitForSeconds(1f);
-
             seconds--;
             if (seconds < 0)
             {
@@ -91,9 +83,9 @@ public class MatchData : MonoBehaviour
                 minutes--;
             }
 
-            string timerText = minutes + ":" + (seconds <= 9 ? "0" + seconds : seconds);
-
+            timerText = minutes + ":" + (seconds <= 9 ? "0" + seconds : seconds);
             timer.SetText(timerText);
+            yield return new WaitForSeconds(1f);
         }
 
         // Game Over: No winner
