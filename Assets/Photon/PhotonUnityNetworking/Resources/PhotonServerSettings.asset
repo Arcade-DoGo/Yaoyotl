@@ -41,6 +41,8 @@ MonoBehaviour:
   - RespawnSpaceship
   - SetCharacter
   - UpdatePlayersDataRPC
+  - UpdatePlayerDataRPC
+  - SyncPlayerData
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

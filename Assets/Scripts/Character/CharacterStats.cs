@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using Photon.Pun;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Photon.Realtime;
 using UnityEngine;
+using Online;
 
 public class CharacterStats : MonoBehaviour
 {
@@ -24,25 +27,24 @@ public class CharacterStats : MonoBehaviour
     private float fullFAM = 100f;
     private int secondsTillFAM = 150; // 2.5 minutes
 
-    private MatchData matchData;
     private Animator animator;
+    private PhotonView photonView;
 
     private void Awake()
     {
         if (PhotonNetwork.IsConnected)
         {
-            playerName = GetComponent<ComponentsManager>().photonView.Owner.NickName;
-            playerNumber = GetComponent<ComponentsManager>().photonView.Owner.ActorNumber;
+            photonView = GetComponent<ComponentsManager>().photonView;
+            playerName = photonView.Owner.NickName;
+            playerNumber = photonView.Owner.ActorNumber;
             GameManager.RegisterPlayer(this);
             if (GameManager.usingEditor) Debug.Log("Added " + playerName + " in " + GameManager.players.Count);
         }
     }
     void Start()
     {
-        GameObject hud = GameObject.Find("HUD");
-        matchData = hud.GetComponent<MatchData>();
         animator = GetComponent<ComponentsManager>().animator;
-        matchData.updatePlayersData(this);
+        MatchData.instance.updatePlayersData(this);
 
         StartCoroutine(chargeFAM());
     }
@@ -52,7 +54,13 @@ public class CharacterStats : MonoBehaviour
         this.damage += damage;
         increaseFAM(damage / 5f);
         print("FAM Damage Increase--------------------");
-        matchData.updatePlayersData(this);
+        if(PhotonNetwork.IsConnected)
+        {
+            if(photonView.IsMine)
+                photonView.RPC("SyncPlayerData", RpcTarget.All, ConnectToServer.DAMAGE, damage);
+        }
+        else
+            MatchData.instance.updatePlayersData(this);
     }
 
     public void loseStock()
@@ -60,7 +68,21 @@ public class CharacterStats : MonoBehaviour
         stocks--;
         damage = 0;
         FAM /= 2f;
-        matchData.updatePlayersData(this);
+        if(PhotonNetwork.IsConnected)
+        {
+            if(photonView.IsMine)
+                photonView.RPC("SyncPlayerData", RpcTarget.All, ConnectToServer.STOCKS, stocks);
+        }
+        else
+            MatchData.instance.updatePlayersData(this);
+    }
+    
+    [PunRPC]
+    private void SyncPlayerData(string property, int value)
+    {
+        if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(property)) PhotonNetwork.LocalPlayer.CustomProperties.Add(property, value);
+        PhotonNetwork.LocalPlayer.CustomProperties[property] = value;
+        PhotonNetwork.SetPlayerCustomProperties(new Hashtable() { { property, value } });
     }
 
     public void resetFAM()

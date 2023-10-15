@@ -115,6 +115,8 @@ namespace Online
                     }
                 }
             }
+            else if(changedProps.ContainsKey(ConnectToServer.STOCKS) || changedProps.ContainsKey(ConnectToServer.DAMAGE))
+                MatchData.instance.updatePlayersData(GameManager.players[targetPlayer.ActorNumber]);
         }
 
         private int GetOtherCustomProperty(Player _player) => (int) _player.CustomProperties[ConnectToServer.PLAYERCHARACTER];
