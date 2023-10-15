@@ -2508,7 +2508,7 @@ Animator:
   m_GameObject: {fileID: 3927132675433352896}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bbaa8669daff5aa4699266f8616f24dd, type: 2}
+  m_Controller: {fileID: 9100000, guid: 075f3a4ba4f0ab540a8464e0b01bda7a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2589,6 +2589,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: FinalAttacking
+  - Type: 4
+    SynchronizeType: 0
+    Name: isFalling
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
