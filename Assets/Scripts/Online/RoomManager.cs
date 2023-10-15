@@ -25,35 +25,39 @@ namespace Online
             player1ReadyText.text = "";
             player2ReadyText.text = "";
             player1ReadyButton.enabled = false;
-            player2Selection.SetActive(false);
-            CharacterSelection.instance.SetCharacter(0);
+            if(player2Selection) player2Selection.SetActive(false);
             UpdatePlayerList();
+            SetReady(false);
             
-            // Set room custom properties
-            if(PhotonNetwork.IsMasterClient)
+            if(PhotonNetwork.IsConnected)
             {
-                roomCustomProperties = new() { { "Stage", 0 } };
-                PhotonNetwork.CurrentRoom.SetCustomProperties(roomCustomProperties);
-            }
+                // Set room custom properties
+                if(PhotonNetwork.IsMasterClient)
+                {
+                    roomCustomProperties = new() { { "Stage", 0 } };
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(roomCustomProperties);
+                }
 
-            if(PhotonNetwork.CurrentRoom.PlayerCount > 1)
-            {
-                player2Selection.SetActive(true);
-                player2Selection.GetComponent<MultipleUISelection>().OnlyShowElement(GetOtherCustomProperty(PhotonNetwork.PlayerListOthers[0]));
+                if(PhotonNetwork.CurrentRoom.PlayerCount > 1 && player2Selection)
+                {
+                    player2Selection.SetActive(true);
+                    player2Selection.GetComponent<MultipleUISelection>().
+                        OnlyShowElement(GetOtherCustomProperty(PhotonNetwork.PlayerListOthers[0]));
+                }
             }
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             ConnectToServer.instance.SetLoadingText(newPlayer.NickName + " joined!");
-            player2Selection.SetActive(true);
+            if(player2Selection) player2Selection.SetActive(true);
             UpdatePlayerList();
         }
 
         public override void OnPlayerLeftRoom(Player newPlayer) 
         {
             ConnectToServer.instance.SetLoadingText(newPlayer.NickName + " left");
-            player2Selection.SetActive(false);
+            if(player2Selection) player2Selection.SetActive(false);
             UpdatePlayerList();
         }
 
@@ -74,31 +78,48 @@ namespace Online
         public void Ready() 
         {
             player1ReadyText.text = "READY!";
-            if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(ConnectToServer.READY)) PhotonNetwork.LocalPlayer.CustomProperties.Add(ConnectToServer.READY, true);
-            PhotonNetwork.LocalPlayer.CustomProperties[ConnectToServer.READY] = true;
-            PhotonNetwork.SetPlayerCustomProperties(new Hashtable() { { ConnectToServer.READY, true } });
+            SetReady(true);
+        }
+
+        private void SetReady(bool value)
+        {
+            if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(ConnectToServer.READY)) PhotonNetwork.LocalPlayer.CustomProperties.Add(ConnectToServer.READY, value);
+            PhotonNetwork.LocalPlayer.CustomProperties[ConnectToServer.READY] = value;
+            PhotonNetwork.SetPlayerCustomProperties(new Hashtable() { { ConnectToServer.READY, value } });
         }
 
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps) 
-        { 
-            if(targetPlayer != PhotonNetwork.LocalPlayer)
+        {
+            if(changedProps.ContainsKey(ConnectToServer.PLAYERCHARACTER))
             {
-                if(changedProps.ContainsKey(ConnectToServer.PLAYERCHARACTER)) 
-                    player2Selection.GetComponent<MultipleUISelection>().OnlyShowElement(GetOtherCustomProperty(targetPlayer)); 
-                else if(changedProps.ContainsKey(ConnectToServer.READY))
-                    player2ReadyText.text = "READY!";
+                if(targetPlayer != PhotonNetwork.LocalPlayer && player2Selection) 
+                    player2Selection.GetComponent<MultipleUISelection>()
+                        .OnlyShowElement(GetOtherCustomProperty(targetPlayer));
             }
-            bool startGame = true;
-            foreach (Player player in PhotonNetwork.PlayerList) if(!player.CustomProperties.ContainsKey(ConnectToServer.READY)) startGame = false;
-            if(startGame)
+            else if(changedProps.ContainsKey(ConnectToServer.READY))
             {
-                ConnectToServer.instance.SetLoadingText("Starting match...");
-                if(PhotonNetwork.IsMasterClient) StartCoroutine(LoadGameScene());
+                if((bool) changedProps[ConnectToServer.READY] == true)
+                {
+                    if(targetPlayer != PhotonNetwork.LocalPlayer) player2ReadyText.text = "READY!";
+                    else if(PhotonNetwork.PlayerListOthers[0].CustomProperties.ContainsKey(ConnectToServer.READY))
+                    {
+                        if((bool) PhotonNetwork.PlayerListOthers[0].CustomProperties[ConnectToServer.READY] == true)
+                        {
+                            ConnectToServer.instance.SetLoadingText("Starting match...");
+                            if(PhotonNetwork.IsMasterClient) StartCoroutine(LoadGameScene());
+                        }
+                        else
+                        {
+                            ConnectToServer.instance.SetLoadingText("Waiting for opponent...");
+                        }
+                    }
+                }
             }
+            else if(changedProps.ContainsKey(ConnectToServer.STOCKS) || changedProps.ContainsKey(ConnectToServer.DAMAGE))
+                MatchData.instance.updatePlayersData(GameManager.players[targetPlayer.ActorNumber]);
         }
 
         private int GetOtherCustomProperty(Player _player) => (int) _player.CustomProperties[ConnectToServer.PLAYERCHARACTER];
-
         private IEnumerator LoadGameScene()
         {
             yield return new WaitForSeconds(1f);

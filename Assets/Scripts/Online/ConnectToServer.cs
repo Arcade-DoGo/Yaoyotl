@@ -38,6 +38,8 @@ namespace Online
 
         [Header ("RPC Names")]
         public static string PLAYERCHARACTER = "PlayerCharacter";
+        public static string STOCKS = "Stocks";
+        public static string DAMAGE = "Damage";
         public static string READY = "Ready";
 
         private void Start()

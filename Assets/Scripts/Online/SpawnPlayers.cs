@@ -7,26 +7,31 @@ namespace Online
 {
     public class SpawnPlayers : MonoBehaviourPunCallbacks
     {
-        [Header ("Player prefabs")]
-        public GameObject playerPrefab;
+        public static SpawnPlayers instance;
+        [Header ("Prefabs")]
+        public GameObject[] playerPrefabs;
         public GameObject playerPrefabOffline;
         [Min(1)] public int playersToSpawn = 2;
         public Transform[] spawnPosition;
         [Header ("UI References")]
         public TextMeshProUGUI startText;
 
-        private void Awake()
+        private void Awake() => instance = this;
+        private void Start() 
         {
             if(PhotonNetwork.IsConnected) SpawnPlayerOnline();
-            else for (int i = 0; i < playersToSpawn; i++) SpawnPlayerOffline(i);
+            else 
+            {
+                for (int i = 0; i < playersToSpawn; i++) SpawnPlayerOffline(i);
+                StartGame();
+            }
             CheckForPunchBags();
         }
 
-        private void Start() => StartCoroutine(StartGame());
-
         public void SpawnPlayerOnline()
         {
-            GameObject player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPosition[PhotonNetwork.IsMasterClient ? 0 : 1].position, Quaternion.identity);
+            string prefabName = playerPrefabs[(int) PhotonNetwork.LocalPlayer.CustomProperties[ConnectToServer.PLAYERCHARACTER]].name;
+            GameObject player = PhotonNetwork.Instantiate(prefabName, spawnPosition[PhotonNetwork.IsMasterClient ? 0 : 1].position, Quaternion.identity);
             if(GameManager.usingEditor) Debug.Log("Spawned " + player.GetComponent<ComponentsManager>().characterStats.playerName + " in " + spawnPosition[GameManager.players.Count].position);
             player.GetComponent<ComponentsManager>().inputManagement.enabled = false;
         }
@@ -35,6 +40,11 @@ namespace Online
         {
             GameObject player = Instantiate(playerPrefabOffline, spawnPosition[index].position, Quaternion.Euler(new Vector3(0, 135, 0)));
             CharacterStats stats = player.GetComponent<ComponentsManager>().characterStats;
+            if(index != 0)
+            {
+                player.GetComponent<CharacterMovement>().enabled = false;
+                player.GetComponent<Attack>().enabled = false;
+            }
             stats.playerNumber = index;
             stats.playerName = "Player " + (index + 1);
             GameManager.players.Add(stats);
@@ -52,7 +62,8 @@ namespace Online
             }
         }
 
-        private IEnumerator StartGame()
+        public void StartGame() => StartCoroutine(StartGameRoutine());
+        private IEnumerator StartGameRoutine()
         {
             if(PhotonNetwork.IsConnected)
             {

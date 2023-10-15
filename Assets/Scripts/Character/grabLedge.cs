@@ -4,17 +4,15 @@ using UnityEngine;
 public class grabLedge : MonoBehaviour
 {
     public float GET_UP_SPEED;
+    public GameObject character;
 
-    private GameObject character;
     private Rigidbody rb;
     private CharacterStats stats;
     private InputManagement inputManagement;
     private float getUpProgress = 0.0f;
 
-    // Start is called before the first frame update
     void Start()
     {
-        character = transform.parent.gameObject;
         rb = character.GetComponent<ComponentsManager>().rigidbody;
         stats = character.GetComponent<ComponentsManager>().characterStats;
         inputManagement = character.GetComponent<ComponentsManager>().inputManagement;

@@ -1,3 +1,4 @@
+using System;
 using Photon.Pun;
 using UnityEngine;
 
@@ -8,10 +9,10 @@ public class InputManagement : MonoBehaviour
     public FixedJoystick joystick;
     public GameObject mobileInputCanvas, jumpTapButtons;
     #region InputVariables
-    public float horizontal;
-    public bool mobileDevice, jumpTap,
-        jumpInput, jumpRelease, jumpHold, crouchInput, crouchHold, 
-        attackInput, attackRelease, finalAttackInput;
+    [NonSerialized] public float horizontal;
+    [NonSerialized] public bool mobileDevice, jumpTap,
+                jumpInput, jumpRelease, jumpHold, crouchInput, crouchHold, 
+                attackInput, attackRelease, finalAttackInput;
     private float joystickDownInput, joystickUpInput;
     private bool _jumpPressUI, _jumpReleaseUI, _jumpHoldUI, _crouchPressUI, _crouchHoldUI, 
                 _attackInputUI, _attackReleaseUI, _finalAttackInputUI;
