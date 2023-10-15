@@ -101,16 +101,17 @@ namespace Online
                 if((bool) changedProps[ConnectToServer.READY] == true)
                 {
                     if(targetPlayer != PhotonNetwork.LocalPlayer) player2ReadyText.text = "READY!";
-                    bool startGame = true;
-                    foreach (Player player in PhotonNetwork.PlayerList) 
-                        if(!player.CustomProperties.ContainsKey(ConnectToServer.READY)
-                        || (bool) changedProps[ConnectToServer.READY] == false)
-                            startGame = false;
-
-                    if(startGame)
+                    else if(PhotonNetwork.PlayerListOthers[0].CustomProperties.ContainsKey(ConnectToServer.READY))
                     {
-                        ConnectToServer.instance.SetLoadingText("Starting match...");
-                        if(PhotonNetwork.IsMasterClient) StartCoroutine(LoadGameScene());
+                        if((bool) PhotonNetwork.PlayerListOthers[0].CustomProperties[ConnectToServer.READY] == true)
+                        {
+                            ConnectToServer.instance.SetLoadingText("Starting match...");
+                            if(PhotonNetwork.IsMasterClient) StartCoroutine(LoadGameScene());
+                        }
+                        else
+                        {
+                            ConnectToServer.instance.SetLoadingText("Waiting for opponent...");
+                        }
                     }
                 }
             }
