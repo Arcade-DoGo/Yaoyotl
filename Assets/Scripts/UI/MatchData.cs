@@ -12,22 +12,15 @@ public class MatchData : MonoBehaviour
     private int seconds;
 
     private void Awake() => instance = this;
-    public void updatePlayersData(CharacterStats stats)
+    public void UpdatePlayersData(CharacterStats stats)
     {
+        print("PROPERTIES UPDATE: " + stats.playerName + " " + stats.stocks + " " + stats.damage);
         int playerIndex = GameManager.players.IndexOf(stats);
-        stocks[playerIndex].SetText(stats.stocks + "");
-        playerDamages[playerIndex].SetText(stats.damage + "%");
+        stocks[playerIndex].text = stats.stocks + "";
+        playerDamages[playerIndex].text = stats.damage + "%";
     }
-
-    public void updatePlayersData(int playerNumber, int playerStocks, float playerDamage)
-    {
-        int playerIndex = GameManager.players.IndexOf(GameManager.players[playerNumber]);
-        stocks[playerIndex].SetText(playerStocks + "");
-        playerDamages[playerIndex].SetText(playerDamage + "%");
-    }
-
-    public void StartTimer() => StartCoroutine(updateTimer());
-    private IEnumerator updateTimer()
+    public void StartTimer() => StartCoroutine(UpdateTimer());
+    private IEnumerator UpdateTimer()
     {
         minutes = 3;
         seconds = 0;
@@ -42,7 +35,7 @@ public class MatchData : MonoBehaviour
             }
 
             timerText = minutes + ":" + (seconds <= 9 ? "0" + seconds : seconds);
-            timer.SetText(timerText);
+            timer.text = timerText;
             yield return new WaitForSeconds(1f);
         }
 

@@ -17,7 +17,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3708038572948501839, guid: 2c31ba1d41e48714d88b52671c948b6f, type: 3}
       propertyPath: m_Name
-      value: Huitzilopochtli Online
+      value: Huitzilopochtli Offline
       objectReference: {fileID: 0}
     - target: {fileID: 3708038572948502194, guid: 2c31ba1d41e48714d88b52671c948b6f, type: 3}
       propertyPath: m_RootOrder
@@ -63,6 +63,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6273223217872397014, guid: 2c31ba1d41e48714d88b52671c948b6f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: -4246479402191905792, guid: 00e14a872b5024f9e989cd86eaf8026f, type: 3}
     m_RemovedComponents:
     - {fileID: 2203872702540418952, guid: 2c31ba1d41e48714d88b52671c948b6f, type: 3}
     - {fileID: 1585587553793270416, guid: 2c31ba1d41e48714d88b52671c948b6f, type: 3}

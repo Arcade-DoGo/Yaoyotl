@@ -113,6 +113,7 @@ MonoBehaviour:
   characterStats: {fileID: 959538535103166620}
   rigidbody: {fileID: 959538535103166617}
   photonView: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &959538535103166622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,7 +174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb59130a1325947ab4bbaadffc0cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalAttack: {fileID: 0}
 --- !u!1 &205764999273806653
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,6 +543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c159d8aa50fd0a44b38ebe5d2ca5b63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  componentsManager: {fileID: 0}
 --- !u!1 &959538536194356094
 GameObject:
   m_ObjectHideFlags: 0
@@ -598,6 +599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GET_UP_SPEED: 3
+  character: {fileID: 0}
 --- !u!65 &959538536194356092
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2643,7 +2645,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: a66f8525c9c464f5ab81269192817a76, type: 3}
+  - {fileID: -6087771358165109452, guid: a66f8525c9c464f5ab81269192817a76, type: 3}
   - {fileID: -905690159841262435, guid: a66f8525c9c464f5ab81269192817a76, type: 3}
   - {fileID: -6087771358165109452, guid: a66f8525c9c464f5ab81269192817a76, type: 3}
   - {fileID: 5296192789350063370, guid: a66f8525c9c464f5ab81269192817a76, type: 3}

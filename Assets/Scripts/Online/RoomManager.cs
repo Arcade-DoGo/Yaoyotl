@@ -90,6 +90,7 @@ namespace Online
 
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps) 
         {
+            print("PlayerPropertiesUpdate!");
             if(changedProps.ContainsKey(ConnectToServer.PLAYERCHARACTER))
             {
                 if(targetPlayer != PhotonNetwork.LocalPlayer && player2Selection) 
@@ -115,8 +116,26 @@ namespace Online
                     }
                 }
             }
-            else if(changedProps.ContainsKey(ConnectToServer.STOCKS) || changedProps.ContainsKey(ConnectToServer.DAMAGE))
-                MatchData.instance.updatePlayersData(GameManager.players[targetPlayer.ActorNumber]);
+            else if(changedProps.ContainsKey(ConnectToServer.STOCKS))
+            {
+                if(targetPlayer != PhotonNetwork.LocalPlayer)
+                {
+                    CharacterStats stats = GameManager.players[PhotonNetwork.PlayerListOthers[0].ActorNumber];
+                    stats.stocks = (int) changedProps[ConnectToServer.STOCKS];
+                    print("PROPERTIES UPDATE ONLINE: " + stats.playerName + " " + stats.stocks + " " + stats.damage);
+                    MatchData.instance.UpdatePlayersData(stats);
+                }
+            }
+            else if(changedProps.ContainsKey(ConnectToServer.DAMAGE))
+            {
+                if(targetPlayer != PhotonNetwork.LocalPlayer)
+                {
+                    CharacterStats stats = GameManager.players[PhotonNetwork.PlayerListOthers[0].ActorNumber];
+                    stats.damage = (float) changedProps[ConnectToServer.DAMAGE];
+                    print("PROPERTIES UPDATE ONLINE: " + stats.playerName + " " + stats.stocks + " " + stats.damage);
+                    MatchData.instance.UpdatePlayersData(stats);
+                }
+            }
         }
 
         private int GetOtherCustomProperty(Player _player) => (int) _player.CustomProperties[ConnectToServer.PLAYERCHARACTER];
