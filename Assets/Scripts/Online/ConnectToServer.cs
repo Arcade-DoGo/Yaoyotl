@@ -46,10 +46,17 @@ namespace Online
         {
             instance = this;
             SetLoadingText("");
-            backButton.SetActive(false);
-            multipleUISelection.OnlyShowElement(0);
-            foreach (Button button in onlineModesButtons) button.interactable = false;
-            usernamePanel.SetActive(false);
+            if(PhotonNetwork.InRoom)
+            {
+                multipleUISelection.OnlyShowElement(3);
+            }
+            else
+            {
+                backButton.SetActive(false);
+                multipleUISelection.OnlyShowElement(0);
+                foreach (Button button in onlineModesButtons) button.interactable = false;
+                usernamePanel.SetActive(false);
+            }
         }
 
         public void Connect()

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using Photon.Pun;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
-using Photon.Realtime;
 using UnityEngine;
 using Online;
 
@@ -27,6 +26,7 @@ public class CharacterStats : MonoBehaviour
     private float fullFAM = 100f;
     private int secondsTillFAM = 150; // 2.5 minutes
 
+    private Rigidbody rb;
     private Animator animator;
     private PhotonView photonView;
 
@@ -43,40 +43,82 @@ public class CharacterStats : MonoBehaviour
     }
     void Start()
     {
+        rb = GetComponent<ComponentsManager>().rigidbody;
         animator = GetComponent<ComponentsManager>().animator;
         MatchData.instance.UpdatePlayersData(this);
 
         StartCoroutine(chargeFAM());
     }
 
-    public void addDamage(float damage)
+    public void addDamage(float _damage)
     {
-        this.damage += damage;
-        increaseFAM(damage / 5f);
-        print("FAM Damage Increase--------------------");
         if(PhotonNetwork.IsConnected)
-            if(photonView.IsMine) SyncPlayerData(ConnectToServer.DAMAGE, damage);
+        {
+            if(photonView.IsMine)
+            {
+                damage += _damage;
+                increaseFAM(damage / 5f);
+                SyncPlayerData();
+            }
+
+        }
         else
+        {
+            damage += _damage;
+            increaseFAM(damage / 5f);
             MatchData.instance.UpdatePlayersData(this);
+        }
     }
 
     public void loseStock()
     {
-        stocks--;
-        damage = 0;
-        FAM /= 2f;
         if(PhotonNetwork.IsConnected)
-            if(photonView.IsMine) SyncPlayerData(ConnectToServer.STOCKS, stocks);
+        {
+            if(photonView.IsMine)
+            {
+                stocks--;
+                damage = 0;
+                FAM /= 2f;
+                SyncPlayerData();
+            }
+        }
         else
+        {
+            stocks--;
+            damage = 0;
+            FAM /= 2f;
             MatchData.instance.UpdatePlayersData(this);
+            Respawn();
+        }
     }
+
     
-    private void SyncPlayerData(string property, float value)
+    private void SyncPlayerData()
     {
-        print(playerName + " set " + property + " to " + value);
-        if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(property)) PhotonNetwork.LocalPlayer.CustomProperties.Add(property, value);
-        PhotonNetwork.LocalPlayer.CustomProperties[property] = value;
-        PhotonNetwork.SetPlayerCustomProperties(new Hashtable() { { property, value } });
+        //Stocks
+        if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(ConnectToServer.STOCKS)) PhotonNetwork.LocalPlayer.CustomProperties.Add(ConnectToServer.STOCKS, stocks);
+        PhotonNetwork.LocalPlayer.CustomProperties[ConnectToServer.STOCKS] = stocks;
+        //Damage
+        if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(ConnectToServer.DAMAGE)) PhotonNetwork.LocalPlayer.CustomProperties.Add(ConnectToServer.DAMAGE, damage);
+        PhotonNetwork.LocalPlayer.CustomProperties[ConnectToServer.DAMAGE] = damage;
+        PhotonNetwork.SetPlayerCustomProperties(new Hashtable() { { ConnectToServer.STOCKS, stocks }, { ConnectToServer.DAMAGE, damage } });
+        MatchData.instance.UpdatePlayersData(this);
+        print("SYNC PLAYER DATA ");
+        Respawn();
+    }
+    public void Respawn() => StartCoroutine(RespawnRoutine());
+    private IEnumerator RespawnRoutine()
+    {
+        if (stocks > 0)
+        {
+            rb.velocity = Vector3.zero;
+            yield return new WaitForSeconds(0.5f);
+            inHitStun = false;
+            gameObject.transform.position = new Vector3(0.0f, 5.0f, 0.0f);
+            rb.velocity = Vector3.zero;
+        }
+        else // Game Over: Show winner
+            GameManager.instance.GameOver(GameManager.players.Find(player => player != this));
     }
 
     public void resetFAM()
@@ -110,64 +152,75 @@ public class CharacterStats : MonoBehaviour
     public void setIsGrounded(bool value)
     {
         isGrounded = value;
+        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
         animator.SetBool("isGrounded", value);
     }
 
     public void setOnLedge(bool value)
     {
         onLedge = value;
+        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
         animator.SetBool("onLedge", value);
     }
 
     public void setCanFastFall(bool value)
     {
         canFastFall = value;
+        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
         animator.SetBool("canFastFall", value);
     }
 
     public void setIsAttacking(bool value)
     {
         isAttacking = value;
+        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
         animator.SetBool("isAttacking", value);
     }
 
     public void setIsGettingUp(bool value)
     {
         isGettingUp = value;
+        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
         animator.SetBool("isGettingUp", value);
     }
 
     public void setInHitStun(bool value)
     {
         inHitStun = value;
+        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
         animator.SetBool("inHitStun", value);
     }
 
     public void setCanFAM(bool value)
     {
         canFAM = value;
+        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
         animator.SetBool("canFAM", value);
     }
 
     public void setMovement(float value)
     {
+        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
         animator.SetFloat("movement", value);
     }
 
     public void setIsDoubleJumping(bool value)
     {
         isDoubleJumping = value;
+        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
         animator.SetBool("isDoubleJumping", value);
     }
 
     public void setAttackDirection(string direction)
     {
         resetAttackDirections();
+        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
         animator.SetBool(direction, true);
     }
 
     void resetAttackDirections()
     {
+        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
         animator.SetBool("forward", false);
         animator.SetBool("up", false);
         animator.SetBool("down", false);
@@ -175,16 +228,19 @@ public class CharacterStats : MonoBehaviour
 
     public void setAttackStrength(bool strengthLevel)
     {
+        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
         animator.SetBool("isLightAttack", strengthLevel);
     }
 
     public void animateFinalAttack(bool value)
     {
+        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
         animator.SetBool("FinalAttacking", value);
     }
 
     public void setIsFalling(bool value)
     {
+        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
         animator.SetBool("isFalling", value);
     }
 

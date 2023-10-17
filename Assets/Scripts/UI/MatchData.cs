@@ -18,6 +18,7 @@ public class MatchData : MonoBehaviour
         int playerIndex = GameManager.players.IndexOf(stats);
         stocks[playerIndex].text = stats.stocks + "";
         playerDamages[playerIndex].text = stats.damage + "%";
+        if(stats.stocks == 0) GameManager.instance.GameOver(GameManager.players.Find(player => player != stats));
     }
     public void StartTimer() => StartCoroutine(UpdateTimer());
     private IEnumerator UpdateTimer()

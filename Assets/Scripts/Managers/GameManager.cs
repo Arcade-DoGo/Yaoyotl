@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Online;
 using Photon.Pun;
 using TMPro;
@@ -28,16 +29,34 @@ public class GameManager : MonoBehaviour
     {
         players.Add(player);
         if(PhotonNetwork.IsConnected && players.Count == PhotonNetwork.PlayerList.Length)
+        {
+            List<CharacterStats> _players = players.OrderBy(player => player.playerNumber).ToList();
+            players = _players;
             SpawnPlayers.instance.StartGame();
+        }
     }
+
     public static void EnablePlayers() { foreach (CharacterStats player in players) player.GetComponent<ComponentsManager>().inputManagement.enabled = true; }
     public void GameOver(CharacterStats winner = null)
     {
+        foreach (CharacterStats player in players)
+        {
+            player.GetComponent<CharacterMovement>().enabled = false;
+            player.GetComponent<Attack>().enabled = false;
+        }
         if (usingEditor) Debug.Log("Game over! " + (winner != null ? winner : ""));
-        if(gameOverPanel != null) gameOverPanel.SetActive(true);
+        if(gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+            RoomManager.instance.Init();
+        }
         if(player1Text != null) player1Text.text = players[0].playerName;
         if(player2Text != null) player2Text.text = players[1].playerName;
-        if(winner != null && winnerText != null) winnerText.text = (string.IsNullOrEmpty(winner.playerName) ? "Player" + winner.playerNumber : winner.playerName) + " won!";
+        if(winner != null && winnerText != null)
+        {
+            // players = new List<CharacterStats>(){winner};
+            winnerText.text = (string.IsNullOrEmpty(winner.playerName) ? "Player" + winner.playerNumber : winner.playerName) + " won!";
+        }
     }
     
     public static List<GameObject> FindPlayers()

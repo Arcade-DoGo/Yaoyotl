@@ -4482,6 +4482,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1801153415}
   - component: {fileID: 1801153416}
+  - component: {fileID: 1801153417}
   m_Layer: 0
   m_Name: OnlineManager
   m_TagString: Untagged
@@ -4526,6 +4527,24 @@ MonoBehaviour:
   - {fileID: 1177555334}
   - {fileID: 673084288}
   startText: {fileID: 1988098983}
+--- !u!114 &1801153417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801153414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac3a6515a10a6914a8925de4f6835b2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player1ReadyText: {fileID: 7531304248459695718}
+  player2ReadyText: {fileID: 7531304248459695717}
+  player1ReadyButton: {fileID: 7531304248459695719}
+  playerList: {fileID: 0}
+  player2Selection: {fileID: 0}
+  InitOnEnabled: 0
 --- !u!1001 &1817290594
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5097,10 +5116,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -5161,6 +5180,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2121572106}
     m_Modifications:
+    - target: {fileID: 7531304248756559983, guid: 679107b85c351974fb686fa2dcad01db, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1801153417}
+    - target: {fileID: 7531304248756559983, guid: 679107b85c351974fb686fa2dcad01db, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Ready
+      objectReference: {fileID: 0}
     - target: {fileID: 7531304248758195758, guid: 679107b85c351974fb686fa2dcad01db, type: 3}
       propertyPath: m_Name
       value: GameOverPanel
@@ -5253,5 +5280,39 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player2Name
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7531304248758195752, guid: 679107b85c351974fb686fa2dcad01db, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 679107b85c351974fb686fa2dcad01db, type: 3}
+--- !u!114 &7531304248459695717 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7531304249169898214, guid: 679107b85c351974fb686fa2dcad01db, type: 3}
+  m_PrefabInstance: {fileID: 7531304248459695716}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7531304248459695718 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7531304248138908114, guid: 679107b85c351974fb686fa2dcad01db, type: 3}
+  m_PrefabInstance: {fileID: 7531304248459695716}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7531304248459695719 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7531304248756559983, guid: 679107b85c351974fb686fa2dcad01db, type: 3}
+  m_PrefabInstance: {fileID: 7531304248459695716}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
