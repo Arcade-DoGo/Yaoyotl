@@ -4518,7 +4518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefabs:
-  - {fileID: 3708038572948501839, guid: 2c31ba1d41e48714d88b52671c948b6f, type: 3}
+  - {fileID: 3708038572948501839, guid: 7d89e3a5c0b8f024090d5cfe8d57f27a, type: 3}
   - {fileID: 3708038572948501839, guid: 97db6dcf47454ba43af8a4254bd91d69, type: 3}
   - {fileID: 3708038572948501839, guid: 2c86be97bed0ba2429cc4f3e2a3931aa, type: 3}
   playerPrefabOffline: {fileID: 3097131919947435088, guid: b20b747682440984fbc26425ef313f0c, type: 3}
