@@ -24,7 +24,7 @@ public class CharacterStats : MonoBehaviour
 
     private float FAM = 0f;
     private float fullFAM = 100f;
-    private int secondsTillFAM = 150; // 2.5 minutes
+    private int secondsTillFAM = 10; // 2.5 minutes
 
     private Rigidbody rb;
     private Animator animator;
