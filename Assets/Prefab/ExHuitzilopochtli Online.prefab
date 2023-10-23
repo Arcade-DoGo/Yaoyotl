@@ -4002,9 +4002,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae54cde3f8d484a498746fb5daa80686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpGround: {fileID: 0}
-  run: {fileID: 0}
---- !u!114 &7314570355099741791
+  jumpGround: {fileID: 5291903569373803747}
+  run: {fileID: 6935514797573088305}
+  heavyHit: {fileID: 6617126321560345985}
+  lightHit: {fileID: 5709267687471374482}
+--- !u!114 &4328712113745005590
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4062,7 +4064,7 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: FinalAttacking
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isFalling
   m_SynchronizeLayers:
   - SynchronizeType: 1
@@ -4405,6 +4407,26 @@ PrefabInstance:
 --- !u!4 &259520092848041672 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9194474549012284912, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+  m_PrefabInstance: {fileID: 8936080390439299896}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &5291903569373803747 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 3851645887991406555, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+  m_PrefabInstance: {fileID: 8936080390439299896}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &5709267687471374482 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 3690754266687802282, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+  m_PrefabInstance: {fileID: 8936080390439299896}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &6617126321560345985 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2870926640547509945, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+  m_PrefabInstance: {fileID: 8936080390439299896}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &6935514797573088305 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2034694866628824841, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
   m_PrefabInstance: {fileID: 8936080390439299896}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &7746640257016448156 stripped
