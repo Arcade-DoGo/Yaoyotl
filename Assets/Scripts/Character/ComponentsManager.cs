@@ -10,4 +10,5 @@ public class ComponentsManager : MonoBehaviour
     public new Rigidbody rigidbody;
     public PhotonView photonView;
     public Animator animator;
+    public CharacterAnimate charAnim;
 }

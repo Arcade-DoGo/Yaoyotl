@@ -124,7 +124,7 @@ public class CharacterStats : MonoBehaviour
     public void resetFAM()
     {
         FAM = 0f;
-        setCanFAM(false);
+        canFAM = false;
         StartCoroutine(chargeFAM());
     }
 
@@ -143,105 +143,10 @@ public class CharacterStats : MonoBehaviour
             yield return new WaitForSeconds(timeStep);
             increaseFAM(meterStep);
 
-            setCanFAM(FAM >= fullFAM); // is meter full?
+            canFAM = FAM >= fullFAM; // is meter full?
         }
 
         // print(FAM + "/100");
-    }
-
-    public void setIsGrounded(bool value)
-    {
-        isGrounded = value;
-        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
-        animator.SetBool("isGrounded", value);
-    }
-
-    public void setOnLedge(bool value)
-    {
-        onLedge = value;
-        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
-        animator.SetBool("onLedge", value);
-    }
-
-    public void setCanFastFall(bool value)
-    {
-        canFastFall = value;
-        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
-        animator.SetBool("canFastFall", value);
-    }
-
-    public void setIsAttacking(bool value)
-    {
-        isAttacking = value;
-        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
-        animator.SetBool("isAttacking", value);
-    }
-
-    public void setIsGettingUp(bool value)
-    {
-        isGettingUp = value;
-        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
-        animator.SetBool("isGettingUp", value);
-    }
-
-    public void setInHitStun(bool value)
-    {
-        inHitStun = value;
-        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
-        animator.SetBool("inHitStun", value);
-    }
-
-    public void setCanFAM(bool value)
-    {
-        canFAM = value;
-        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
-        animator.SetBool("canFAM", value);
-    }
-
-    public void setMovement(float value)
-    {
-        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
-        animator.SetFloat("movement", value);
-    }
-
-    public void setIsDoubleJumping(bool value)
-    {
-        isDoubleJumping = value;
-        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
-        animator.SetBool("isDoubleJumping", value);
-    }
-
-    public void setAttackDirection(string direction)
-    {
-        resetAttackDirections();
-        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
-        animator.SetBool(direction, true);
-    }
-
-    void resetAttackDirections()
-    {
-        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
-        animator.SetBool("forward", false);
-        animator.SetBool("up", false);
-        animator.SetBool("down", false);
-    }
-
-    public void setAttackStrength(bool strengthLevel)
-    {
-        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
-        animator.SetBool("isLightAttack", strengthLevel);
-    }
-
-    public void animateFinalAttack(bool value)
-    {
-        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
-        animator.SetBool("FinalAttacking", value);
-    }
-
-    public void setIsFalling(bool value)
-    {
-        if(animator == null) animator = GetComponent<ComponentsManager>().animator;
-        animator.SetBool("isFalling", value);
     }
 
     private void OnDestroy() => GameManager.players.Remove(this);

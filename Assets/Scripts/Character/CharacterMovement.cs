@@ -5,6 +5,7 @@ public class CharacterMovement : MonoBehaviour
     private Rigidbody rb;
     private CharacterStats stats;
     private InputManagement inputManagement;
+    private CharacterAnimate anim;
     private int jumpFramesCounter;
     private bool isJumpPressed;
 
@@ -13,18 +14,17 @@ public class CharacterMovement : MonoBehaviour
         rb = GetComponent<ComponentsManager>().rigidbody; // Reference to rigidbody
         stats = GetComponent<ComponentsManager>().characterStats; // Reference to stats
         inputManagement = GetComponent<ComponentsManager>().inputManagement; // Reference to inputs
+        anim = GetComponent<ComponentsManager>().charAnim; // Reference to animations
         rb.mass = stats.weight; // Sets character weight
     }
 
     void Update()
-    {
-        stats.setIsFalling(rb.velocity.y < 0);
-
-        if (stats.inHitStun)
+    {   
+        if (stats.inHitStun || stats.isGettingUp)
             return;
 
         if (stats.isDoubleJumping)
-            stats.setIsDoubleJumping(false);
+            stats.isDoubleJumping = false;
 
         move();
 
@@ -50,6 +50,7 @@ public class CharacterMovement : MonoBehaviour
     {
         // Set movement speed grounded or air
         float moveSpeed = stats.isGrounded ? stats.groundSpeed : stats.airSpeed;
+
         Vector3 movement = new(inputManagement.horizontal, 0.0f, 0.0f);
         rb.velocity = new Vector3(movement.x * moveSpeed, rb.velocity.y, 0.0f);
 
@@ -58,8 +59,6 @@ public class CharacterMovement : MonoBehaviour
         {
             flipCharacter();
         }
-
-        stats.setMovement(Mathf.Abs(inputManagement.horizontal));
     }
 
     void flipCharacter()
@@ -77,17 +76,19 @@ public class CharacterMovement : MonoBehaviour
 
         if (stats.jumpsUsed < stats.maxJumps)
         {
+            anim.playAnimation("Jump");
+
             if (!stats.isGrounded && !stats.onLedge) // Airborne
             {
                 // Remove ground jump if in the air (Jumps count as double jumps)
                 stats.jumpsUsed = stats.jumpsUsed <= 0 ? 1 : stats.jumpsUsed;
                 rb.velocity = Vector3.zero; // Reset speed before double jump (Not grounded jump)
 
-                stats.setIsDoubleJumping(true);
+                stats.isDoubleJumping = true;
             }
             rb.velocity = Vector3.up * jumpForce;
             gameObject.layer = LayerMask.NameToLayer("PlatformLayer"); // Prevents collision with platforms
-            stats.setCanFastFall(true);
+            stats.canFastFall = true;
             stats.jumpsUsed++;
         }
     }
@@ -101,6 +102,6 @@ public class CharacterMovement : MonoBehaviour
     void fastFall()
     {
         rb.velocity = Vector3.down * stats.fallForce;
-        stats.setCanFastFall(false);
+        stats.canFastFall = false;
     }
 }

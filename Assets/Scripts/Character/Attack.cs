@@ -6,29 +6,34 @@ public class Attack : MonoBehaviour
     //public GameObject normalAttack;
     private CharacterStats stats;
     private InputManagement inputManagement;
+    private CharacterAnimate anim;
     private int frameCounter;
     private int FRAMES_STRONG = 30;
+
+    private float lightEndLag = 0.3f;
+    private float strongEndLag = 0.7f;
+    private float finalEndLag = 1.2f;
 
     // Start is called before the first frame update
     void Start()
     {
         stats = GetComponent<ComponentsManager>().characterStats;
         inputManagement = GetComponent<ComponentsManager>().inputManagement;
+        anim = GetComponent<ComponentsManager>().charAnim;
         //normalAttack.SetActive(false);
-        stats.setIsAttacking(false);
+        stats.isAttacking = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (inputManagement.attackInput && !stats.isAttacking)
+        if (inputManagement.attackInput && !stats.isAttacking && !stats.onLedge)
         {
-            stats.setIsAttacking(true);
+            stats.isAttacking = true;
         }
 
         if (inputManagement.attackRelease && stats.isAttacking)
         {
-            stats.setAttackDirection(getAttackDirection());
             if (frameCounter < FRAMES_STRONG)
             {
                 StartCoroutine(regularAttack());
@@ -50,49 +55,50 @@ public class Attack : MonoBehaviour
 
     IEnumerator regularAttack()
     {
-        print("Regular Attack!");
-        stats.setAttackStrength(true);
-        //normalAttack.SetActive(true);
+        string attackName = "L" + getAttackDirection() + "Attack";
+        anim.playAnimation(attackName);
 
-        yield return new WaitForSeconds(0.5f); // Active Hitbox Duration
-        //normalAttack.SetActive(false);
-        stats.setIsAttacking(false);
+        yield return new WaitForSeconds(lightEndLag); // Active Hitbox Duration
+
+        stats.isAttacking = false;
         frameCounter = 0;
     }
 
     IEnumerator strongAttack()
     {
-        // Strong Attack
-        print("Strong Attack!");
-        stats.setAttackStrength(false);
-        yield return null;
-        stats.setIsAttacking(false);
+        string attackName = "S" + getAttackDirection() + "Attack";
+        anim.playAnimation(attackName);
+
+        yield return new WaitForSeconds(strongEndLag);
+
+        stats.isAttacking = false;
         frameCounter = 0;
     }
 
     IEnumerator finalAttack()
     {
         // Final Smash
-        print("Final Attack!");
-        stats.animateFinalAttack(true);
-        yield return null;
-        stats.setIsAttacking(false);
+        string attackName = "FinalAttack";
+        anim.playAnimation(attackName);
+
+        yield return new WaitForSeconds(finalEndLag);
+
+        stats.isAttacking = false;
         frameCounter = 0;
-        stats.animateFinalAttack(false);
         stats.resetFAM();
     }
 
     private string getAttackDirection()
     {
-        string direction = "forward";
+        string direction = "F"; // Forward
 
         if (inputManagement.jumpInput || inputManagement.jumpHold)
         {
-            direction = "up";
+            direction = "U"; // Up
         }
         else if (inputManagement.crouchInput || inputManagement.crouchHold)
         {
-            direction = "down";
+            direction = "D"; // Down
         }
 
         return direction;

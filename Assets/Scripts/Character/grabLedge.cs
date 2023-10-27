@@ -9,6 +9,7 @@ public class grabLedge : MonoBehaviour
     private Rigidbody rb;
     private CharacterStats stats;
     private InputManagement inputManagement;
+    private CharacterAnimate anim;
     private float getUpProgress = 0.0f;
 
     void Start()
@@ -16,19 +17,22 @@ public class grabLedge : MonoBehaviour
         rb = character.GetComponent<ComponentsManager>().rigidbody;
         stats = character.GetComponent<ComponentsManager>().characterStats;
         inputManagement = character.GetComponent<ComponentsManager>().inputManagement;
+        anim = character.GetComponent<ComponentsManager>().charAnim;
     }
 
     void OnTriggerEnter(Collider other)
     {
         string tag = other.gameObject.tag;
-        bool crouchInput = inputManagement.crouchInput; // Press Crouch (Down)
+        bool crouchInput = inputManagement.crouchHold; // Press Crouch (Down)
 
         if (tag == "Ledge" && !crouchInput) // Grab the Ledge
         {
+            anim.playAnimation("GrabLedge");
+
             rb.useGravity = false;
             rb.velocity = Vector3.zero;
             stats.jumpsUsed = 0;
-            stats.setOnLedge(true);
+            stats.onLedge = true;
         }
     }
 
@@ -39,7 +43,7 @@ public class grabLedge : MonoBehaviour
         if (tag == "Ledge")
         {
             rb.useGravity = true;
-            stats.setOnLedge(false);
+            stats.onLedge = false;
         }
     }
 
@@ -77,9 +81,11 @@ public class grabLedge : MonoBehaviour
 
     IEnumerator LedgeGetUpAnimation(GameObject ledge)
     {
-        stats.setIsGettingUp(true);
+        stats.isGettingUp = true;
         Vector3 initialPosition = character.transform.position;
         Vector3 targetPosition = ledge.transform.GetChild(0).gameObject.transform.position;
+
+        anim.playAnimation("RecoverFromLedge");
 
         while (getUpProgress < 1.0f)
         {
@@ -95,6 +101,6 @@ public class grabLedge : MonoBehaviour
         // Make sure the character reaches the destination
         character.transform.position = targetPosition;
         getUpProgress = 0f;
-        stats.setIsGettingUp(false);
+        stats.isGettingUp = false;
     }
 }

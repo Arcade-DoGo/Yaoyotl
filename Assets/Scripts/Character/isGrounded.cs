@@ -8,7 +8,7 @@ public class isGrounded : MonoBehaviour
     {
         if (other.CompareTag("Stage") || other.CompareTag("Platform"))
         {
-            componentsManager.characterStats.setIsGrounded(true);
+            componentsManager.characterStats.isGrounded = true;
             componentsManager.characterStats.jumpsUsed = 0;
         }
     }
@@ -16,6 +16,6 @@ public class isGrounded : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Stage") || other.CompareTag("Platform"))
-            componentsManager.characterStats.setIsGrounded(false);
+            componentsManager.characterStats.isGrounded = false;
     }
 }
