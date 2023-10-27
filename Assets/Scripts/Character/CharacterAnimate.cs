@@ -19,7 +19,9 @@ public class CharacterAnimate : MonoBehaviour
 
     private string animationState = "Idle";
     private string[] interruptable = { "Finished", "Fall" };
-    private string[] uninterruptable = { "GrabLedge", "RecoverFromLedge" };
+    private string[] uninterruptable = { "GrabLedge", "RecoverFromLedge",
+                                        "LDAttack", "LFAttack", "LUAttack",
+                                        "SDAttack", "SFAttack", "SUAttack" };
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +42,8 @@ public class CharacterAnimate : MonoBehaviour
 
         animator.SetFloat("movement", movement);
         if (isFalling && !stats.inHitStun) playAnimation("Fall");
-        if (reset){
+        if (reset)
+        {
             if (movement < 0.1f) playAnimation("Idle");
             else playAnimation("RunCycle");
         }
