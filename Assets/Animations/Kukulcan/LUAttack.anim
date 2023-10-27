@@ -41934,6 +41934,8 @@ AnimationClip:
   m_Events:
   - time: 0.83333397
     functionName: finishAnimation
+  - time: 0
+    functionName: playLightHit
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

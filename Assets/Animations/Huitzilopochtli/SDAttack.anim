@@ -60304,6 +60304,8 @@ AnimationClip:
   m_Events:
   - time: 0.83333397
     functionName: finishAnimation
+  - time: 0
+    functionName: playHeavyHit
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
