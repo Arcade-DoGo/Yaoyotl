@@ -1,6 +1,7 @@
 using System;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManagement : MonoBehaviour
 {
@@ -11,12 +12,26 @@ public class InputManagement : MonoBehaviour
     #region InputVariables
     [NonSerialized] public float horizontal;
     [NonSerialized] public bool mobileDevice, jumpTap,
-                jumpInput, jumpRelease, jumpHold, crouchInput, crouchHold, 
+                jumpInput, jumpRelease, jumpHold, 
+                crouchInput, crouchHold, 
                 attackInput, attackRelease, finalAttackInput;
     private float joystickDownInput, joystickUpInput;
-    private bool _jumpPressUI, _jumpReleaseUI, _jumpHoldUI, _crouchPressUI, _crouchHoldUI, 
+    private bool _jumpPressUI, _jumpReleaseUI, _jumpHoldUI, 
+                _crouchPressUI, _crouchHoldUI, 
                 _attackInputUI, _attackReleaseUI, _finalAttackInputUI;
     #endregion
+
+    private PlayerActions controls;
+    private InputAction jump;
+    void Awake() => controls = new PlayerActions();
+    private void OnEnable()
+    {
+        jump = controls.Gameplay.Jump;
+        jump.Enable();
+        jump.performed += cxt => jumpInput = true;
+        jump.canceled += cxt => jumpInput = false;
+    }
+    private void OnDisable() => jump.Disable();
 
     private void Start()
     {

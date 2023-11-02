@@ -155,6 +155,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
+    Android: com.DefaultCompany.Yaoyotl
     Standalone: com.DefaultCompany.Yaoyotl
   buildNumber:
     Standalone: 0
@@ -904,7 +905,7 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   cloudProjectId: 3c593860-65e7-44b5-b7ce-27a9b27f58b9
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []

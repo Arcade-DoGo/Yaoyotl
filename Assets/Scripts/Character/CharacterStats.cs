@@ -7,20 +7,29 @@ using Online;
 
 public class CharacterStats : MonoBehaviour
 {
+    [Header ("Player Status")]
     [NonSerialized] public bool onLedge, isGrounded, isDoubleJumping, canFastFall, isAttacking, isGettingUp, inHitStun, canFAM;
     [NonSerialized] public bool isFacingRight = true;
+    [Header ("Player Info")]
     public string playerName;
     public int playerNumber = 1;
+    [Header ("Player General data")]
     public float damage = 0.0f;
     public float weight = 1.0f;
+    public int stocks = 3;
+    [Header ("Player movement")]
     public float groundSpeed = 10.0f;
+    [Header ("Player jumping")]
     public float airSpeed = 7.5f;
-    public float jumpForce = 13.0f;
-    public float shortJumpForce = 10.0f;
+    [Tooltip("Value determining how fast the player will fall")]
+    public float fallMultiplier = 2.5f;
+    [Tooltip("Value determining how far will the long jump go")]
+    public float lowJumpMultiplier = 2f;
+    // public float jumpForce = 13.0f;
+    // public float shortJumpForce = 10.0f;
     public float fallForce = 10f;
     public int maxJumps = 2;
     public int jumpsUsed = 0;
-    public int stocks = 3;
 
     private float FAM = 0f;
     private float fullFAM = 100f;
