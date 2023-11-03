@@ -810,6 +810,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpGround: {fileID: 5291903569373803747}
   run: {fileID: 6935514797573088305}
+  heavyHit: {fileID: 0}
+  lightHit: {fileID: 0}
 --- !u!114 &7433983820543435536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -918,6 +920,14 @@ PrefabInstance:
     - target: {fileID: 5725989009692122506, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5725989009692122511, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+      propertyPath: fallMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5725989009692122511, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+      propertyPath: lowJumpMultiplier
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5725989009692122743, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
       propertyPath: m_Name

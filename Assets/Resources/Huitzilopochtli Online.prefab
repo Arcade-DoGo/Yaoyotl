@@ -1596,6 +1596,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpGround: {fileID: 5291903569373803747}
   run: {fileID: 6935514797573088305}
+  heavyHit: {fileID: 0}
+  lightHit: {fileID: 0}
 --- !u!4 &4513159611722881105 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 965f1450da7cd0e4aa267d7c80e45e10, type: 3}
@@ -1692,13 +1694,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5725989009692122511, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+      propertyPath: fallMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5725989009692122511, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+      propertyPath: lowJumpMultiplier
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5725989009692122741, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5725989009692122743, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
       propertyPath: m_Name
-      value: Huitzilopochtli_Online
+      value: Huitzilopochtli Online
       objectReference: {fileID: 0}
     - target: {fileID: 5725989010304592371, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
       propertyPath: m_Size.x

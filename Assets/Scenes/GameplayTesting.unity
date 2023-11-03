@@ -4524,7 +4524,7 @@ MonoBehaviour:
   - {fileID: 3708038572948501839, guid: 7d89e3a5c0b8f024090d5cfe8d57f27a, type: 3}
   - {fileID: 3708038572948501839, guid: 97db6dcf47454ba43af8a4254bd91d69, type: 3}
   - {fileID: 3708038572948501839, guid: 2c86be97bed0ba2429cc4f3e2a3931aa, type: 3}
-  playerPrefabOffline: {fileID: 3097131919947435088, guid: b20b747682440984fbc26425ef313f0c, type: 3}
+  playerPrefabOffline: {fileID: 3708038572948501839, guid: b4a89343feafb8d49bef83d4541f0cad, type: 3}
   playersToSpawn: 2
   spawnPosition:
   - {fileID: 1177555334}

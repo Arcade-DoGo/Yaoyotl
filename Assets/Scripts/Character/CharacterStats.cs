@@ -10,31 +10,40 @@ public class CharacterStats : MonoBehaviour
     [Header ("Player Status")]
     [NonSerialized] public bool onLedge, isGrounded, isDoubleJumping, canFastFall, isAttacking, isGettingUp, inHitStun, canFAM;
     [NonSerialized] public bool isFacingRight = true;
+
     [Header ("Player Info")]
     public string playerName;
     public int playerNumber = 1;
+
     [Header ("Player General data")]
     public float damage = 0.0f;
     public float weight = 1.0f;
     public int stocks = 3;
+
     [Header ("Player movement")]
     public float groundSpeed = 10.0f;
-    [Header ("Player jumping")]
-    public float airSpeed = 7.5f;
-    [Tooltip("Value determining how fast the player will fall")]
-    public float fallMultiplier = 2.5f;
-    [Tooltip("Value determining how far will the long jump go")]
-    public float lowJumpMultiplier = 2f;
-    // public float jumpForce = 13.0f;
-    // public float shortJumpForce = 10.0f;
-    public float fallForce = 10f;
-    public int maxJumps = 2;
-    public int jumpsUsed = 0;
 
+    [Header ("Player jumping")]
+    [Tooltip("Horizontal speed in the air")]
+    public float airSpeed = 7.5f;
+    [Tooltip("Falling speed of the player when free falling")]
+    public float fallMultiplier = 0.5f;
+    [Tooltip("Speed modifier for short jump")]
+    public float lowJumpMultiplier = 1.5f;
+    [Tooltip("Initial jump force")]
+    public float jumpForce = 13.0f;
+    [Tooltip("Fast fall force")]
+    public float fallForce = 10f;
+    [Tooltip("Max jumps that can do the player in total")]
+    public int maxJumps = 2;
+    [NonSerialized] public int jumpsUsed = 0;
+
+    [Header ("Private variables")]
     private float FAM = 0f;
     private float fullFAM = 100f;
     private int secondsTillFAM = 10; // 2.5 minutes
 
+    [Header ("Private components")]
     private Rigidbody rb;
     private Animator animator;
     private PhotonView photonView;

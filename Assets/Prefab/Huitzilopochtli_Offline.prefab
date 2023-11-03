@@ -1519,69 +1519,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 3708038572948501839}
---- !u!114 &6530402957088070222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3884959881741042411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 1
-    Name: isGrounded
-  - Type: 4
-    SynchronizeType: 1
-    Name: onLedge
-  - Type: 4
-    SynchronizeType: 1
-    Name: isAttacking
-  - Type: 4
-    SynchronizeType: 1
-    Name: isGettingUp
-  - Type: 4
-    SynchronizeType: 1
-    Name: inHitStun
-  - Type: 4
-    SynchronizeType: 1
-    Name: canFAM
-  - Type: 4
-    SynchronizeType: 1
-    Name: canFastFall
-  - Type: 1
-    SynchronizeType: 1
-    Name: movement
-  - Type: 4
-    SynchronizeType: 1
-    Name: forward
-  - Type: 4
-    SynchronizeType: 1
-    Name: up
-  - Type: 4
-    SynchronizeType: 1
-    Name: down
-  - Type: 4
-    SynchronizeType: 1
-    Name: isDoubleJumping
-  - Type: 4
-    SynchronizeType: 1
-    Name: isLightAttack
-  - Type: 4
-    SynchronizeType: 1
-    Name: FinalAttacking
-  - Type: 4
-    SynchronizeType: 1
-    Name: isFalling
-  m_SynchronizeLayers:
-  - SynchronizeType: 1
-    LayerIndex: 0
 --- !u!114 &6540474123740005459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1596,6 +1533,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpGround: {fileID: 5291903569373803747}
   run: {fileID: 6935514797573088305}
+  heavyHit: {fileID: 0}
+  lightHit: {fileID: 0}
 --- !u!4 &4513159611722881105 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 965f1450da7cd0e4aa267d7c80e45e10, type: 3}
@@ -1696,6 +1635,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5725989009692122511, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+      propertyPath: fallMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5725989009692122511, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+      propertyPath: lowJumpMultiplier
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5725989009692122741, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1764,6 +1711,10 @@ PrefabInstance:
       propertyPath: charAnim
       value: 
       objectReference: {fileID: 6169497798491087331}
+    - target: {fileID: 6851962408111577542, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+      propertyPath: photonView
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7104128584023663792, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
       propertyPath: sceneViewId
       value: 0
@@ -1775,11 +1726,11 @@ PrefabInstance:
     - target: {fileID: 7104128584023663792, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
       propertyPath: ObservedComponents.Array.data[1]
       value: 
-      objectReference: {fileID: 7746640257016448156}
+      objectReference: {fileID: 0}
     - target: {fileID: 7104128584023663792, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
       propertyPath: ObservedComponents.Array.data[2]
       value: 
-      objectReference: {fileID: 6530402957088070222}
+      objectReference: {fileID: 0}
     - target: {fileID: 7638798483710216616, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1788,6 +1739,9 @@ PrefabInstance:
     - {fileID: 7933198588543889030, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
     - {fileID: 1851437971510837551, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
     - {fileID: 1562273891130496799, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+    - {fileID: 7104128584023663792, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+    - {fileID: 7638798483710216616, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+    - {fileID: 1694142360528826276, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
 --- !u!4 &259520092848041672 stripped
 Transform:
@@ -1809,14 +1763,3 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 2034694866628824841, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
   m_PrefabInstance: {fileID: 8936080390439299896}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7746640257016448156 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1694142360528826276, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
-  m_PrefabInstance: {fileID: 8936080390439299896}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3708038572948501839}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
