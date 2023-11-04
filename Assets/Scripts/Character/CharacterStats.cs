@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using Photon.Pun;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine;
-using Online;
 
 public class CharacterStats : MonoBehaviour
 {
@@ -47,12 +45,15 @@ public class CharacterStats : MonoBehaviour
     private Rigidbody rb;
     private Animator animator;
     private PhotonView photonView;
+    private CharacterController controller;
+    private ComponentsManager cm;
 
     private void Awake()
     {
+        cm = GetComponent<ComponentsManager>();
         if (PhotonNetwork.IsConnected)
         {
-            photonView = GetComponent<ComponentsManager>().photonView;
+            photonView = cm.photonView;
             playerName = photonView.Owner.NickName;
             playerNumber = photonView.Owner.ActorNumber;
             GameManager.RegisterPlayer(this);
@@ -61,10 +62,10 @@ public class CharacterStats : MonoBehaviour
     }
     void Start()
     {
-        rb = GetComponent<ComponentsManager>().rigidbody;
-        animator = GetComponent<ComponentsManager>().animator;
+        controller = cm.characterController;
+        animator = cm.animator;
+        rb = cm.rigidbody;
         MatchData.instance.UpdatePlayersData(this);
-
         StartCoroutine(chargeFAM());
     }
 
@@ -76,7 +77,7 @@ public class CharacterStats : MonoBehaviour
             {
                 damage += _damage;
                 increaseFAM(damage / 5f);
-                SyncPlayerData();
+                controller.SyncPlayerData();
             }
 
         }
@@ -97,7 +98,7 @@ public class CharacterStats : MonoBehaviour
                 stocks--;
                 damage = 0;
                 FAM /= 2f;
-                SyncPlayerData();
+                controller.SyncPlayerData();
             }
         }
         else
@@ -106,37 +107,8 @@ public class CharacterStats : MonoBehaviour
             damage = 0;
             FAM /= 2f;
             MatchData.instance.UpdatePlayersData(this);
-            Respawn();
+            controller.Respawn();
         }
-    }
-
-    
-    private void SyncPlayerData()
-    {
-        //Stocks
-        if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(ConnectToServer.STOCKS)) PhotonNetwork.LocalPlayer.CustomProperties.Add(ConnectToServer.STOCKS, stocks);
-        PhotonNetwork.LocalPlayer.CustomProperties[ConnectToServer.STOCKS] = stocks;
-        //Damage
-        if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(ConnectToServer.DAMAGE)) PhotonNetwork.LocalPlayer.CustomProperties.Add(ConnectToServer.DAMAGE, damage);
-        PhotonNetwork.LocalPlayer.CustomProperties[ConnectToServer.DAMAGE] = damage;
-        PhotonNetwork.SetPlayerCustomProperties(new Hashtable() { { ConnectToServer.STOCKS, stocks }, { ConnectToServer.DAMAGE, damage } });
-        MatchData.instance.UpdatePlayersData(this);
-        print("SYNC PLAYER DATA ");
-        Respawn();
-    }
-    public void Respawn() => StartCoroutine(RespawnRoutine());
-    private IEnumerator RespawnRoutine()
-    {
-        if (stocks > 0)
-        {
-            rb.velocity = Vector3.zero;
-            yield return new WaitForSeconds(0.5f);
-            inHitStun = false;
-            gameObject.transform.position = new Vector3(0.0f, 5.0f, 0.0f);
-            rb.velocity = Vector3.zero;
-        }
-        else // Game Over: Show winner
-            GameManager.instance.GameOver(GameManager.players.Find(player => player != this));
     }
 
     public void resetFAM()
@@ -160,12 +132,8 @@ public class CharacterStats : MonoBehaviour
             float meterStep = timeStep * fullFAM / secondsTillFAM;
             yield return new WaitForSeconds(timeStep);
             increaseFAM(meterStep);
-
             canFAM = FAM >= fullFAM; // is meter full?
         }
-
         // print(FAM + "/100");
     }
-
-    private void OnDestroy() => GameManager.players.Remove(this);
 }

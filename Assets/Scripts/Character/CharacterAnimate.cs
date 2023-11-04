@@ -14,16 +14,10 @@ public class CharacterAnimate : MonoBehaviour
     private PhotonView view;
     private Rigidbody rb;
 
-    private readonly string[] interruptable = { "Finished", "Fall" };
-    private readonly string[] uninterruptable = { "GrabLedge", "RecoverFromLedge",
-                                                "LDAttack", "LFAttack", "LUAttack",
-                                                "SDAttack", "SFAttack", "SUAttack" };
-
-    // Idle, Fall, FinalAttack, GetHit,
-    // GrabLedge, Jump, LDAttack,
-    // LFAttack, LUAttack, SDAttack,
-    // SFAttack, SUAttack, RecoverFromLedge, RunCycle,
-    // WalkStartUp, EndRunCycle
+    private readonly string[] interruptable = { "Finished", "Fall" },
+    uninterruptable = { "GrabLedge", "RecoverFromLedge",
+                        "LDAttack", "LFAttack", "LUAttack",
+                        "SDAttack", "SFAttack", "SUAttack" };
 
     void Awake()
     {
