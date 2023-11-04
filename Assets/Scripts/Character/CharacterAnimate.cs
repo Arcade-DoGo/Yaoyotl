@@ -1,15 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Photon.Pun;
+using System;
 
 public class CharacterAnimate : MonoBehaviour
 {
-
     public GameObject character;
-    private Animator animator;
+    [HideInInspector] public string animationState;
+
+    private CharacterController controller;
     private CharacterStats stats;
+    private Animator animator;
+    private PhotonView view;
     private Rigidbody rb;
+
+    private readonly string[] interruptable = { "Finished", "Fall" };
+    private readonly string[] uninterruptable = { "GrabLedge", "RecoverFromLedge",
+                                                "LDAttack", "LFAttack", "LUAttack",
+                                                "SDAttack", "SFAttack", "SUAttack" };
 
     // Idle, Fall, FinalAttack, GetHit,
     // GrabLedge, Jump, LDAttack,
@@ -17,19 +25,21 @@ public class CharacterAnimate : MonoBehaviour
     // SFAttack, SUAttack, RecoverFromLedge, RunCycle,
     // WalkStartUp, EndRunCycle
 
-    private string animationState = "Idle";
-    private string[] interruptable = { "Finished", "Fall" };
-    private string[] uninterruptable = { "GrabLedge", "RecoverFromLedge",
-                                        "LDAttack", "LFAttack", "LUAttack",
-                                        "SDAttack", "SFAttack", "SUAttack" };
-
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         ComponentsManager cm = character.GetComponent<ComponentsManager>();
-        animator = cm.animator;
+        controller = cm.characterController;
         stats = cm.characterStats;
+        animator = cm.animator;
+        view = cm.photonView;
         rb = cm.rigidbody;
+        
+        animationState = "Idle";
+        if (PhotonNetwork.IsConnected) 
+        {
+            cm.photonAnimatorView.SetLayerSynchronized(0, PhotonAnimatorView.SynchronizeType.Continuous);
+            cm.photonAnimatorView.SetLayerSynchronized(1, PhotonAnimatorView.SynchronizeType.Disabled);
+        }
     }
 
     void Update()
@@ -41,25 +51,18 @@ public class CharacterAnimate : MonoBehaviour
         bool reset = !isFalling && interruptable.Contains(animationState);
 
         animator.SetFloat("movement", movement);
-        if (isFalling && !stats.inHitStun) playAnimation("Fall");
+        if (isFalling && !stats.inHitStun) sendAnimation("Fall");
         if (reset)
         {
-            if (movement < 0.1f) playAnimation("Idle");
-            else playAnimation("RunCycle");
+            if (movement < 0.1f) sendAnimation("Idle");
+            else sendAnimation("RunCycle");
         }
-
     }
-
-    public void setAnimationState(string animation) { animationState = animation; }
-    public void finishAnimation() { animationState = "Finished"; }
-
-    public void playAnimation(string animationName)
+    public void setAnimationState(string animation) => animationState = animation;
+    public void finishAnimation() => animationState = "Finished";
+    public void sendAnimation(string animationName)
     {
-        if (!animator) animator = GetComponent<ComponentsManager>().animator;
-
-        animator.Play(animationName);
-        animationState = animationName;
-
+        if(PhotonNetwork.IsConnected) view.RPC("playAnimation", RpcTarget.All, animationName);
+        else controller.playAnimation(animationName);
     }
-
 }

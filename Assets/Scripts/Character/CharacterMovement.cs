@@ -10,10 +10,11 @@ public class CharacterMovement : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<ComponentsManager>().rigidbody; // Reference to rigidbody
-        anim = GetComponent<ComponentsManager>().charAnim; // Reference to animations
-        stats = GetComponent<ComponentsManager>().characterStats; // Reference to stats
-        inputManagement = GetComponent<ComponentsManager>().inputManagement; // Reference to inputs
+        ComponentsManager cm = GetComponent<ComponentsManager>();
+        rb = cm.rigidbody; // Reference to rigidbody
+        anim = cm.charAnim; // Reference to animations
+        stats = cm.characterStats; // Reference to stats
+        inputManagement = cm.inputManagement; // Reference to inputs
         rb.mass = stats.weight; // Sets character weight
     }
 
@@ -59,7 +60,7 @@ public class CharacterMovement : MonoBehaviour
     {
         if(inputManagement.jumpInput && stats.jumpsUsed < stats.maxJumps)
         {
-            anim.playAnimation("Jump");
+            anim.sendAnimation("Jump");
             if (!stats.isGrounded && !stats.onLedge) // Airborne
             {
                 stats.jumpsUsed = stats.jumpsUsed <= 0 ? 1 : stats.jumpsUsed; // Remove ground jump if in the air (Jumps count as double jumps)

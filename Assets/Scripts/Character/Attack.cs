@@ -56,7 +56,7 @@ public class Attack : MonoBehaviour
     IEnumerator regularAttack()
     {
         string attackName = "L" + getAttackDirection() + "Attack";
-        anim.playAnimation(attackName);
+        anim.sendAnimation(attackName);
 
         yield return new WaitForSeconds(lightEndLag); // Active Hitbox Duration
 
@@ -67,7 +67,7 @@ public class Attack : MonoBehaviour
     IEnumerator strongAttack()
     {
         string attackName = "S" + getAttackDirection() + "Attack";
-        anim.playAnimation(attackName);
+        anim.sendAnimation(attackName);
 
         yield return new WaitForSeconds(strongEndLag);
 
@@ -79,7 +79,7 @@ public class Attack : MonoBehaviour
     {
         // Final Smash
         string attackName = "FinalAttack";
-        anim.playAnimation(attackName);
+        anim.sendAnimation(attackName);
 
         yield return new WaitForSeconds(finalEndLag);
 
