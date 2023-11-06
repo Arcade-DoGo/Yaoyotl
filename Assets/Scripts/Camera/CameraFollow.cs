@@ -1,23 +1,16 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
     public Transform target; 
-    public float zoomSpeed = 5f;
-    public float smoothSpeed = 5f; 
+    public float zoomSpeed = 5f, smoothSpeed = 5f, minSize, maxSize;
+    private float limitX, limitY;
     public Transform blastzone;
     private Camera cam;
-    // private List<GameObject> players;
-    private float limitX;
-    private float limitY;
-    public float minSize;
-    public float maxSize;
 
     void Start()
     {
         cam = GetComponent<Camera>();
-        // players = GameManager.FindPlayers();
         float minX = 0;
         float maxX = 0;
         float minY = 0;
@@ -38,9 +31,7 @@ public class CameraFollow : MonoBehaviour
     void LateUpdate()
     {
         if (target == null) return;
-
-        Vector3 desiredPosition = target.position + Vector3.back * 10; // Follow Players' Position
-
+        Vector3 desiredPosition = new (target.position.x, target.position.y, transform.position.z); // Follow Players' Position
         // Keep Camera Within Limits
         Vector3 clampedPosition = new (
             Mathf.Clamp(desiredPosition.x, -limitX, limitX),

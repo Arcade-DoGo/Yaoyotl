@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CameraTarget : MonoBehaviour
 {
+    public float yOffset;
     private float xCenter, yCenter;
     void Update()
     {
@@ -11,8 +12,7 @@ public class CameraTarget : MonoBehaviour
             xCenter += player.transform.position.x;
             yCenter += player.transform.position.y;
         }
-        Vector3 centerPosition = new (xCenter / GameManager.players.Count,
-                                    yCenter / GameManager.players.Count, 0);
-        transform.position = centerPosition;
+        transform.position = new (xCenter / GameManager.players.Count,
+                        yCenter / GameManager.players.Count + yOffset, 0);
     }
 }
