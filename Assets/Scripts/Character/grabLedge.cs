@@ -27,7 +27,7 @@ public class grabLedge : MonoBehaviour
 
         if (tag == "Ledge" && !crouchInput) // Grab the Ledge
         {
-            anim.playAnimation("GrabLedge");
+            anim.sendAnimation("GrabLedge");
 
             rb.useGravity = false;
             rb.velocity = Vector3.zero;
@@ -85,7 +85,7 @@ public class grabLedge : MonoBehaviour
         Vector3 initialPosition = character.transform.position;
         Vector3 targetPosition = ledge.transform.GetChild(0).gameObject.transform.position;
 
-        anim.playAnimation("RecoverFromLedge");
+        anim.sendAnimation("RecoverFromLedge");
 
         while (getUpProgress < 1.0f)
         {
