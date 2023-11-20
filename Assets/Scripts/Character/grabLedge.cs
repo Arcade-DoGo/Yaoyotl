@@ -66,7 +66,7 @@ public class grabLedge : MonoBehaviour
             if ((leftLedge && !stats.isFacingRight) || (rightLedge && stats.isFacingRight)) 
             {
                 int direction = stats.isFacingRight ? 1 : -1;
-                character.transform.Rotate(new Vector3(0, direction * 90, 0));
+                character.transform.Rotate(new Vector3(0, direction * 180, 0));
                 stats.isFacingRight = !stats.isFacingRight;
             }
 
