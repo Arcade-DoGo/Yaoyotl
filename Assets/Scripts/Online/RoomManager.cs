@@ -39,8 +39,10 @@ namespace Online
             if(InitOnEnabled) Init();
 
             if(player2Selection) player2Selection.SetActive(false);
-            player1ReadyText.gameObject.SetActive(false);
-            player2ReadyText.gameObject.SetActive(false);
+            if(player1ReadyText) player1ReadyText.gameObject.SetActive(false);
+            if(player2ReadyText) player2ReadyText.gameObject.SetActive(false);
+            if(player3ReadyText) player3ReadyText.gameObject.SetActive(false);
+            if(player4ReadyText) player4ReadyText.gameObject.SetActive(false);
 
             if(characterIcons.Length > 0)
             {
@@ -158,7 +160,9 @@ namespace Online
                     List<Player> playersToCheck = PhotonNetwork.PlayerListOthers.ToList().FindAll(player => player.CustomProperties.ContainsKey(ConnectToServer.READY));
                     if(!isLocalPlayer)
                     {
-                        player2ReadyText.gameObject.SetActive(true);
+                        if(player2ReadyText) player2ReadyText.gameObject.SetActive(true);
+                        if(player3ReadyText) player3ReadyText.gameObject.SetActive(true);
+                        if(player4ReadyText) player4ReadyText.gameObject.SetActive(true);
                     }
                     else if(playersToCheck.Count > 0)
                     {

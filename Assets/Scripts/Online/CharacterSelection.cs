@@ -1,12 +1,13 @@
 using CustomClasses;
 using ExitGames.Client.Photon;
 using Photon.Pun;
+using UnityEngine;
 
 namespace Online
 {
     public class CharacterSelection : InstanceOnlineClass<CharacterSelection>
     {
-        // private void Start() => SetCharacter(0);
+        public void RandomCharacter() => SetCharacter(Random.Range(0, RoomManager.instance.names.Length)); 
         public void SetCharacter(int _index) 
         {
             if(_index < RoomManager.instance.names.Length)

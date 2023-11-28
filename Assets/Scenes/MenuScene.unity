@@ -3860,6 +3860,7 @@ MonoBehaviour:
   - {fileID: 2119175713}
   - {fileID: 1908667686}
   - {fileID: 6438434029403467157}
+  - {fileID: 1582155417}
 --- !u!1 &532848592
 GameObject:
   m_ObjectHideFlags: 0
@@ -9559,7 +9560,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 524303005}
         m_TargetAssemblyTypeName: MultipleUISelection, Assembly-CSharp
-        m_MethodName: OnlyShowElement
+        m_MethodName: OnlyShowElements
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12726,10 +12727,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5680094347743173514, guid: 2be0e75557443443997d4338ab1f4f1e, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5680094347743173514, guid: 2be0e75557443443997d4338ab1f4f1e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 1
       objectReference: {fileID: 0}
@@ -12772,10 +12769,6 @@ PrefabInstance:
     - target: {fileID: 5680094347743173514, guid: 2be0e75557443443997d4338ab1f4f1e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: Online.ConnectToServer, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5680094347743173514, guid: 2be0e75557443443997d4338ab1f4f1e, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5680094347743173514, guid: 2be0e75557443443997d4338ab1f4f1e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
@@ -14736,8 +14729,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1ReadyText: {fileID: 920306884}
   player2ReadyText: {fileID: 1858411311}
-  player3ReadyText: {fileID: 0}
-  player4ReadyText: {fileID: 0}
+  player3ReadyText: {fileID: 129526560}
+  player4ReadyText: {fileID: 678375721}
   sprites: []
   names: []
   characterIcons: []
@@ -14907,7 +14900,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 524303005}
         m_TargetAssemblyTypeName: MultipleUISelection, Assembly-CSharp
-        m_MethodName: OnlyShowElement
+        m_MethodName: OnlyShowElements
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
