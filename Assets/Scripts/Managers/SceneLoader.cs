@@ -1,23 +1,14 @@
 using System.Collections;
+using CustomClasses;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour
+public class SceneLoader : InstanceClass<SceneLoader>
 {
-    public static SceneLoader instance;                    
-
-    private void Awake()
+    protected override void Awake()
     {
-        // Destruye este objeto si ya existe uno en la escena y no es este
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        // Guarda la instancia a este si no existe ninguno en la escena
-        instance = this;
-        // Vuelve indestructible al objeto, lo que se pasa entre diferentes escenas
+        base.Awake();
         DontDestroyOnLoad(gameObject);
     }
 
@@ -65,10 +56,7 @@ public class SceneLoader : MonoBehaviour
             // Si se trata de una carga de escena local, cargue la escena localmente. 
             var asyncLoad = SceneManager.LoadSceneAsync(_sceneNameToBeLoaded);
 
-            while (!asyncLoad.isDone)
-            {
-                yield return null;
-            }
+            while (!asyncLoad.isDone) yield return null;
             yield return null;
         }
     }

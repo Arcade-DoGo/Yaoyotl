@@ -4,13 +4,12 @@ using TMPro;
 using Photon.Realtime;
 using System.Collections.Generic;
 using System;
+using CustomClasses;
 
 namespace Online
 {
-    public class LobbyManager : MonoBehaviourPunCallbacks
-    {
-        public static LobbyManager instance;
-        
+    public class LobbyManager : InstanceOnlineClass<LobbyManager>
+    {        
         [Header ("Online Setup")]
         [Tooltip ("Whether the players need to type the same room name to connect (private match), or choose from a room list (public match)")]
         public bool matchRoomName;
@@ -37,9 +36,8 @@ namespace Online
         [Tooltip ("Private time counter to update room list")]
         private float nextUpdateTime;
         
-        private void Start() 
+        private void Start()
         {
-            instance = this;
             roomItemList = new();
             roomListPanel.SetActive(ConnectToServer.instance.connectionType == ConnectionType.PublicMatch);
             matchRoomPanel.SetActive(ConnectToServer.instance.connectionType == ConnectionType.PrivateMatch);

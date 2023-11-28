@@ -59,7 +59,7 @@ public class CharacterController : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
         else // Game Over: Show winner
-            GameManager.instance.GameOver(GameManager.players.Find(player => player != stats));
+            GameplayManager.instance.GameOver(GameManager.players.Find(player => player != stats));
     }
     private void OnDestroy() => GameManager.players.Remove(stats);
 }

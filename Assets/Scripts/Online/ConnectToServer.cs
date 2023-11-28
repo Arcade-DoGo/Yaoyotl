@@ -4,15 +4,14 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using CustomClasses;
 
 namespace Online
 {
     [Serializable]
     public enum ConnectionType { SingleRoom, RandomMatch, PrivateMatch, PublicMatch }
-    public class ConnectToServer : MonoBehaviourPunCallbacks
+    public class ConnectToServer : InstanceOnlineClass<ConnectToServer>
     {
-        public static ConnectToServer instance;
-
         [Header ("UI References")]
         [Tooltip ("TextField to indicate Online Connection status. Optional")]
         public TextMeshProUGUI loadingText;
@@ -44,16 +43,15 @@ namespace Online
 
         private void Start()
         {
-            instance = this;
             SetLoadingText("");
             if(PhotonNetwork.InRoom)
             {
-                multipleUISelection.OnlyShowElement(3);
+                multipleUISelection.OnlyShowElements(3);
             }
             else
             {
                 backButton.SetActive(false);
-                multipleUISelection.OnlyShowElement(0);
+                multipleUISelection.OnlyShowElements(0);
                 foreach (Button button in onlineModesButtons) button.interactable = false;
                 usernamePanel.SetActive(false);
             }
@@ -97,7 +95,7 @@ namespace Online
                     break;
                 case ConnectionType.PrivateMatch: case ConnectionType.PublicMatch:
                     SetLoadingText("Connecting to lobby...");
-                    multipleUISelection.OnlyShowElement(2);
+                    multipleUISelection.OnlyShowElements(2);
                     break;
                 default:
                     break;
@@ -107,7 +105,7 @@ namespace Online
         public override void OnJoinedRoom()
         {
             SetLoadingText("Connected to room " + PhotonNetwork.CurrentRoom.Name + "!");
-            multipleUISelection.OnlyShowElement(3);
+            multipleUISelection.OnlyShowElements(3);
         }
 
         public void OnClickLeave()
@@ -115,17 +113,17 @@ namespace Online
             if(multipleUISelection.IsElementActive(3))
             {
                 if(PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom();
-                multipleUISelection.OnlyShowElement(connectionType == ConnectionType.SingleRoom || connectionType == ConnectionType.RandomMatch ? 1 : 2);
+                multipleUISelection.OnlyShowElements(connectionType == ConnectionType.SingleRoom || connectionType == ConnectionType.RandomMatch ? 1 : 2);
             }
             else if(multipleUISelection.IsElementActive(2))
             {
                 if(PhotonNetwork.InLobby) PhotonNetwork.LeaveLobby();
-                multipleUISelection.OnlyShowElement(1);
+                multipleUISelection.OnlyShowElements(1);
             }
             else if(multipleUISelection.IsElementActive(1))
             {
                 if(PhotonNetwork.IsConnected) PhotonNetwork.Disconnect();
-                multipleUISelection.OnlyShowElement(0);
+                multipleUISelection.OnlyShowElements(0);
                 backButton.SetActive(false);
             }
         }

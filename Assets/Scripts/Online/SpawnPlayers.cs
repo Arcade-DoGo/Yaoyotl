@@ -1,29 +1,30 @@
 using UnityEngine;
 using Photon.Pun;
-using System.Collections;
-using TMPro;
+using CustomClasses;
 
 namespace Online
 {
-    public class SpawnPlayers : MonoBehaviourPunCallbacks
+    public class SpawnPlayers : InstanceOnlineClass<SpawnPlayers>
     {
-        public static SpawnPlayers instance;
         [Header ("Prefabs")]
         public GameObject[] playerPrefabs;
         public GameObject playerPrefabOffline;
         [Min(1)] public int playersToSpawn = 2;
         public Transform[] spawnPosition;
-        [Header ("UI References")]
-        public TextMeshProUGUI startText;
+        
+        protected override void Awake() // Wait to start
+        {
+            base.Awake();
+            enabled = false;
+        }
 
-        private void Awake() => instance = this;
         private void Start() 
         {
             if(PhotonNetwork.IsConnected) SpawnPlayerOnline();
             else 
             {
                 for (int i = 0; i < playersToSpawn; i++) SpawnPlayerOffline(i);
-                StartGame();
+                GameplayManager.instance.StartGame();
             }
             CheckForPunchBags();
         }
@@ -60,26 +61,6 @@ namespace Online
                 stats.playerName = "PunchBag " + GameManager.players.Count;
                 GameManager.players.Add(stats);
             }
-        }
-
-        public void StartGame() => StartCoroutine(StartGameRoutine());
-        private IEnumerator StartGameRoutine()
-        {
-            if(PhotonNetwork.IsConnected)
-            {
-                if(startText) startText.text = "";
-                yield return new WaitForSeconds(0.5f);
-                for (int i = 3; i > 0; i--)
-                {
-                    if(startText) startText.text = i + "";
-                    yield return new WaitForSeconds(1f);
-                }
-            }
-            if(startText) startText.text = "GO!";
-            GameManager.EnablePlayers();
-            MatchData.instance.StartTimer();
-            yield return new WaitForSeconds(1f);
-            if(startText) startText.text = "";
         }
     }
 }

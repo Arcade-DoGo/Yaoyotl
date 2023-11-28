@@ -5,6 +5,8 @@ public class CameraTarget : MonoBehaviour
     private float xCenter, yCenter;
     void Update()
     {
+        if(GameManager.players.Count == 0) return;
+
         xCenter = yCenter = 0f;
         foreach (CharacterStats player in GameManager.players)
         {
