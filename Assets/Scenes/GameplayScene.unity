@@ -5032,13 +5032,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9731c250bc53a394aa1bc40ae9cdc59c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trainingRoom: 0
   gameOverPanel: {fileID: 1917567050}
   multipleUISelection: {fileID: 2121572107}
   vCamSelection: {fileID: 1939030683}
   vCamGameplay: {fileID: 911328324}
   winnerText: {fileID: 92054956}
-  player1Text: {fileID: 1499801348}
-  player2Text: {fileID: 1959230182}
   startText: {fileID: 1988098983}
   mainCamera: {fileID: 948350250}
   platformCamera: {fileID: 491634469}

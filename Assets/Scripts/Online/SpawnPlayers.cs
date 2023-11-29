@@ -43,12 +43,12 @@ namespace Online
             CharacterStats stats = player.GetComponent<ComponentsManager>().characterStats;
             if(index != 0)
             {
+                player.GetComponent<ComponentsManager>().inputManagement.enableInputs = false;
                 player.GetComponent<CharacterMovement>().enabled = false;
                 player.GetComponent<Attack>().enabled = false;
             }
             stats.playerNumber = index;
             stats.playerName = "Player " + (index + 1);
-            GameManager.players.Add(stats);
             if(GameManager.usingEditor) Debug.Log("Spawned " + stats.playerName + " in " + spawnPosition[index].position + " in list " + GameManager.players.Count);
         }
 
@@ -59,7 +59,6 @@ namespace Online
                 CharacterStats stats = punchBag.GetComponent<ComponentsManager>().characterStats;
                 stats.playerNumber = GameManager.players.Count - 1;
                 stats.playerName = "PunchBag " + GameManager.players.Count;
-                GameManager.players.Add(stats);
             }
         }
     }

@@ -19,6 +19,7 @@ public class GameManager : InstanceClass<GameManager>
     public static void RegisterPlayer(CharacterStats player)
     {
         players.Add(player);
+        MatchData.instance.UpdatePlayersData(player);
         if(PhotonNetwork.IsConnected && players.Count == PhotonNetwork.PlayerList.Length)
         {
             List<CharacterStats> _players = players.OrderBy(player => player.playerNumber).ToList();

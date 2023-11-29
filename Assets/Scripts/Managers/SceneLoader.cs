@@ -15,6 +15,7 @@ public class SceneLoader : InstanceClass<SceneLoader>
     private string _sceneNameToBeLoaded;                     
     private bool _isSceneSync = false;                    // Booleano que controla si el cambio se realizara de manera Sincrona o Asincrona
 
+    public void InstantLoadScene(string sceneName) => SceneManager.LoadScene(sceneName);
     public void LoadScene(string sceneName, bool isSceneSync)
     {
         _sceneNameToBeLoaded = sceneName;
@@ -36,8 +37,6 @@ public class SceneLoader : InstanceClass<SceneLoader>
         //Carga la escena de carga
         yield return SceneManager.LoadSceneAsync("LoadScene");
 
-        //Carga la escena actual
-        // StartCoroutine(LoadActualyScene());
         StartCoroutine(ShowOverlayAndLoad());
     }
 

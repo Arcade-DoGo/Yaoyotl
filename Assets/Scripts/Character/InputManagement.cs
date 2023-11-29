@@ -11,7 +11,7 @@ public class InputManagement : MonoBehaviour
     
     #region InputVariables
     [NonSerialized] public float horizontal;
-    [NonSerialized] public bool mobileDevice, jumpTap,
+    [NonSerialized] public bool mobileDevice, jumpTap, enableInputs = true,
                 jumpInput, jumpRelease, jumpHold, 
                 crouchInput, crouchHold, 
                 attackInput, attackRelease, finalAttackInput;
@@ -26,7 +26,7 @@ public class InputManagement : MonoBehaviour
         _jumpPressUI = _jumpReleaseUI = _jumpHoldUI = _crouchPressUI = _crouchHoldUI = 
         _attackInputUI = _attackReleaseUI = _finalAttackInputUI = false;
         mobileDevice = Application.platform != RuntimePlatform.WindowsPlayer && Application.platform != RuntimePlatform.OSXPlayer;
-        mobileInputCanvas.SetActive((mobileDevice || GameManager.usingEditor) && !PhotonNetwork.IsConnected || (PhotonNetwork.IsConnected && componentsManager.photonView.IsMine));
+        mobileInputCanvas.SetActive(((mobileDevice || GameManager.usingEditor) && !PhotonNetwork.IsConnected || (PhotonNetwork.IsConnected && componentsManager.photonView.IsMine)) && enableInputs);
         jumpTapButtons.SetActive(jumpTap || GameManager.usingEditor);
     }
     private void Update()

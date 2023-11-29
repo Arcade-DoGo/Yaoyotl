@@ -46,12 +46,12 @@ namespace Online
             SetLoadingText("");
             if(PhotonNetwork.InRoom)
             {
-                multipleUISelection.OnlyShowElements(3);
+                multipleUISelection.OnlyShowElements("RoomPanel");
             }
             else
             {
                 backButton.SetActive(false);
-                multipleUISelection.OnlyShowElements(0);
+                multipleUISelection.OnlyShowElements("FirstPanel");
                 foreach (Button button in onlineModesButtons) button.interactable = false;
                 usernamePanel.SetActive(false);
             }
@@ -95,7 +95,7 @@ namespace Online
                     break;
                 case ConnectionType.PrivateMatch: case ConnectionType.PublicMatch:
                     SetLoadingText("Connecting to lobby...");
-                    multipleUISelection.OnlyShowElements(2);
+                    multipleUISelection.OnlyShowElements("LobbyPanel");
                     break;
                 default:
                     break;
@@ -105,29 +105,33 @@ namespace Online
         public override void OnJoinedRoom()
         {
             SetLoadingText("Connected to room " + PhotonNetwork.CurrentRoom.Name + "!");
-            multipleUISelection.OnlyShowElements(3);
+            multipleUISelection.OnlyShowElements("RoomPanel");
         }
 
         public void OnClickLeave()
         {
-            if(multipleUISelection.IsElementActive(3))
+            if(multipleUISelection.IsElementActive("RoomPanel"))
             {
                 if(PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom();
-                multipleUISelection.OnlyShowElements(connectionType == ConnectionType.SingleRoom || connectionType == ConnectionType.RandomMatch ? 1 : 2);
+                multipleUISelection.OnlyShowElements(connectionType == ConnectionType.SingleRoom || connectionType == ConnectionType.RandomMatch ? "OnlinePanel" : "LobbyPanel");
             }
-            else if(multipleUISelection.IsElementActive(2))
+            else if(multipleUISelection.IsElementActive("LobbyPanel"))
             {
                 if(PhotonNetwork.InLobby) PhotonNetwork.LeaveLobby();
-                multipleUISelection.OnlyShowElements(1);
+                multipleUISelection.OnlyShowElements("OnlinePanel");
             }
-            else if(multipleUISelection.IsElementActive(1))
+            else if(multipleUISelection.IsElementActive("OnlinePanel"))
             {
                 if(PhotonNetwork.IsConnected) PhotonNetwork.Disconnect();
-                multipleUISelection.OnlyShowElements(0);
+                multipleUISelection.OnlyShowElements("FirstPanel");
+                backButton.SetActive(false);
+            }
+            else
+            {
+                multipleUISelection.OnlyShowElements("FirstPanel");
                 backButton.SetActive(false);
             }
         }
-
         public void SetConnectionType(int _type) => connectionType = (ConnectionType)Enum.GetValues(connectionType.GetType()).GetValue(_type);
         public void SetLoadingText(string _text) { if(loadingText) loadingText.text = _text; }
     }

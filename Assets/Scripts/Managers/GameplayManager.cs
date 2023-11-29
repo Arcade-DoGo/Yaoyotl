@@ -8,34 +8,42 @@ using Cinemachine;
 
 public class GameplayManager : InstanceClass<GameplayManager>
 {
+    public bool trainingRoom = false;
     [Header ("UI References")]
     public GameObject gameOverPanel;
     public MultipleUISelection multipleUISelection;
     public CinemachineVirtualCamera vCamSelection, vCamGameplay;
-    public TextMeshProUGUI winnerText, player1Text, player2Text, startText;
+    public TextMeshProUGUI winnerText, startText;
     public Camera mainCamera, platformCamera;
     private bool canStart;
 
     private void Start() 
     {
         if(gameOverPanel != null) gameOverPanel.SetActive(false);
-        multipleUISelection.OnlyShowElements("CharacterSelectionPanel", "PlayerPanels");
-        CameraSwitcher.instance.Register(vCamSelection);
-        CameraSwitcher.instance.Register(vCamGameplay);
-        CameraSwitcher.instance.SwitchCamera(vCamSelection);
-        mainCamera.enabled = false;
-        platformCamera.enabled = false;
+        if(multipleUISelection != null) multipleUISelection.OnlyShowElements("CharacterSelectionPanel", "PlayerPanels");
+        if(!trainingRoom)
+        {
+            CameraSwitcher.instance.Register(vCamSelection);
+            CameraSwitcher.instance.Register(vCamGameplay);
+            CameraSwitcher.instance.SwitchCamera(vCamSelection);
+            mainCamera.enabled = false;
+            platformCamera.enabled = false;
+        }
+        else SetGameplayView();
     }
     
     public void SetGameplayView() => StartCoroutine(SetGameplayViewRoutine());
     private IEnumerator SetGameplayViewRoutine()
     {
         SpawnPlayers.instance.enabled = true;
-        multipleUISelection.OnlyShowElements("GameplayPanel");
-        CameraSwitcher.instance.SwitchCamera(vCamGameplay);
-        yield return new WaitForSeconds(2f);
-        mainCamera.enabled = true;
-        platformCamera.enabled = true;
+        if(multipleUISelection != null) multipleUISelection.OnlyShowElements("GameplayPanel");
+        if(!trainingRoom)
+        {
+            CameraSwitcher.instance.SwitchCamera(vCamGameplay);
+            yield return new WaitForSeconds(2f);
+            mainCamera.enabled = true;
+            platformCamera.enabled = true;
+        }
         canStart = true;
     }
 
@@ -74,12 +82,8 @@ public class GameplayManager : InstanceClass<GameplayManager>
             gameOverPanel.SetActive(true);
             RoomManager.instance.Init();
         }
-        if(player1Text != null) player1Text.text = GameManager.players[0].playerName;
-        if(player2Text != null) player2Text.text = GameManager.players[1].playerName;
-        if(winner != null && winnerText != null)
-        {
-            // players = new List<CharacterStats>(){winner};
-            winnerText.text = (string.IsNullOrEmpty(winner.playerName) ? "Player" + winner.playerNumber : winner.playerName) + " won!";
-        }
+        RoomManager.instance.SetPlayerText(0, GameManager.players[0].playerName);
+        RoomManager.instance.SetPlayerText(1, GameManager.players[1].playerName);
+        if(winner != null && winnerText != null) winnerText.text = (string.IsNullOrEmpty(winner.playerName) ? "Player" + winner.playerNumber : winner.playerName) + " won!";
     }
 }

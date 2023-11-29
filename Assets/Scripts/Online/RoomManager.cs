@@ -107,7 +107,8 @@ namespace Online
         {
             if(playerList)
             {
-                if(PhotonNetwork.PlayerList.Count() > 1) player1ReadyButton.interactable = true;
+                // if(PhotonNetwork.PlayerList.Count() > 1) 
+                player1ReadyButton.interactable = true;
                 playerList.text = "-------------\n";
                 foreach (Player player in PhotonNetwork.PlayerList) 
                     playerList.text += player.ActorNumber + ": <color=" 
@@ -177,6 +178,11 @@ namespace Online
                             ConnectToServer.instance.SetLoadingText("Waiting for opponent...");
                         }
                     }
+                    else
+                    {
+                        ConnectToServer.instance.SetLoadingText("Starting match...");
+                        AllPlayersReady();
+                    }
                 }
             }
             else if(changedProps.ContainsKey(ConnectToServer.STOCKS))
@@ -207,7 +213,14 @@ namespace Online
             {
                 characterIcons[playerIndex].SetIcon(sprites[characterIndex]);
                 characterIcons[playerIndex].SetName(names[characterIndex]);
+                print(names[characterIndex]);
             }
+        }
+
+        public void SetPlayerText(int playerIndex, string _text)
+        {
+            if(characterIcons.Length > 0)
+                characterIcons[playerIndex].SetName(_text);
         }
 
         private void AllPlayersReady()
