@@ -6,7 +6,6 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.Collections;
 using UnityEngine.UI;
 using System.Linq;
-using UnityEngine.SceneManagement;
 using CustomClasses;
 using UnityEngine.Events;
 using System.Collections.Generic;
@@ -16,10 +15,7 @@ namespace Online
     public class RoomManager : InstanceOnlineClass<RoomManager>
     {
         [Header ("UI References")]
-        [Tooltip ("Player 1 ready Text")] public TextMeshProUGUI player1ReadyText;
-        [Tooltip ("Player 2 ready Text")] public TextMeshProUGUI player2ReadyText;
-        [Tooltip ("Player 3 ready Text")] public TextMeshProUGUI player3ReadyText;
-        [Tooltip ("Player 4 ready Text")] public TextMeshProUGUI player4ReadyText;
+        [Tooltip ("Players ready Text")] public TextMeshProUGUI[] readyTexts;
 
         public Sprite[] sprites;
         public string[] names;
@@ -37,19 +33,18 @@ namespace Online
         {
             player1ReadyButton.interactable = false;
             if(InitOnEnabled) Init();
+            SetReady(false);
 
             if(player2Selection) player2Selection.SetActive(false);
-            if(player1ReadyText) player1ReadyText.gameObject.SetActive(false);
-            if(player2ReadyText) player2ReadyText.gameObject.SetActive(false);
-            if(player3ReadyText) player3ReadyText.gameObject.SetActive(false);
-            if(player4ReadyText) player4ReadyText.gameObject.SetActive(false);
-
+            
+            foreach (TextMeshProUGUI readyText in readyTexts)
+                if(readyText) readyText.gameObject.SetActive(false);
+            
             if(characterIcons.Length > 0)
             {
                 if(PhotonNetwork.IsConnected)
                 {
-                    for (int i = 0; i < characterIcons.Length; i++)
-                        characterIcons[i].gameObject.SetActive(i < PhotonNetwork.PlayerList.Length);
+                    for (int i = 0; i < characterIcons.Length; i++) characterIcons[i].gameObject.SetActive(i < PhotonNetwork.PlayerList.Length);
                 }
                 else
                 {
@@ -61,7 +56,6 @@ namespace Online
         public void Init()
         {
             UpdatePlayerList();
-            SetReady(false);
             
             if(PhotonNetwork.IsConnected)
             {
@@ -90,8 +84,7 @@ namespace Online
             if(player2Selection) 
             {
                 player2Selection.SetActive(true);
-                player2Selection.GetComponent<MultipleUISelection>().
-                    OnlyShowElements(0);
+                player2Selection.GetComponent<MultipleUISelection>().OnlyShowElements(0);
             }
             UpdatePlayerList();
         }
@@ -121,13 +114,9 @@ namespace Online
         public void Ready(bool isRematch)
         {
             rematch = isRematch;
-            player1ReadyText.gameObject.SetActive(true);
+            readyTexts[0].gameObject.SetActive(true);
             if(PhotonNetwork.IsConnected) SetReady(true);
-            else
-            {
-                OnReady?.Invoke();
-                // AllPlayersReady();
-            }
+            else OnReady?.Invoke();
         }
 
         private void SetReady(bool value)
@@ -159,13 +148,8 @@ namespace Online
                 if((bool) changedProps[ConnectToServer.READY] == true)
                 {
                     List<Player> playersToCheck = PhotonNetwork.PlayerListOthers.ToList().FindAll(player => player.CustomProperties.ContainsKey(ConnectToServer.READY));
-                    if(!isLocalPlayer)
-                    {
-                        if(player2ReadyText) player2ReadyText.gameObject.SetActive(true);
-                        if(player3ReadyText) player3ReadyText.gameObject.SetActive(true);
-                        if(player4ReadyText) player4ReadyText.gameObject.SetActive(true);
-                    }
-                    else if(playersToCheck.Count > 0)
+                    if(!isLocalPlayer) readyTexts[targetPlayer.ActorNumber].gameObject.SetActive(true);
+                    if(playersToCheck.Count > 0)
                     {
                         List<Player> playersNotReady = playersToCheck.FindAll(player => (bool) player.CustomProperties[ConnectToServer.READY] == false);
                         if(playersNotReady.Count == 0)
@@ -173,10 +157,7 @@ namespace Online
                             ConnectToServer.instance.SetLoadingText("Starting match...");
                             AllPlayersReady();
                         }
-                        else
-                        {
-                            ConnectToServer.instance.SetLoadingText("Waiting for opponent...");
-                        }
+                        else ConnectToServer.instance.SetLoadingText("Waiting for opponent...");
                     }
                     else
                     {
@@ -213,22 +194,15 @@ namespace Online
             {
                 characterIcons[playerIndex].SetIcon(sprites[characterIndex]);
                 characterIcons[playerIndex].SetName(names[characterIndex]);
-                print(names[characterIndex]);
+                // print(names[characterIndex]);
             }
         }
-
-        public void SetPlayerText(int playerIndex, string _text)
-        {
-            if(characterIcons.Length > 0)
-                characterIcons[playerIndex].SetName(_text);
-        }
-
+        public void SetPlayerText(int playerIndex, string _text) { if(characterIcons.Length > 0) characterIcons[playerIndex].SetName(_text); }
         private void AllPlayersReady()
         {
             if(rematch) OnReady?.Invoke();
             else StartGame();
         }
-
         private int GetOtherCustomProperty(Player _player) => (int) _player.CustomProperties[ConnectToServer.PLAYERCHARACTER];
         public void StartGame() => StartCoroutine(LoadGameScene());
         private IEnumerator LoadGameScene()

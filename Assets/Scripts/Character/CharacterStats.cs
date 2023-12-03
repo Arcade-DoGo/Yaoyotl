@@ -72,7 +72,7 @@ public class CharacterStats : MonoBehaviour
             {
                 damage += _damage;
                 increaseFAM(damage / 5f);
-                controller.SyncPlayerData();
+                controller.SyncPlayerData(false);
             }
 
         }
@@ -93,7 +93,7 @@ public class CharacterStats : MonoBehaviour
                 stocks--;
                 damage = 0;
                 FAM /= 2f;
-                controller.SyncPlayerData();
+                controller.SyncPlayerData(true);
             }
         }
         else

@@ -8449,6 +8449,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac3a6515a10a6914a8925de4f6835b2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  readyTexts:
+  - {fileID: 492918710}
+  - {fileID: 1543371906}
+  - {fileID: 51736123}
+  - {fileID: 399482206}
   player1ReadyText: {fileID: 492918710}
   player2ReadyText: {fileID: 1543371906}
   player3ReadyText: {fileID: 51736123}

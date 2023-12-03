@@ -34,7 +34,7 @@ public class CharacterController : MonoBehaviour
         animator.Play(animationName);
     }
 
-    public void SyncPlayerData()
+    public void SyncPlayerData(bool _respawn)
     {
         //Stocks
         if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(ConnectToServer.STOCKS)) PhotonNetwork.LocalPlayer.CustomProperties.Add(ConnectToServer.STOCKS, stats.stocks);
@@ -45,7 +45,7 @@ public class CharacterController : MonoBehaviour
         PhotonNetwork.SetPlayerCustomProperties(new Hashtable() { { ConnectToServer.STOCKS, stats.stocks }, { ConnectToServer.DAMAGE, stats.damage } });
         MatchData.instance.UpdatePlayersData(stats);
         if (GameManager.usingEditor) Debug.Log("SYNC PLAYER DATA ");
-        Respawn();
+        if(_respawn) Respawn();
     }
     public void Respawn() => StartCoroutine(RespawnRoutine());
     private IEnumerator RespawnRoutine()

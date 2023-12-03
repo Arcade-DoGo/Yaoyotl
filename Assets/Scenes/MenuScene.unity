@@ -15389,6 +15389,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac3a6515a10a6914a8925de4f6835b2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  readyTexts:
+  - {fileID: 920306884}
+  - {fileID: 1858411311}
+  - {fileID: 129526560}
+  - {fileID: 678375721}
   player1ReadyText: {fileID: 920306884}
   player2ReadyText: {fileID: 1858411311}
   player3ReadyText: {fileID: 129526560}
