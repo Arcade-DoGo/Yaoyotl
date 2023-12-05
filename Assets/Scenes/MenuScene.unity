@@ -15394,16 +15394,11 @@ MonoBehaviour:
   - {fileID: 1858411311}
   - {fileID: 129526560}
   - {fileID: 678375721}
-  player1ReadyText: {fileID: 920306884}
-  player2ReadyText: {fileID: 1858411311}
-  player3ReadyText: {fileID: 129526560}
-  player4ReadyText: {fileID: 678375721}
   sprites: []
   names: []
   characterIcons: []
   player1ReadyButton: {fileID: 758636902}
   playerList: {fileID: 1103396626}
-  player2Selection: {fileID: 0}
   OnReady:
     m_PersistentCalls:
       m_Calls: []
