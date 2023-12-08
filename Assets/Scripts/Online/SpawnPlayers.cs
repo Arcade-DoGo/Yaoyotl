@@ -32,14 +32,20 @@ namespace Online
         public void SpawnPlayerOnline()
         {
             string prefabName = playerPrefabs[(int) PhotonNetwork.LocalPlayer.CustomProperties[ConnectToServer.PLAYERCHARACTER]].name;
-            GameObject player = PhotonNetwork.Instantiate(prefabName, spawnPosition[PhotonNetwork.IsMasterClient ? 0 : 1].position, Quaternion.Euler(new Vector3(0f, 135f, 0f)));
+            Vector3 spawnPoint = spawnPosition[PhotonNetwork.IsMasterClient ? 0 : 1].position;
+            GameObject player = PhotonNetwork.Instantiate(prefabName, spawnPoint, 
+                                Quaternion.Euler(new Vector3(0f, spawnPoint.x < 0 ? 90f : 270f, 0f)));
+
             if(GameManager.usingEditor) Debug.Log("Spawned " + player.GetComponent<ComponentsManager>().characterStats.playerName + " in " + spawnPosition[GameManager.players.Count].position);
             player.GetComponent<ComponentsManager>().inputManagement.enabled = false;
         }
 
         public void SpawnPlayerOffline(int index)
         {
-            GameObject player = Instantiate(playerPrefabOffline, spawnPosition[index].position, Quaternion.Euler(new Vector3(0, 135, 0)));
+            Vector3 spawnPoint = spawnPosition[index].position;
+            GameObject player = Instantiate(playerPrefabOffline, spawnPoint, 
+                                Quaternion.Euler(new Vector3(0f, spawnPoint.x < 0 ? 90f : 270f, 0f)));
+
             CharacterStats stats = player.GetComponent<ComponentsManager>().characterStats;
             if(index != 0)
             {

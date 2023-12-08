@@ -4,47 +4,20 @@ using Photon.Pun;
 using TMPro;
 using CustomClasses;
 using Online;
-using Cinemachine;
+using System;
 
 public class GameplayManager : InstanceClass<GameplayManager>
 {
-    public bool trainingRoom = false;
     [Header ("UI References")]
     public GameObject gameOverPanel;
     public MultipleUISelection multipleUISelection;
-    public CinemachineVirtualCamera vCamSelection, vCamGameplay;
     public TextMeshProUGUI winnerText, startText;
-    public Camera mainCamera, platformCamera;
-    private bool canStart;
+    [NonSerialized] public bool canStart;
 
     private void Start() 
     {
         if(gameOverPanel != null) gameOverPanel.SetActive(false);
         if(multipleUISelection != null) multipleUISelection.OnlyShowElements("CharacterSelectionPanel", "PlayerPanels");
-        if(!trainingRoom)
-        {
-            CameraSwitcher.instance.Register(vCamSelection);
-            CameraSwitcher.instance.Register(vCamGameplay);
-            CameraSwitcher.instance.SwitchCamera(vCamSelection);
-            mainCamera.enabled = false;
-            platformCamera.enabled = false;
-        }
-        else SetGameplayView();
-    }
-    
-    public void SetGameplayView() => StartCoroutine(SetGameplayViewRoutine());
-    private IEnumerator SetGameplayViewRoutine()
-    {
-        SpawnPlayers.instance.enabled = true;
-        if(multipleUISelection != null) multipleUISelection.OnlyShowElements("GameplayPanel");
-        if(!trainingRoom)
-        {
-            CameraSwitcher.instance.SwitchCamera(vCamGameplay);
-            yield return new WaitForSeconds(2f);
-            mainCamera.enabled = true;
-            platformCamera.enabled = true;
-        }
-        canStart = true;
     }
 
     public void StartGame() => StartCoroutine(StartGameRoutine());
