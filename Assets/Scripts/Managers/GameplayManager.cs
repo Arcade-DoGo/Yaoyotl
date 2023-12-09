@@ -5,18 +5,17 @@ using TMPro;
 using CustomClasses;
 using Online;
 using System;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class GameplayManager : InstanceClass<GameplayManager>
 {
     [Header ("UI References")]
-    public GameObject gameOverPanel;
     public MultipleUISelection multipleUISelection;
     public TextMeshProUGUI winnerText, startText;
     [NonSerialized] public bool canStart;
 
-    private void Start() 
+    private void OnEnable() 
     {
-        if(gameOverPanel != null) gameOverPanel.SetActive(false);
         if(multipleUISelection != null) multipleUISelection.OnlyShowElements("CharacterSelectionPanel", "PlayerPanels");
     }
 
@@ -44,19 +43,21 @@ public class GameplayManager : InstanceClass<GameplayManager>
     public static void EnablePlayers() { foreach (CharacterStats player in GameManager.players) player.GetComponent<ComponentsManager>().inputManagement.enabled = true; }
     public void GameOver(CharacterStats winner = null)
     {
-        foreach (CharacterStats player in GameManager.players)
+        if(multipleUISelection != null)
         {
-            player.GetComponent<CharacterMovement>().enabled = false;
-            player.GetComponent<Attack>().enabled = false;
+            multipleUISelection.OnlyShowElements("GameOverPanel", "PlayerPanels");
+            RoomManager.instance.ShowRoom();
         }
-        if (GameManager.usingEditor) Debug.Log("Game over! " + (winner != null ? winner : ""));
-        if(gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(true);
-            RoomManager.instance.Init();
-        }
+
+        RoomManager.instance.SendPlayerProperty(new Hashtable(){{ConnectToServer.READY, false}});
         RoomManager.instance.SetPlayerText(0, GameManager.players[0].playerName);
         RoomManager.instance.SetPlayerText(1, GameManager.players[1].playerName);
-        if(winner != null && winnerText != null) winnerText.text = (string.IsNullOrEmpty(winner.playerName) ? "Player" + winner.playerNumber : winner.playerName) + " won!";
+        if(winnerText != null)
+            winnerText.text = winner != null ? (string.IsNullOrEmpty(winner.playerName) ? 
+            "Player" + winner.playerNumber : winner.playerName) + " won!" : "Tie!";
+        
+        int players = GameManager.players.Count;
+        for (int i = 0; i < players; i++) Destroy(GameManager.players[i].gameObject);
+        GameManager.players.Clear();
     }
 }

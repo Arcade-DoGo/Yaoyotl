@@ -6634,7 +6634,7 @@ MonoBehaviour:
       - m_Target: {fileID: 2119175717}
         m_TargetAssemblyTypeName: Online.RoomManager, Assembly-CSharp
         m_MethodName: Ready
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -12041,8 +12041,9 @@ MonoBehaviour:
   - {fileID: 877299480}
   - {fileID: 533702667}
   multipleUISelection: {fileID: 524303005}
+  roomManager: {fileID: 2119175717}
   connectionType: 3
-  maxPlayers: 2
+  maxPlayers: 4
   automaticallySyncScene: 1
 --- !u!4 &1581231630
 Transform:
@@ -15893,11 +15894,6 @@ MonoBehaviour:
   characterIcons: []
   player1ReadyButton: {fileID: 758636902}
   playerList: {fileID: 1103396626}
-  OnReady:
-    m_PersistentCalls:
-      m_Calls: []
-  InitOnEnabled: 1
-  rematch: 0
 --- !u!1 &2124470499
 GameObject:
   m_ObjectHideFlags: 0

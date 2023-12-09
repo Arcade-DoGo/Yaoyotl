@@ -25,6 +25,7 @@ namespace Online
         public MultipleUISelection multipleUISelection;
 
         [Header ("Online Setup")]
+        public RoomManager roomManager;
         [Tooltip ("Connection type used for matchmaking")]
         public ConnectionType connectionType;
         [Tooltip ("Max players per room")]
@@ -44,10 +45,7 @@ namespace Online
         private void Start()
         {
             SetLoadingText("");
-            if(PhotonNetwork.InRoom)
-            {
-                multipleUISelection.OnlyShowElements("RoomPanel");
-            }
+            if(PhotonNetwork.InRoom) multipleUISelection.OnlyShowElements("RoomPanel");
             else
             {
                 backButton.SetActive(false);
@@ -106,6 +104,7 @@ namespace Online
         {
             SetLoadingText("Connected to room " + PhotonNetwork.CurrentRoom.Name + "!");
             multipleUISelection.OnlyShowElements("RoomPanel");
+            roomManager.ShowRoom();
         }
 
         public void OnClickLeave()

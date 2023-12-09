@@ -29,7 +29,7 @@ public class CharacterAnimate : MonoBehaviour
         rb = cm.rigidbody;
         
         animationState = "Idle";
-        if (PhotonNetwork.IsConnected) 
+        if (PhotonNetwork.IsConnected && !character.name.Contains("Offline")) 
         {
             cm.photonAnimatorView.SetLayerSynchronized(0, PhotonAnimatorView.SynchronizeType.Continuous);
             cm.photonAnimatorView.SetLayerSynchronized(1, PhotonAnimatorView.SynchronizeType.Disabled);
@@ -56,7 +56,7 @@ public class CharacterAnimate : MonoBehaviour
     public void finishAnimation() => animationState = "Finished";
     public void sendAnimation(string animationName)
     {
-        if(PhotonNetwork.IsConnected) view.RPC("playAnimation", RpcTarget.All, animationName);
+        if(PhotonNetwork.IsConnected && !character.name.Contains("Offline")) view.RPC("playAnimation", RpcTarget.All, animationName);
         else controller.playAnimation(animationName);
     }
 }

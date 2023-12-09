@@ -5,16 +5,13 @@ using TMPro;
 public class MatchData : MonoBehaviour
 {
     public static MatchData instance;
-    public TextMeshProUGUI[] stocks;
-    public TextMeshProUGUI[] playerDamages;
+    public TextMeshProUGUI[] stocks, playerDamages;
     public TextMeshProUGUI timer;
-    private int minutes;
-    private int seconds;
-
+    private int minutes, seconds;
     private void Awake() => instance = this;
     public void UpdatePlayersData(CharacterStats stats)
     {
-        print("PROPERTIES UPDATE: " + stats.playerName + " " + stats.stocks + " " + stats.damage);
+        // Debug.Log("PROPERTIES UPDATE: " + stats.playerName + " " + stats.stocks + " " + stats.damage);
         int playerIndex = GameManager.players.IndexOf(stats);
         stocks[playerIndex].text = stats.stocks + "";
         playerDamages[playerIndex].text = stats.damage + "%";

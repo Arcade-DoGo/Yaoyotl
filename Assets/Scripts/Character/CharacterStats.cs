@@ -42,6 +42,8 @@ public class CharacterStats : MonoBehaviour
     private readonly int secondsTillFAM = 10; // 2.5 minutes
 
     [Header ("Private components")]
+    [NonSerialized] public bool NPC = false;
+    private bool onlinePlayer = false;
     private PhotonView photonView;
     private CharacterController controller;
     private ComponentsManager cm;
@@ -49,14 +51,16 @@ public class CharacterStats : MonoBehaviour
     private void Awake()
     {
         cm = GetComponent<ComponentsManager>();
-        if (PhotonNetwork.IsConnected)
+        onlinePlayer = PhotonNetwork.IsConnected && !name.Contains("Offline");
+        if (onlinePlayer)
         {
             photonView = cm.photonView;
             playerName = photonView.Owner.NickName;
             playerNumber = photonView.Owner.ActorNumber;
-            if (GameManager.usingEditor) Debug.Log("Added " + playerName + " in " + GameManager.players.Count);
+            // if (GameManager.usingEditor) Debug.Log("Added " + playerName + " in " + GameManager.players.Count);
         }
     }
+
     void Start()
     {
         controller = cm.characterController;
@@ -66,7 +70,7 @@ public class CharacterStats : MonoBehaviour
 
     public void addDamage(float _damage)
     {
-        if(PhotonNetwork.IsConnected)
+        if(onlinePlayer)
         {
             if(photonView.IsMine)
             {
@@ -86,7 +90,7 @@ public class CharacterStats : MonoBehaviour
 
     public void loseStock()
     {
-        if(PhotonNetwork.IsConnected)
+        if(onlinePlayer)
         {
             if(photonView.IsMine)
             {
@@ -129,6 +133,6 @@ public class CharacterStats : MonoBehaviour
             increaseFAM(meterStep);
             canFAM = FAM >= fullFAM; // is meter full?
         }
-        // print(FAM + "/100");
+        // Debug.Log(FAM + "/100");
     }
 }

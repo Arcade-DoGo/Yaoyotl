@@ -20,8 +20,8 @@ public class Attack : MonoBehaviour
         stats = GetComponent<ComponentsManager>().characterStats;
         inputManagement = GetComponent<ComponentsManager>().inputManagement;
         anim = GetComponent<ComponentsManager>().charAnim;
-        //normalAttack.SetActive(false);
         stats.isAttacking = false;
+        if(stats.NPC) enabled = false;
     }
 
     // Update is called once per frame
