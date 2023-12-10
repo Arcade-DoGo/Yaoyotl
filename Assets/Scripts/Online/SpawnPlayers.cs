@@ -43,6 +43,7 @@ namespace Online
                                 Quaternion.Euler(new Vector3(0f, spawnPoint.x < 0 ? 90f : 270f, 0f)));
 
             // if(GameManager.usingEditor) Debug.Log("Spawned " + player.GetComponent<ComponentsManager>().characterStats.playerName + " in " + spawnPosition[GameManager.players.Count].position);
+            player.GetComponent<ComponentsManager>().characterStats.isFacingRight = spawnPoint.x < 0;
             player.GetComponent<ComponentsManager>().inputManagement.enabled = false;
         }
 
