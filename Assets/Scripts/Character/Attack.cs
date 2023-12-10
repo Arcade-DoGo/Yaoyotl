@@ -8,6 +8,7 @@ public class Attack : MonoBehaviour
     private InputManagement inputManagement;
     private CharacterAnimate anim;
     private Rigidbody rb;
+    private FinalSmash fs;
     private int frameCounter;
     private int FRAMES_STRONG = 30;
 
@@ -22,6 +23,7 @@ public class Attack : MonoBehaviour
         inputManagement = GetComponent<ComponentsManager>().inputManagement;
         anim = GetComponent<ComponentsManager>().charAnim;
         rb = GetComponent<ComponentsManager>().rigidbody;
+        fs = GetComponent<ComponentsManager>().finalSmash;
         //normalAttack.SetActive(false);
         stats.isAttacking = false;
         if(stats.NPC) enabled = false;
@@ -83,6 +85,7 @@ public class Attack : MonoBehaviour
         // Final Smash
         string attackName = "FinalAttack";
         anim.sendAnimation(attackName);
+        fs.triggerFinalSmash();
 
         rb.detectCollisions = false;
         rb.isKinematic = true;

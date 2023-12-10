@@ -13,4 +13,5 @@ public class ComponentsManager : MonoBehaviour
     public PhotonView photonView;
     public Animator animator;
     public CharacterAnimate charAnim;
+    public FinalSmash finalSmash;
 }
