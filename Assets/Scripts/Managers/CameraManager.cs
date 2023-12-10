@@ -2,6 +2,7 @@ using System.Collections;
 using Cinemachine;
 using CustomClasses;
 using Online;
+using TMPro;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -39,6 +40,7 @@ public class CameraManager : InstanceClass<CameraManager>
     private IEnumerator SetCharacterSelectionViewRoutine()
     {
         RoomManager.instance.SendPlayerProperty(new Hashtable(){{ConnectToServer.READY, false}});
+        foreach (TextMeshProUGUI readyText in RoomManager.instance.readyTexts) if(readyText) readyText.gameObject.SetActive(false);
         GameplayManager.instance.winnerText.text = "";
         SpawnPlayers.instance.enabled = false;
         if(!trainingRoom)

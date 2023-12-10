@@ -7,9 +7,11 @@ namespace Online
 {
     public class CharacterSelection : InstanceOnlineClass<CharacterSelection>
     {
+        private void Start() => RoomManager.instance.player1ReadyButton.interactable = false;
         public void RandomCharacter() => SetCharacter(Random.Range(0, RoomManager.instance.names.Length)); 
         public void SetCharacter(int _index) 
         {
+            RoomManager.instance.player1ReadyButton.interactable = true;
             if(_index < RoomManager.instance.names.Length)
             {
                 if(PhotonNetwork.IsConnected)
