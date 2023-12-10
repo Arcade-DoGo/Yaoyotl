@@ -52,8 +52,6 @@ namespace Online
                     roomCustomProperties = new() { { "Stage", 0 } };
                     PhotonNetwork.CurrentRoom.SetCustomProperties(roomCustomProperties);
                 }
-                // else 
-                player1ReadyButton.interactable = true;
             }
         }
 
