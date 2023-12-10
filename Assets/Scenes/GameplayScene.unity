@@ -8330,6 +8330,7 @@ GameObject:
   - component: {fileID: 1801153415}
   - component: {fileID: 1801153416}
   - component: {fileID: 1801153417}
+  - component: {fileID: 1801153418}
   m_Layer: 0
   m_Name: OnlineManager
   m_TagString: Untagged
@@ -8405,6 +8406,18 @@ MonoBehaviour:
   - {fileID: 2056231146}
   player1ReadyButton: {fileID: 1918039563}
   playerList: {fileID: 0}
+--- !u!114 &1801153418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801153414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97dda65ccbc418146b688c5623ec1776, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1817290594
 PrefabInstance:
   m_ObjectHideFlags: 0

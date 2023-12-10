@@ -41,6 +41,7 @@ namespace Online
         public static string STOCKS = "Stocks";
         public static string DAMAGE = "Damage";
         public static string READY = "Ready";
+        public static string ROOMNAME;
 
         private void Start()
         {
@@ -104,6 +105,7 @@ namespace Online
         {
             SetLoadingText("Connected to room " + PhotonNetwork.CurrentRoom.Name + "!");
             multipleUISelection.OnlyShowElements("RoomPanel");
+            ROOMNAME = PhotonNetwork.CurrentRoom.Name;
             roomManager.ShowRoom();
         }
 
@@ -111,7 +113,11 @@ namespace Online
         {
             if(multipleUISelection.IsElementActive("RoomPanel"))
             {
-                if(PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom();
+                if(PhotonNetwork.InRoom)
+                {
+                    PhotonNetwork.LeaveRoom();
+                    ROOMNAME = null;
+                }
                 multipleUISelection.OnlyShowElements(connectionType == ConnectionType.SingleRoom || connectionType == ConnectionType.RandomMatch ? "OnlinePanel" : "LobbyPanel");
             }
             else if(multipleUISelection.IsElementActive("LobbyPanel"))
