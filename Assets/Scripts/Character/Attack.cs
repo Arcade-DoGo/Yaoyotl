@@ -7,6 +7,7 @@ public class Attack : MonoBehaviour
     private CharacterStats stats;
     private InputManagement inputManagement;
     private CharacterAnimate anim;
+    private Rigidbody rb;
     private int frameCounter;
     private int FRAMES_STRONG = 30;
 
@@ -20,6 +21,7 @@ public class Attack : MonoBehaviour
         stats = GetComponent<ComponentsManager>().characterStats;
         inputManagement = GetComponent<ComponentsManager>().inputManagement;
         anim = GetComponent<ComponentsManager>().charAnim;
+        rb = GetComponent<ComponentsManager>().rigidbody;
         //normalAttack.SetActive(false);
         stats.isAttacking = false;
     }
@@ -81,7 +83,13 @@ public class Attack : MonoBehaviour
         string attackName = "FinalAttack";
         anim.sendAnimation(attackName);
 
-        yield return new WaitForSeconds(finalEndLag);
+        rb.detectCollisions = false;
+        rb.isKinematic = true;
+
+        while (anim.animationState == "FinalAttack") yield return null;
+
+        rb.detectCollisions = true;
+        rb.isKinematic = false;
 
         stats.isAttacking = false;
         frameCounter = 0;

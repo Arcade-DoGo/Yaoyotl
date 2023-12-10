@@ -134,6 +134,6 @@ public class CharacterStats : MonoBehaviour
             increaseFAM(meterStep);
             canFAM = FAM >= fullFAM; // is meter full?
         }
-        // print(FAM + "/100");
+        print(FAM + "/100");
     }
 }

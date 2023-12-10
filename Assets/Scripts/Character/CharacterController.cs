@@ -32,6 +32,7 @@ public class CharacterController : MonoBehaviour
 
         anim.animationState = animationName;
         animator.Play(animationName);
+        if (animationName == "FinalAttack") animator.Play("FinalSmash", 1);
     }
 
     public void SyncPlayerData()

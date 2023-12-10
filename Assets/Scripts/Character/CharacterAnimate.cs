@@ -15,7 +15,7 @@ public class CharacterAnimate : MonoBehaviour
     private Rigidbody rb;
 
     private readonly string[] interruptable = { "Finished", "Fall" },
-    uninterruptable = { "GrabLedge", "RecoverFromLedge",
+    uninterruptable = { "GrabLedge", "RecoverFromLedge", "FinalAttack",
                         "LDAttack", "LFAttack", "LUAttack",
                         "SDAttack", "SFAttack", "SUAttack" };
 
