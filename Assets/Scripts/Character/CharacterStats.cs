@@ -38,12 +38,12 @@ public class CharacterStats : MonoBehaviour
 
     [Header ("Private variables")]
     private float FAM = 0f;
-    private float fullFAM = 100f;
-    private int secondsTillFAM = 10; // 2.5 minutes
+    private readonly float fullFAM = 100f;
+    private readonly int secondsTillFAM = 10; // 2.5 minutes
 
     [Header ("Private components")]
-    private Rigidbody rb;
-    private Animator animator;
+    [NonSerialized] public bool NPC = false;
+    private bool onlinePlayer = false;
     private PhotonView photonView;
     private CharacterController controller;
     private ComponentsManager cm;
@@ -51,33 +51,32 @@ public class CharacterStats : MonoBehaviour
     private void Awake()
     {
         cm = GetComponent<ComponentsManager>();
-        if (PhotonNetwork.IsConnected)
+        onlinePlayer = PhotonNetwork.IsConnected && !name.Contains("Offline");
+        if (onlinePlayer)
         {
             photonView = cm.photonView;
             playerName = photonView.Owner.NickName;
             playerNumber = photonView.Owner.ActorNumber;
-            GameManager.RegisterPlayer(this);
-            if (GameManager.usingEditor) Debug.Log("Added " + playerName + " in " + GameManager.players.Count);
+            // if (GameManager.usingEditor) Debug.Log("Added " + playerName + " in " + GameManager.players.Count);
         }
     }
+
     void Start()
     {
         controller = cm.characterController;
-        animator = cm.animator;
-        rb = cm.rigidbody;
-        MatchData.instance.UpdatePlayersData(this);
+        GameManager.RegisterPlayer(this);
         StartCoroutine(chargeFAM());
     }
 
     public void addDamage(float _damage)
     {
-        if(PhotonNetwork.IsConnected)
+        if(onlinePlayer)
         {
             if(photonView.IsMine)
             {
                 damage += _damage;
                 increaseFAM(damage / 5f);
-                controller.SyncPlayerData();
+                controller.SyncPlayerData(false);
             }
 
         }
@@ -91,14 +90,14 @@ public class CharacterStats : MonoBehaviour
 
     public void loseStock()
     {
-        if(PhotonNetwork.IsConnected)
+        if(onlinePlayer)
         {
             if(photonView.IsMine)
             {
                 stocks--;
                 damage = 0;
                 FAM /= 2f;
-                controller.SyncPlayerData();
+                controller.SyncPlayerData(true);
             }
         }
         else

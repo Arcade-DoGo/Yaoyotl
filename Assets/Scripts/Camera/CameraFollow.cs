@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
@@ -16,6 +17,7 @@ public class CameraFollow : MonoBehaviour
     public bool useZDistance;
     public float minZDistance = -12f; public float maxZDistance = -1.5f;
     private Camera cam;
+    private CinemachineVirtualCamera vCam;
     private Vector2 desiredPosition;
     private Vector3 clampedPosition;
     private Transform player1, player2;
@@ -24,7 +26,8 @@ public class CameraFollow : MonoBehaviour
 
     void Start()
     {
-        cam = GetComponent<Camera>();
+        if(GetComponent<Camera>()) cam = GetComponent<Camera>();
+        else vCam = GetComponent<CinemachineVirtualCamera>();
         minX = maxX = minY = maxY = 0;
 
         foreach (Transform child in blastzone)
@@ -41,7 +44,7 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        if (target == null) return;
+        if (target == null || GameManager.players.Count == 0) return;
 
         CalculateCameraPosition();
         CalculatePlayersDistance();
@@ -96,8 +99,17 @@ public class CameraFollow : MonoBehaviour
 
         // Set Camera FOV values
         targetSize = Mathf.Clamp(interpolatedDistance, minSize, maxSize);
-        if(cam.orthographic) cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetSize, zoomSpeed * Time.deltaTime);
-        else if (!useZDistance) cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetSize, zoomSpeed * Time.deltaTime);
+
+        if(cam)
+        {
+            if(cam.orthographic) cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetSize, zoomSpeed * Time.deltaTime);
+            else if (!useZDistance) cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetSize, zoomSpeed * Time.deltaTime);
+        }
+        else
+        {
+            if(vCam.m_Lens.Orthographic) vCam.m_Lens.OrthographicSize = Mathf.Lerp(vCam.m_Lens.OrthographicSize, targetSize, zoomSpeed * Time.deltaTime);
+            else if (!useZDistance) vCam.m_Lens.FieldOfView = Mathf.Lerp(vCam.m_Lens.FieldOfView, targetSize, zoomSpeed * Time.deltaTime);
+        }
 
         // Move Camera
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, clampedPosition, smoothSpeed * Time.deltaTime);

@@ -5,20 +5,17 @@ using TMPro;
 public class MatchData : MonoBehaviour
 {
     public static MatchData instance;
-    public TextMeshProUGUI[] stocks;
-    public TextMeshProUGUI[] playerDamages;
+    public TextMeshProUGUI[] stocks, playerDamages;
     public TextMeshProUGUI timer;
-    private int minutes;
-    private int seconds;
-
+    private int minutes, seconds;
     private void Awake() => instance = this;
     public void UpdatePlayersData(CharacterStats stats)
     {
-        print("PROPERTIES UPDATE: " + stats.playerName + " " + stats.stocks + " " + stats.damage);
+        // Debug.Log("PROPERTIES UPDATE: " + stats.playerName + " " + stats.stocks + " " + stats.damage);
         int playerIndex = GameManager.players.IndexOf(stats);
         stocks[playerIndex].text = stats.stocks + "";
         playerDamages[playerIndex].text = stats.damage + "%";
-        if(stats.stocks == 0) GameManager.instance.GameOver(GameManager.players.Find(player => player != stats));
+        if(stats.stocks == 0) GameplayManager.instance.GameOver(GameManager.players.Find(player => player != stats));
     }
     public void StartTimer() => StartCoroutine(UpdateTimer());
     private IEnumerator UpdateTimer()
@@ -41,6 +38,6 @@ public class MatchData : MonoBehaviour
         }
 
         // Game Over: No winner
-        GameManager.instance.GameOver();
+        GameplayManager.instance.GameOver();
     }
 }

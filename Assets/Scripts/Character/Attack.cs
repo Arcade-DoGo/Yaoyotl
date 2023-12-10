@@ -24,6 +24,7 @@ public class Attack : MonoBehaviour
         rb = GetComponent<ComponentsManager>().rigidbody;
         //normalAttack.SetActive(false);
         stats.isAttacking = false;
+        if(stats.NPC) enabled = false;
     }
 
     // Update is called once per frame

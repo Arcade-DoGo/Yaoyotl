@@ -4,15 +4,14 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using CustomClasses;
 
 namespace Online
 {
     [Serializable]
     public enum ConnectionType { SingleRoom, RandomMatch, PrivateMatch, PublicMatch }
-    public class ConnectToServer : MonoBehaviourPunCallbacks
+    public class ConnectToServer : InstanceOnlineClass<ConnectToServer>
     {
-        public static ConnectToServer instance;
-
         [Header ("UI References")]
         [Tooltip ("TextField to indicate Online Connection status. Optional")]
         public TextMeshProUGUI loadingText;
@@ -26,6 +25,7 @@ namespace Online
         public MultipleUISelection multipleUISelection;
 
         [Header ("Online Setup")]
+        public RoomManager roomManager;
         [Tooltip ("Connection type used for matchmaking")]
         public ConnectionType connectionType;
         [Tooltip ("Max players per room")]
@@ -44,16 +44,12 @@ namespace Online
 
         private void Start()
         {
-            instance = this;
             SetLoadingText("");
-            if(PhotonNetwork.InRoom)
-            {
-                multipleUISelection.OnlyShowElement(3);
-            }
+            if(PhotonNetwork.InRoom) multipleUISelection.OnlyShowElements("RoomPanel");
             else
             {
                 backButton.SetActive(false);
-                multipleUISelection.OnlyShowElement(0);
+                multipleUISelection.OnlyShowElements("FirstPanel");
                 foreach (Button button in onlineModesButtons) button.interactable = false;
                 usernamePanel.SetActive(false);
             }
@@ -97,7 +93,7 @@ namespace Online
                     break;
                 case ConnectionType.PrivateMatch: case ConnectionType.PublicMatch:
                     SetLoadingText("Connecting to lobby...");
-                    multipleUISelection.OnlyShowElement(2);
+                    multipleUISelection.OnlyShowElements("LobbyPanel");
                     break;
                 default:
                     break;
@@ -107,29 +103,34 @@ namespace Online
         public override void OnJoinedRoom()
         {
             SetLoadingText("Connected to room " + PhotonNetwork.CurrentRoom.Name + "!");
-            multipleUISelection.OnlyShowElement(3);
+            multipleUISelection.OnlyShowElements("RoomPanel");
+            roomManager.ShowRoom();
         }
 
         public void OnClickLeave()
         {
-            if(multipleUISelection.IsElementActive(3))
+            if(multipleUISelection.IsElementActive("RoomPanel"))
             {
                 if(PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom();
-                multipleUISelection.OnlyShowElement(connectionType == ConnectionType.SingleRoom || connectionType == ConnectionType.RandomMatch ? 1 : 2);
+                multipleUISelection.OnlyShowElements(connectionType == ConnectionType.SingleRoom || connectionType == ConnectionType.RandomMatch ? "OnlinePanel" : "LobbyPanel");
             }
-            else if(multipleUISelection.IsElementActive(2))
+            else if(multipleUISelection.IsElementActive("LobbyPanel"))
             {
                 if(PhotonNetwork.InLobby) PhotonNetwork.LeaveLobby();
-                multipleUISelection.OnlyShowElement(1);
+                multipleUISelection.OnlyShowElements("OnlinePanel");
             }
-            else if(multipleUISelection.IsElementActive(1))
+            else if(multipleUISelection.IsElementActive("OnlinePanel"))
             {
                 if(PhotonNetwork.IsConnected) PhotonNetwork.Disconnect();
-                multipleUISelection.OnlyShowElement(0);
+                multipleUISelection.OnlyShowElements("FirstPanel");
+                backButton.SetActive(false);
+            }
+            else
+            {
+                multipleUISelection.OnlyShowElements("FirstPanel");
                 backButton.SetActive(false);
             }
         }
-
         public void SetConnectionType(int _type) => connectionType = (ConnectionType)Enum.GetValues(connectionType.GetType()).GetValue(_type);
         public void SetLoadingText(string _text) { if(loadingText) loadingText.text = _text; }
     }

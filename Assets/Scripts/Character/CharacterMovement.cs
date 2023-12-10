@@ -16,6 +16,7 @@ public class CharacterMovement : MonoBehaviour
         stats = cm.characterStats; // Reference to stats
         inputManagement = cm.inputManagement; // Reference to inputs
         rb.mass = stats.weight; // Sets character weight
+        if(stats.NPC) enabled = false;
     }
 
     void Update()
