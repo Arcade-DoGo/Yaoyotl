@@ -998,6 +998,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5208903248847050928}
     - target: {fileID: 6851962408111577542, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+      propertyPath: finalSmash
+      value: 
+      objectReference: {fileID: 6469052510345415925}
+    - target: {fileID: 6851962408111577542, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
       propertyPath: photonAnimatorView
       value: 
       objectReference: {fileID: 2938784962268012487}
@@ -1032,6 +1036,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5725989009692122743, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
   m_PrefabInstance: {fileID: 8936080390439299896}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6469052510345415925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3708038572948501839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a1b1fe27cefc49439f2611522e46ad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackingObject: {fileID: 4773215818533826230, guid: 402cb9723678e5140a734e4af04b6131, type: 3}
 --- !u!82 &5291903569373803747 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 3851645887991406555, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
