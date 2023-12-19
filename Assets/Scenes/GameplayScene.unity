@@ -8369,7 +8369,10 @@ MonoBehaviour:
   - {fileID: 3708038572948501839, guid: 7d89e3a5c0b8f024090d5cfe8d57f27a, type: 3}
   - {fileID: 3708038572948501839, guid: 97db6dcf47454ba43af8a4254bd91d69, type: 3}
   - {fileID: 3708038572948501839, guid: 2c86be97bed0ba2429cc4f3e2a3931aa, type: 3}
-  playerPrefabOffline: {fileID: 3708038572948501839, guid: b4a89343feafb8d49bef83d4541f0cad, type: 3}
+  playerPrefabsOffline:
+  - {fileID: 3708038572948501839, guid: b4a89343feafb8d49bef83d4541f0cad, type: 3}
+  - {fileID: 4359234406215985919, guid: dc606c789f2b41f4d88193e5a55e8122, type: 3}
+  - {fileID: 3930597929733566646, guid: 5f8a6cc1c1ccea54695c340c5d9797fd, type: 3}
   playersToSpawn: 2
   spawnPosition:
   - {fileID: 1177555334}

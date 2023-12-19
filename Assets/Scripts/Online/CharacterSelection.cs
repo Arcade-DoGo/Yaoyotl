@@ -14,6 +14,7 @@ namespace Online
             RoomManager.instance.player1ReadyButton.interactable = true;
             if(_index < RoomManager.instance.names.Length)
             {
+                GameManager.currentPlayer = _index;
                 if(PhotonNetwork.IsConnected)
                 {
                     if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(ConnectToServer.PLAYERCHARACTER)) PhotonNetwork.LocalPlayer.CustomProperties.Add(ConnectToServer.PLAYERCHARACTER, _index);

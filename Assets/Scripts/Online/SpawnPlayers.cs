@@ -8,7 +8,7 @@ namespace Online
     {
         [Header ("Prefabs")]
         public GameObject[] playerPrefabs;
-        public GameObject playerPrefabOffline;
+        public GameObject[] playerPrefabsOffline;
         [Min(1)] public int playersToSpawn = 2;
         public Transform[] spawnPosition;
 
@@ -50,7 +50,7 @@ namespace Online
         public void SpawnPlayerOffline(int index)
         {
             Vector3 spawnPoint = spawnPosition[index].position;
-            GameObject player = Instantiate(playerPrefabOffline, spawnPoint,
+            GameObject player = Instantiate(playerPrefabsOffline[GameManager.currentPlayer], spawnPoint,
                                 Quaternion.Euler(new Vector3(0f, spawnPoint.x < 0 ? 90f : 270f, 0f)));
 
             CharacterStats stats = player.GetComponent<ComponentsManager>().characterStats;

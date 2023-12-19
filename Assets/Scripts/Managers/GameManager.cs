@@ -9,6 +9,7 @@ public class GameManager : InstanceClass<GameManager>
 {
     [Header ("Static Constants")]
     public static bool usingEditor;
+    public static int currentPlayer;
     public static List<CharacterStats> players = new ();
     protected override void Awake()
     {
