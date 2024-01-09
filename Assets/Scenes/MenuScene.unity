@@ -2317,7 +2317,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: READY
+  m_text: I'M READY
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8a1b04eb0390b4b29b0e0334cc96da26, type: 2}
   m_sharedMaterial: {fileID: -6420828142367099760, guid: 8a1b04eb0390b4b29b0e0334cc96da26, type: 2}
