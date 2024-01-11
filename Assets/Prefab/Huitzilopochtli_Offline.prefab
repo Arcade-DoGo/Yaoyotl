@@ -1644,6 +1644,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3088876994254405021, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5725989009009431135, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1859,8 +1863,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackingObject: {fileID: 7433994876552592269, guid: 2755251be81a1e248a7d9cf96cf3906e, type: 3}
-  HEIGHT: 0
-  WIDTH: 0
 --- !u!82 &5291903569373803747 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 3851645887991406555, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
