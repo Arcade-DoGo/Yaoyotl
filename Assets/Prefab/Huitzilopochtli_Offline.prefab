@@ -1729,6 +1729,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5725989009692122511, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+      propertyPath: PlayerStatsUI
+      value: 
+      objectReference: {fileID: 2948593108278600257, guid: 9abb3b6e8a0d94ca3bcb999c449a52ea, type: 3}
+    - target: {fileID: 5725989009692122511, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
       propertyPath: fallMultiplier
       value: 0.5
       objectReference: {fileID: 0}
