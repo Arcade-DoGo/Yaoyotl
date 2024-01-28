@@ -9,6 +9,9 @@ public class CharacterStats : MonoBehaviour
     [NonSerialized] public bool onLedge, isGrounded, isDoubleJumping, canFastFall, isAttacking, isGettingUp, inHitStun, canFAM;
     [NonSerialized] public bool isFacingRight = true;
 
+    [Header ("UI Components")]
+    [NonSerialized] public PlayerStatsUIElements playerStatsUI;
+
     [Header ("Player Info")]
     public string playerName;
     public int playerNumber = 1;
@@ -34,18 +37,18 @@ public class CharacterStats : MonoBehaviour
     public float fallForce = 10f;
     [Tooltip("Max jumps that can do the player in total")]
     public int maxJumps = 2;
-    [NonSerialized] public int jumpsUsed = 0;
 
     [Header ("Private variables")]
     private float FAM = 0f;
+    private bool onlinePlayer = false;
     private readonly float fullFAM = 100f;
+    [NonSerialized] public bool NPC = false;
+    [NonSerialized] public int jumpsUsed = 0;
     private readonly int secondsTillFAM = 10; // 2.5 minutes
 
     [Header ("Private components")]
-    [NonSerialized] public bool NPC = false;
-    private bool onlinePlayer = false;
-    private PhotonView photonView;
     private CharacterController controller;
+    private PhotonView photonView;
     private ComponentsManager cm;
 
     private void Awake()
@@ -55,8 +58,7 @@ public class CharacterStats : MonoBehaviour
         if (onlinePlayer)
         {
             photonView = cm.photonView;
-            playerName = photonView.Owner.NickName;
-            playerNumber = photonView.Owner.ActorNumber;
+            SetPlayerInfo(photonView.Owner.NickName, photonView.Owner.ActorNumber);
             // if (GameManager.usingEditor) Debug.Log("Added " + playerName + " in " + GameManager.players.Count);
         }
     }
@@ -66,6 +68,14 @@ public class CharacterStats : MonoBehaviour
         controller = cm.characterController;
         GameManager.RegisterPlayer(this);
         StartCoroutine(chargeFAM());
+    }
+
+    public void SetPlayerInfo(string _name, int _number)
+    {
+        playerName = _name;
+        playerStatsUI.playerNameText.text = _name;
+        playerNumber = _number;
+        cm.playerNumber.text = "P" + _number;
     }
 
     public void addDamage(float _damage)

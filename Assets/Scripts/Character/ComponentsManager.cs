@@ -1,4 +1,5 @@
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
 
 // This script helps provide a component center where you can put any script publicly and get its reference in here
@@ -12,6 +13,7 @@ public class ComponentsManager : MonoBehaviour
     public PhotonAnimatorView photonAnimatorView;
     public PhotonView photonView;
     public Animator animator;
+    public TextMeshProUGUI playerNumber;
     public CharacterAnimate charAnim;
     public FinalSmash finalSmash;
 }

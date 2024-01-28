@@ -6,11 +6,11 @@ namespace Online
 {
     public class SpawnPlayers : InstanceOnlineClass<SpawnPlayers>
     {
-        [Header ("Prefabs")]
-        public GameObject[] playerPrefabs;
-        public GameObject[] playerPrefabsOffline;
-        [Min(1)] public int playersToSpawn = 2;
+        public GameObject[] playerPrefabs, playerPrefabsOffline;
         public Transform[] spawnPosition;
+        public GameObject playerStatsUIPrefab;
+        public Transform playerStatsUIContainer;
+        [Min(1)] public int playersToSpawn = 2;
 
         protected override void Awake() // Wait to start
         {
@@ -21,6 +21,11 @@ namespace Online
         public override void OnEnable()
         {
             base.OnEnable();
+
+            // Clear playerStatsUI in scene
+            int _childCount = playerStatsUIContainer.childCount;
+            if(_childCount > 0) for (int i = 0; i < _childCount; i++) Destroy(playerStatsUIContainer.GetChild(i).gameObject);
+
             if(PhotonNetwork.IsConnected)
             {
                 SpawnPlayerOnline();
@@ -37,30 +42,37 @@ namespace Online
 
         public void SpawnPlayerOnline()
         {
+            PlayerStatsUIElements statsUI = Instantiate(playerStatsUIPrefab, playerStatsUIContainer).GetComponent<PlayerStatsUIElements>();
+            MatchData.instance.playerStatsUI.Add(statsUI);
+            
             string prefabName = playerPrefabs[(int) PhotonNetwork.LocalPlayer.CustomProperties[ConnectToServer.PLAYERCHARACTER]].name;
             Vector3 spawnPoint = spawnPosition[PhotonNetwork.IsMasterClient ? 0 : 1].position;
             GameObject player = PhotonNetwork.Instantiate(prefabName, spawnPoint,
                                 Quaternion.Euler(new Vector3(0f, spawnPoint.x < 0 ? 90f : 270f, 0f)));
 
             // if(GameManager.usingEditor) Debug.Log("Spawned " + player.GetComponent<ComponentsManager>().characterStats.playerName + " in " + spawnPosition[GameManager.players.Count].position);
+            player.GetComponent<ComponentsManager>().characterStats.playerStatsUI = statsUI;
             player.GetComponent<ComponentsManager>().characterStats.isFacingRight = spawnPoint.x < 0;
             player.GetComponent<ComponentsManager>().inputManagement.enabled = false;
         }
 
         public void SpawnPlayerOffline(int index)
         {
+            PlayerStatsUIElements statsUI = Instantiate(playerStatsUIPrefab, playerStatsUIContainer).GetComponent<PlayerStatsUIElements>();
+            MatchData.instance.playerStatsUI.Add(statsUI);
+            
             Vector3 spawnPoint = spawnPosition[index].position;
             GameObject player = Instantiate(playerPrefabsOffline[GameManager.currentPlayer], spawnPoint,
                                 Quaternion.Euler(new Vector3(0f, spawnPoint.x < 0 ? 90f : 270f, 0f)));
 
             CharacterStats stats = player.GetComponent<ComponentsManager>().characterStats;
+            stats.playerStatsUI = statsUI;
             if(index != 0)
             {
                 player.GetComponent<ComponentsManager>().characterStats.NPC = true;
                 player.GetComponent<ComponentsManager>().inputManagement.enableInputs = false;
             }
-            stats.playerNumber = index;
-            stats.playerName = "Player " + (index + 1);
+            stats.SetPlayerInfo("Player " + (index + 1), index);
             // if(GameManager.usingEditor) Debug.Log("Spawned " + stats.playerName + " in " + spawnPosition[index].position + " in list " + GameManager.players.Count);
         }
 
@@ -68,9 +80,12 @@ namespace Online
         {
             foreach (GameObject punchBag in GameObject.FindGameObjectsWithTag("PunchBag"))
             {
+                PlayerStatsUIElements statsUI = Instantiate(playerStatsUIPrefab, playerStatsUIContainer).GetComponent<PlayerStatsUIElements>();
+                MatchData.instance.playerStatsUI.Add(statsUI);
+
                 CharacterStats stats = punchBag.GetComponent<ComponentsManager>().characterStats;
-                stats.playerNumber = GameManager.players.Count - 1;
-                stats.playerName = "PunchBag " + GameManager.players.Count;
+                stats.playerStatsUI = statsUI;
+                stats.SetPlayerInfo("PunchBag " + GameManager.players.Count, GameManager.players.Count - 1);
             }
         }
     }
