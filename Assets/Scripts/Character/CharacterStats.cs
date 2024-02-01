@@ -75,7 +75,7 @@ public class CharacterStats : MonoBehaviour
         playerName = _name;
         playerStatsUI.playerNameText.text = _name;
         playerNumber = _number;
-        cm.playerNumber.text = "P" + _number;
+        cm.playerUI.playerNumber.text = "P" + (_number + 1);
     }
 
     public void addDamage(float _damage)

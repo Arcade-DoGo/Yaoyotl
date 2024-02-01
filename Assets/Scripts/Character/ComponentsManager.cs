@@ -13,7 +13,7 @@ public class ComponentsManager : MonoBehaviour
     public PhotonAnimatorView photonAnimatorView;
     public PhotonView photonView;
     public Animator animator;
-    public TextMeshProUGUI playerNumber;
+    public PlayerUIElements playerUI;
     public CharacterAnimate charAnim;
     public FinalSmash finalSmash;
 }
