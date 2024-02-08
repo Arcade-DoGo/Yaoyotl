@@ -7,6 +7,7 @@ namespace Online
     public class SpawnPlayers : InstanceOnlineClass<SpawnPlayers>
     {
         public GameObject[] playerPrefabs, playerPrefabsOffline;
+        public Sprite[] spritesIconsChars;
         public Transform[] spawnPosition;
         public GameObject playerStatsUIPrefab;
         public Transform playerStatsUIContainer;
@@ -46,6 +47,9 @@ namespace Online
             MatchData.instance.playerStatsUI.Add(statsUI);
             
             string prefabName = playerPrefabs[(int) PhotonNetwork.LocalPlayer.CustomProperties[ConnectToServer.PLAYERCHARACTER]].name;
+            
+            statsUI.imgIcon.sprite = spritesIconsChars[GameManager.currentPlayer];
+
             Vector3 spawnPoint = spawnPosition[PhotonNetwork.IsMasterClient ? 0 : 1].position;
             GameObject player = PhotonNetwork.Instantiate(prefabName, spawnPoint,
                                 Quaternion.Euler(new Vector3(0f, spawnPoint.x < 0 ? 90f : 270f, 0f)));
@@ -66,6 +70,7 @@ namespace Online
                                 Quaternion.Euler(new Vector3(0f, spawnPoint.x < 0 ? 90f : 270f, 0f)));
 
             CharacterStats stats = player.GetComponent<ComponentsManager>().characterStats;
+            statsUI.imgIcon.sprite = spritesIconsChars[GameManager.currentPlayer];
             stats.playerStatsUI = statsUI;
             if(index != 0)
             {

@@ -7,7 +7,7 @@ public class PlayerStatsUIElements : MonoBehaviour
     public Image FSBar;
     public GameObject[] playerStocks;
     public TextMeshProUGUI damageText, playerNameText;
-
+    public Image imgIcon;
     private void Awake()
     {
         FSBar.fillAmount = 0;

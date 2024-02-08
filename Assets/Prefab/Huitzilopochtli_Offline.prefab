@@ -1816,6 +1816,18 @@ PrefabInstance:
       propertyPath: photonView
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6870876407602659150, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 6870876407602659150, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: c6e4a3c3b1c3e425dac78e2762d2b254, type: 2}
+    - target: {fileID: 6870876407602659150, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -6639251440848019125, guid: c6e4a3c3b1c3e425dac78e2762d2b254, type: 2}
     - target: {fileID: 7104128584023663792, guid: 4f826b6d6987a384fbc6ac06ffada41c, type: 3}
       propertyPath: sceneViewId
       value: 0

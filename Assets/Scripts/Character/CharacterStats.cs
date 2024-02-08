@@ -118,6 +118,7 @@ public class CharacterStats : MonoBehaviour
             MatchData.instance.UpdatePlayersData(this);
             controller.Respawn();
         }
+        playerStatsUI.playerStocks[stocks].SetActive(false);
     }
 
     public void resetFAM()
@@ -131,6 +132,7 @@ public class CharacterStats : MonoBehaviour
     {
         float newFAM = FAM + amount;
         FAM = newFAM < fullFAM ? newFAM : fullFAM; // Keep meter under maximum
+        playerStatsUI.FSBar.fillAmount = (FAM / 100);
     }
 
     IEnumerator chargeFAM()
