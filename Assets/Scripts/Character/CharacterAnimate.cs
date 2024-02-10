@@ -15,9 +15,9 @@ public class CharacterAnimate : MonoBehaviour
     private Rigidbody rb;
 
     private readonly string[] interruptable = { "Finished", "Fall" },
-    uninterruptable = { "GrabLedge", "RecoverFromLedge", "FinalAttack",
-                        "LDAttack", "LFAttack", "LUAttack",
-                        "SDAttack", "SFAttack", "SUAttack" };
+    uninterruptable = { "GrabLedge", "Recover", "FinalAttack",
+                        "LightDownAttack", "LightForwardAttack", "LightUpAttack",
+                        "StrongDownAttack", "StrongForwardAttack", "StrongUpAttack" };
 
     void Awake()
     {
@@ -49,7 +49,7 @@ public class CharacterAnimate : MonoBehaviour
         if (reset)
         {
             if (movement < 0.1f) sendAnimation("Idle");
-            else sendAnimation("RunCycle");
+            else sendAnimation("Run");
         }
     }
     public void setAnimationState(string animation) => animationState = animation;

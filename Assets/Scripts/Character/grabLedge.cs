@@ -85,7 +85,7 @@ public class grabLedge : MonoBehaviour
         Vector3 initialPosition = character.transform.position;
         Vector3 targetPosition = ledge.transform.GetChild(0).gameObject.transform.position;
 
-        anim.sendAnimation("RecoverFromLedge");
+        anim.sendAnimation("Recover");
 
         while (getUpProgress < 1.0f)
         {

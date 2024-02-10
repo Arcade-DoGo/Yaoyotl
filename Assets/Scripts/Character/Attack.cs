@@ -60,7 +60,7 @@ public class Attack : MonoBehaviour
 
     IEnumerator regularAttack()
     {
-        string attackName = "L" + getAttackDirection() + "Attack";
+        string attackName = "Light" + getAttackDirection() + "Attack";
         anim.sendAnimation(attackName);
 
         yield return new WaitForSeconds(lightEndLag); // Active Hitbox Duration
@@ -71,7 +71,7 @@ public class Attack : MonoBehaviour
 
     IEnumerator strongAttack()
     {
-        string attackName = "S" + getAttackDirection() + "Attack";
+        string attackName = "Strong" + getAttackDirection() + "Attack";
         anim.sendAnimation(attackName);
 
         yield return new WaitForSeconds(strongEndLag);
@@ -102,15 +102,15 @@ public class Attack : MonoBehaviour
 
     private string getAttackDirection()
     {
-        string direction = "F"; // Forward
+        string direction = "Forward"; // Forward
 
         if (inputManagement.jumpInput || inputManagement.jumpHold)
         {
-            direction = "U"; // Up
+            direction = "Up"; // Up
         }
         else if (inputManagement.crouchInput || inputManagement.crouchHold)
         {
-            direction = "D"; // Down
+            direction = "Down"; // Down
         }
 
         return direction;
