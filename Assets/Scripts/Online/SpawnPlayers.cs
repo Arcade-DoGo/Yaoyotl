@@ -62,21 +62,20 @@ namespace Online
 
         public void SpawnPlayerOffline(int index)
         {
+            bool isNPC = index != 0;
             PlayerStatsUIElements statsUI = Instantiate(playerStatsUIPrefab, playerStatsUIContainer).GetComponent<PlayerStatsUIElements>();
             MatchData.instance.playerStatsUI.Add(statsUI);
             
             Vector3 spawnPoint = spawnPosition[index].position;
-            GameObject player = Instantiate(playerPrefabsOffline[GameManager.currentPlayer], spawnPoint,
+            int characterIndex = !isNPC ? GameManager.currentPlayer : Random.Range(0, playerPrefabsOffline.Length);
+            GameObject player = Instantiate(playerPrefabsOffline[characterIndex], spawnPoint,
                                 Quaternion.Euler(new Vector3(0f, spawnPoint.x < 0 ? 90f : 270f, 0f)));
 
             CharacterStats stats = player.GetComponent<ComponentsManager>().characterStats;
-            statsUI.imgIcon.sprite = spritesIconsChars[GameManager.currentPlayer];
+            statsUI.imgIcon.sprite = spritesIconsChars[characterIndex];
             stats.playerStatsUI = statsUI;
-            if(index != 0)
-            {
-                player.GetComponent<ComponentsManager>().characterStats.NPC = true;
-                player.GetComponent<ComponentsManager>().inputManagement.enableInputs = false;
-            }
+            player.GetComponent<ComponentsManager>().characterStats.NPC = isNPC;
+            player.GetComponent<ComponentsManager>().inputManagement.enableInputs = !isNPC;
             stats.SetPlayerInfo("Player " + (index + 1), index);
             // if(GameManager.usingEditor) Debug.Log("Spawned " + stats.playerName + " in " + spawnPosition[index].position + " in list " + GameManager.players.Count);
         }

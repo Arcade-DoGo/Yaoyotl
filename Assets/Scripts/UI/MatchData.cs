@@ -7,8 +7,8 @@ using System.Collections.Generic;
 public class MatchData : MonoBehaviour
 {
     public static MatchData instance;
-    public GameObject[] PlayerStatsUIList;
     public TextMeshProUGUI timer;
+    public float gameplayTime;
     private int minutes, seconds;
     [NonSerialized] public List<PlayerStatsUIElements> playerStatsUI;
     private void Awake() { instance = this; playerStatsUI = new(); }
@@ -26,8 +26,8 @@ public class MatchData : MonoBehaviour
     public void StartTimer() => StartCoroutine(UpdateTimer());
     private IEnumerator UpdateTimer()
     {
-        minutes = 3;
-        seconds = 0;
+        minutes = Mathf.RoundToInt(gameplayTime / 60);
+        seconds = (int) gameplayTime % minutes;
         string timerText;
         while (minutes > 0 || seconds > 0)
         {

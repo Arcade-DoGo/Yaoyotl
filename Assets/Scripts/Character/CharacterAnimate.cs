@@ -57,6 +57,10 @@ public class CharacterAnimate : MonoBehaviour
     public void sendAnimation(string animationName)
     {
         if(PhotonNetwork.IsConnected && !character.name.Contains("Offline")) view.RPC("playAnimation", RpcTarget.All, animationName);
-        else controller.playAnimation(animationName);
+        else
+        {
+            if(controller == null) controller = character.GetComponent<ComponentsManager>().characterController;
+            controller.playAnimation(animationName);
+        }
     }
 }
